@@ -8,5 +8,6 @@ namespace MD
 {
     public class Usuario
     {
+        
     }
 }
