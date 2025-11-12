@@ -9,8 +9,7 @@ namespace MD
     public  class Documento
     {
         private int añoPublicacion;
-        private
-            string titulo;
+        private string titulo;
         private string autor;
         private int isbn;
         private string editorial;
