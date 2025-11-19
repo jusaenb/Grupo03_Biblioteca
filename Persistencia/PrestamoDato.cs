@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Persistencia
+{
+    internal class PrestamoDato : Entity<String>
+    {
+        private string dni_Usuario;
+        private int id_trabajador;
+        private DateTime fecha_prestamo;
+        private string estado;
+        public PrestamoDato(string dni, string id_Prestamo, DateTime fecha_prestamo, string estado, int id_trabajador) : base(id_Prestamo)
+        {
+            this.dni_Usuario = dni;
+            this.fecha_prestamo = fecha_prestamo;
+            this.estado = estado;
+            this.id_trabajador = id_trabajador;
+        }
+        public string Dni_usuario
+        {
+            get { return dni_Usuario; }
+            set { dni_Usuario = value; }
+        }
+        public int Id_trabajador
+        {
+            get
+            {
+                return id_trabajador;
+            }
+            set { id_trabajador = value; }
+        }
+        public DateTime Fecha_prestamo
+        {
+            get { return fecha_prestamo; }
+            set { fecha_prestamo = value; }
+        }
+        public string Estado
+        {
+            get { return estado; }
+            set
+            { estado = value; }
+        }
+        
+    }
+}

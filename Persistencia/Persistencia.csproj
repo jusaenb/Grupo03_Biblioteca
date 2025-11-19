@@ -41,9 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioLibroDato.cs" />
+    <Compile Include="Compuesto.cs" />
     <Compile Include="DocumentoDato.cs" />
     <Compile Include="EjemplarDato.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="PrestamoDato.cs" />
+    <Compile Include="PrestamoEjemplarDato.cs" />
     <Compile Include="Tabla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

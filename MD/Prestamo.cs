@@ -48,6 +48,10 @@ namespace MD
             get { return fechaDevolucion; }
             set { fechaDevolucion = value; }
         }
-
+        public string Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
     }
 }
