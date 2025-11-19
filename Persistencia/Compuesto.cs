@@ -6,22 +6,28 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class Compuesto
+    internal class Compuesto:IEquatable<Compuesto>
     {
-        private string prestamo;
-        private string ejemplar;
+        private string cadena1;
+        private string cadena2;
         public Compuesto(string prestamo, string ejemplar)
         {
-            this.prestamo = prestamo;
-            this.ejemplar = ejemplar;
+            this.cadena1 = prestamo;
+            this.cadena2 = ejemplar;
         }
-        public string Ejemplar
+        public string Cadena1
         {
-            get { return this.ejemplar; }
+            get { return this.cadena2; }
         }
-        public string Prestamo
+        public string Cadena2
         {
-            get { return prestamo; }
+            get { return cadena2; }
+        }
+
+        public bool Equals(Compuesto other)
+        {
+           if (other == null) return false;
+            return (Cadena1.Equals(other.Cadena1) && Cadena2.Equals(other.Cadena2));
         }
     }
 }

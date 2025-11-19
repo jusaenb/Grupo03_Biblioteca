@@ -12,7 +12,7 @@ namespace Persistencia
         public PrestamoEjemplarDato(string prestamo, string ejemplar, DateTime fecha) : base(new Compuesto(prestamo, ejemplar))
         {
             this.fecha = fecha;
-            this
+            
         }
 
     }
