@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    public class Tabla<
+    public class Tabla
     {
     }
 }
