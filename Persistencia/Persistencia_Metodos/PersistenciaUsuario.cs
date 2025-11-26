@@ -14,11 +14,23 @@ namespace Persistencia
             }
         }
 
+        public static void UPDATE(Usuario usuario)
+        {
+            // Para actualizar, verificamos si existe, borramos el viejo y ponemos el nuevo
+            if (BD.TablaUsuarios.Contains(usuario.Dni))
+            {
+                BD.TablaUsuarios.Remove(usuario.Dni);
+                CREATE(usuario);
+            }
+        }
+
         public static void DELETE(string dni)
         {
             if (BD.TablaUsuarios.Contains(dni))
             {
                 BD.TablaUsuarios.Remove(dni);
+
+                
             }
         }
 

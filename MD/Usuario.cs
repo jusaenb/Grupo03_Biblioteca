@@ -8,14 +8,6 @@ namespace MD
 {
     public class Usuario
     {
-        public string Dni { get; }
-        public string Nombre { get; set; }
-
-
-        public Usuario(string dni, string nombre)
-        {
-            Dni = dni;
-            Nombre = nombre;
-        }
+        
     }
 }

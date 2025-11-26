@@ -1,0 +1,129 @@
+﻿using System;
+using System.Collections.Generic;
+using MD;
+
+namespace Persistencia
+{
+    public static class PersistenciaPrestamo
+    {
+        public static void CREATE(Prestamo prestamo)
+        {
+            PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
+
+            if (!BD.TablaPrestamos.Contains(pd.Id))
+            {
+                BD.TablaPrestamos.Add(pd);
+
+                // Gestionar la relación con el ejemplar (Tabla intermedia)
+                
+                if (prestamo.Ejemplar != null)
+                {   
+                    string idEjemplar = prestamo.Ejemplar.CodigoEjemplar.ToString();
+                    Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
+
+                    if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
+                    {
+                        // PrestamoEjemplarDato(string prestamo, string ejemplar, DateTime fecha)
+                        PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, prestamo.FechaPrestamo);
+                        BD.TablaPrestamoEjemplar.Add(ped);
+                    }
+                }
+            }
+        }
+
+        public static void UPDATE(Prestamo prestamo)
+        {
+            
+            PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
+            if (BD.TablaPrestamos.Contains(pd.Id))
+            {
+                // Actualizamos datos básicos (Estado, etc.)
+                BD.TablaPrestamos.Remove(pd.Id);
+                BD.TablaPrestamos.Add(pd);
+
+                // Nota: Actualizar relaciones es más complejo, pero para este ejercicio
+                // suele bastar con actualizar el estado del préstamo.
+            }
+        }
+
+        public static List<Prestamo> READALL()
+        {
+            List<Prestamo> lista = new List<Prestamo>();
+            foreach (PrestamoDato pd in BD.TablaPrestamos)
+            {
+                lista.Add(TransformersBiblioteca.PrestamoDatoAPrestamo(pd));
+            }
+            return lista;
+        }
+
+        public static List<Prestamo> READALL_POR_USUARIO(string dni)
+        {
+            List<Prestamo> lista = new List<Prestamo>();
+            foreach (PrestamoDato pd in BD.TablaPrestamos)
+            {
+                if (pd.Dni_usuario == dni)
+                {
+                    lista.Add(TransformersBiblioteca.PrestamoDatoAPrestamo(pd));
+                }
+            }
+            return lista;
+        }
+
+        public static List<Prestamo> READALL_POR_ISBN(int isbn)
+        {
+            List<Prestamo> lista = new List<Prestamo>();
+            // Esto es ineficiente pero funcional para listas en memoria:
+            foreach (PrestamoDato pd in BD.TablaPrestamos)
+            {
+                Prestamo p = TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
+                if (p.Ejemplar.Documento.Isbn == isbn)
+                {
+                    lista.Add(p);
+                }
+            }
+            return lista;
+        }
+
+        public static Prestamo READ_POR_EJEMPLAR(int codigoEjemplar)
+        {
+            string idEjemplar = codigoEjemplar.ToString();
+
+            // Buscar en la tabla intermedia
+            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
+            {
+                // La clase Compuesto o el Dato debe permitir acceder al ID del ejemplar
+                // Asumimos que ped.Id (Compuesto) tiene acceso a Cadena2 (Ejemplar)
+                if (ped.Id.Cadena2 == idEjemplar)
+                {
+                    // Encontrado la relación, buscamos el préstamo padre si está activo
+                    if (BD.TablaPrestamos.Contains(ped.Id.Cadena1)) // Cadena1 = IdPrestamo
+                    {
+                        PrestamoDato pd = BD.TablaPrestamos[ped.Id.Cadena1];
+                        if (pd.Estado == "En Proceso") // Solo devolvemos si está activo
+                        {
+                            return TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Método auxiliar usado por el Transformer
+        public static List<Ejemplar> READEjemplaresDePrestamo(string idPrestamo)
+        {
+            List<Ejemplar> ejemplares = new List<Ejemplar>();
+            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
+            {
+                if (ped.Id.Cadena1 == idPrestamo)
+                {
+                    // Convertir ID string a int
+                    int cod = int.Parse(ped.Id.Cadena2);
+                    Ejemplar ej = PersistenciaEjemplar.READ(cod);
+                    if (ej != null) ejemplares.Add(ej);
+                }
+            }
+            return ejemplares;
+        }
+    }
+}
