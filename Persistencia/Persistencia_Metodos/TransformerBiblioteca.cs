@@ -72,8 +72,7 @@ namespace Persistencia
             // Recuperar ejemplares usando la tabla intermedia
             List<Ejemplar> ejemplares = PersistenciaPrestamo.READEjemplaresDePrestamo(pd.Id);
 
-            // Como MD.Prestamo suele tener un solo ejemplar o una lista, ajustamos:
-            // Si tu constructor de Prestamo recibe 1 ejemplar:
+           
            
 
             // Constructor MD.Prestamo(Usuario, Ejemplar, DateTime, string)
