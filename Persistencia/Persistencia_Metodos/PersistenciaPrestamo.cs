@@ -11,29 +11,30 @@ namespace Persistencia
             return BD.TablaPrestamos.Contains(idPrestamo);
         }
         public static void CREATE(Prestamo prestamo)
+{
+    PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
+
+    if (!BD.TablaPrestamos.Contains(pd.Id))
+    {
+        BD.TablaPrestamos.Add(pd);
+
+        // CAMBIO: Recorrer la lista de ejemplares del préstamo
+        foreach (var ejemplar in prestamo.Ejemplares)
         {
-            PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
+            string idEjemplar = ejemplar.CodigoEjemplar.ToString();
 
-            if (!BD.TablaPrestamos.Contains(pd.Id))
+            // Crear clave compuesta (IdPrestamo, IdEjemplar)
+            Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
+
+            if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
             {
-                BD.TablaPrestamos.Add(pd);
-
-                // Gestionar la relación con el ejemplar (Tabla intermedia)
-                
-                if (prestamo.Ejemplar != null)
-                {   
-                    string idEjemplar = prestamo.Ejemplar.CodigoEjemplar.ToString();
-                    Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
-
-                    if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
-                    {
-                        // PrestamoEjemplarDato(string prestamo, string ejemplar, DateTime fecha)
-                        PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, prestamo.FechaPrestamo);
-                        BD.TablaPrestamoEjemplar.Add(ped);
-                    }
-                }
+                // Guardamos la relación
+                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, prestamo.FechaPrestamo);
+                BD.TablaPrestamoEjemplar.Add(ped);
             }
         }
+    }
+}
 
         public static void UPDATE(Prestamo prestamo)
         {
