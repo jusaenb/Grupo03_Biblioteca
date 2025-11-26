@@ -1,93 +1,89 @@
-﻿using System;
+using MD;
+using Persistencia;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MD;
-using Persistencia;
+
 namespace LN
 {
-    public abstract class LNPersonal
+    public class LNPersonalSala : LNPersonal
     {
-        protected Personal personal;
-
-        public LNPersonal(Personal personal)
-        {
-            this.personal = personal;
-        }
-
-        public Personal Personal { get { return personal; } }
-
         /// <summary>
-        /// Método para loguearse en el sistema.
+        /// 
         /// </summary>
-        public bool Loguearse(string password)
+        /// <param name="personalSala"></param>
+        public LNPersonalSala(PersonalSala personalSala) : base(personalSala)
         {
-            // Aquí iría la lógica real de comprobación de contraseñas.
-            // Por ahora devolvemos true como placeholder.
-            return true;
+
         }
-
-        // ==========================================
-        // GESTIÓN DE USUARIOS (Común a ambos roles)
-        // ==========================================
-
         /// <summary>
-        /// Da de alta un nuevo usuario.
+        /// 
         /// </summary>
-        public void AltaUsuario(Usuario usuario)
+        /// <param name="dniUsuario"></param>
+        /// <param name="ejemplares"></param>
+        public void DarAltaPrestamo(string dniUsuario, List<int> codigosEjemplares)
         {
-            if (!ExisteUsuario(usuario.Dni))
+            if (!PersistenciaUsuario.EXIST(dniUsuario))
+                throw new ArgumentException("Usuario no encontrado.");
+
+            Usuario usuario = PersistenciaUsuario.READ(dniUsuario);
+            List<Ejemplar> ejemplaresPrestamo = new List<Ejemplar>();
+
+            foreach (int codigo in codigosEjemplares)
             {
-                PersistenciaUsuario.CREATE(usuario);
+                Ejemplar ej = PersistenciaEjemplar.READ(codigo);
+                if (ej == null)
+                    throw new ArgumentException($"Ejemplar {codigo} no existe.");
+
+                if (!ej.Disponible)
+                    throw new InvalidOperationException($"Ejemplar {codigo} ya está prestado.");
+
+                ejemplaresPrestamo.Add(ej);
+            }
+
+            string idPrestamo = DateTime.Now.Ticks.ToString();
+
+            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplaresPrestamo, DateTime.Now, "En Proceso");
+
+            PersistenciaPrestamo.CREATE(nuevoPrestamo);
+
+            foreach (Ejemplar ej in ejemplaresPrestamo)
+            {
+                ej.Disponible = false;
+                PersistenciaEjemplar.UPDATE(ej);
             }
         }
 
-        /// <summary>
-        /// Da de baja un usuario existente.
-        /// </summary>
-        public void BajaUsuario(string dni)
+        public void DevolverEjemplar(int codigoEjemplar)
         {
-            if (ExisteUsuario(dni))
+            // 1. Buscar el préstamo activo asociado a este ejemplar
+            // Este método SÍ existe en tu PersistenciaPrestamo.cs actual
+            Prestamo prestamo = PersistenciaPrestamo.READ_POR_EJEMPLAR(codigoEjemplar);
+
+            if (prestamo == null)
             {
-             
-                PersistenciaUsuario.DELETE(dni);
+                throw new InvalidOperationException("Este ejemplar no está prestado actualmente.");
             }
-        }
 
-        /// <summary>
-        /// Obtiene un usuario por su DNI.
-        /// </summary>
-        public Usuario ObtenerUsuario(string dni)
-        {
-            return PersistenciaUsuario.READ(dni);
-        }
+            // 2. Liberar el Ejemplar (Marcarlo como disponible)
+            Ejemplar ejemplarADevolver = prestamo.Ejemplares.FirstOrDefault(e => e.CodigoEjemplar == codigoEjemplar);
+            if (ejemplarADevolver != null)
+            {
+                ejemplarADevolver.Disponible = true;
+                PersistenciaEjemplar.UPDATE(ejemplarADevolver);
+            }
 
-        /// <summary>
-        /// Verifica si un usuario existe.
-        /// </summary>
-        public bool ExisteUsuario(string dni)
-        {
-            return PersistenciaUsuario.READ(dni) != null;
-        }
+            // 3. Comprobar si finalizamos el préstamo completo
+            // Requisito: "finalizado en el caso de que se hayan devuelto TODOS los documentos"
+            bool todosDevueltos = prestamo.Ejemplares.All(e => e.Disponible);
 
-        /// <summary>
-        /// Obtiene todos los usuarios de la biblioteca.
-        /// </summary>
-        public List<Usuario> ListadoUsuarios()
-        {
-            return PersistenciaUsuario.READALL();
-        }
-        public bool TienePrestamosActivos(string dni)
-        {
-            var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
-            return prestamos.Any(p => p.Estado == "En Proceso");
-        }
-
-        public bool TienePrestamosFueraDePlazo(string dni)
-        {
-            var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
-            return prestamos.Any(p => p.Estado == "En Proceso" && p.FechaDevolucion < DateTime.Now);
+            if (todosDevueltos)
+            {
+                prestamo.Estado = "Finalizado";
+                PersistenciaPrestamo.UPDATE(prestamo);
+            }
         }
     }
 }
