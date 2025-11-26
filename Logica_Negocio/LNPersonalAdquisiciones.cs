@@ -1,4 +1,5 @@
 ﻿using MD;
+using Persistencia;
 using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace LN
         /// <param name="titulo"></param>
         public void DarAltaDocumento(int isbn, string titulo, string autor, string editorial, int año, string tipo, string formato = "", float duracion = 0)
         {
-            if (PersistenciaDocumento.EXISTE(isbn))
+            if (PersistenciaDocumento.EXIST(isbn))
             {
                 throw new InvalidOperationException($"El documento con ISBN {isbn} ya existe.");
             }
