@@ -12,28 +12,34 @@ namespace Logica_Negocio
     {
 
         /// <summary>
-        /// Realiza un préstamo de un ejemplar a un usuario.
-        /// PRE: Recibe un ejemplar y el usuario que realiza el prestamo.
-        /// POST: El ejemplar se marca como no disponible, se crea el préstamo en la base de datos y se guarda la relación con el ejemplar.
+        /// Realiza un préstamo de varios ejemplares a un usuario.
+        /// PRE: Recibe una lista de ejemplares y el usuario que realiza el préstamo.
+        /// POST: Los ejemplares se marcan como no disponibles, se crea el préstamo en la base de datos y se guarda la relación con los ejemplares.
         /// </summary>
-        public void RealizarPrestamo(Usuario usuario, Ejemplar ejemplar)
+        public void RealizarPrestamo(Usuario usuario, List<Ejemplar> ejemplares)
         {
-            // Verificar si el ejemplar está disponible para préstamo
-            if (!ejemplar.Disponible)
+            // Verificar si todos los ejemplares están disponibles para préstamo
+            foreach (var ejemplar in ejemplares)
             {
-                Console.WriteLine($"El ejemplar con código {ejemplar.CodigoEjemplar} no está disponible para préstamo.");
-                return;
+                if (!ejemplar.Disponible)
+                {
+                    Console.WriteLine($"El ejemplar con código {ejemplar.CodigoEjemplar} no está disponible para préstamo.");
+                    return;
+                }
             }
 
             // Crear el préstamo
             DateTime fechaPrestamo = DateTime.Now;
-            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplar, fechaPrestamo, "En proceso");
+            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplares, fechaPrestamo, "En proceso");
 
             // Crear el préstamo en la base de datos
             PersistenciaPrestamo.CREATE(nuevoPrestamo);
 
-            // Marcar el ejemplar como no disponible
-            ejemplar.Disponible = false;
+            // Marcar los ejemplares como no disponibles
+            foreach (var ejemplar in ejemplares)
+            {
+                ejemplar.Disponible = false;
+            }
 
             // Confirmación de éxito
             Console.WriteLine($"Préstamo realizado con éxito para el usuario {usuario.Nombre}. Fecha de devolución: {nuevoPrestamo.FechaDevolucion.ToShortDateString()}");
@@ -41,7 +47,7 @@ namespace Logica_Negocio
 
         /// <summary>
         /// Realiza la devolución de un ejemplar prestado.
-        /// PRE: 
+        /// PRE: Recibe un ejemplar que ha sido prestado.
         /// POST: El ejemplar se marca como disponible y el estado del préstamo se actualiza a "Finalizado" si todos los ejemplares han sido devueltos.
         /// </summary>
         public void DevolverPrestamo(Ejemplar ejemplar)
@@ -57,13 +63,21 @@ namespace Logica_Negocio
             // Marcar el ejemplar como disponible
             ejemplar.Disponible = true;
 
-            // Actualizar el estado del préstamo a "Finalizado"
-            prestamo.Estado = "Finalizado";
+            // Verificar si todos los ejemplares del préstamo han sido devueltos
+            bool todosDevueltos = prestamo.Ejemplares.All(e => e.Disponible);
 
-            // Actualizamos el préstamo en la base de datos
-            PersistenciaPrestamo.UPDATE(prestamo);
-
-            Console.WriteLine($"El préstamo para el ejemplar con código {ejemplar.CodigoEjemplar} ha sido finalizado.");
+            if (todosDevueltos)
+            {
+                // Si todos los ejemplares han sido devueltos, se finaliza el préstamo
+                prestamo.Estado = "Finalizado";
+                // Actualizamos el préstamo en la base de datos
+                PersistenciaPrestamo.UPDATE(prestamo);
+                Console.WriteLine($"El préstamo para el usuario {prestamo.Usuario.Nombre} ha sido finalizado.");
+            }
+            else
+            {
+                Console.WriteLine($"El ejemplar con código {ejemplar.CodigoEjemplar} ha sido devuelto. El préstamo sigue en proceso.");
+            }
         }
 
 
@@ -90,7 +104,13 @@ namespace Logica_Negocio
                     Console.WriteLine($"Préstamo activo para el usuario {prestamo.Usuario.Nombre}:");
                     Console.WriteLine($"Fecha de préstamo: {prestamo.FechaPrestamo.ToShortDateString()}");
                     Console.WriteLine($"Fecha de devolución: {prestamo.FechaDevolucion.ToShortDateString()}");
-                    Console.WriteLine($"Ejemplar código: {prestamo.Ejemplar.CodigoEjemplar}, Documento: {prestamo.Ejemplar.Documento.Titulo}");
+                    Console.WriteLine("Ejemplares prestados:");
+
+                    foreach (var ejemplar in prestamo.Ejemplares)
+                    {
+                        Console.WriteLine($"- Ejemplar código: {ejemplar.CodigoEjemplar}, Documento: {ejemplar.Documento.Titulo}");
+                    }
+
                     Console.WriteLine("-----------------------------");
                 }
             }
@@ -119,7 +139,13 @@ namespace Logica_Negocio
                     Console.WriteLine($"Préstamo activo para el usuario {prestamo.Usuario.Nombre}:");
                     Console.WriteLine($"Fecha de préstamo: {prestamo.FechaPrestamo.ToShortDateString()}");
                     Console.WriteLine($"Fecha de devolución: {prestamo.FechaDevolucion.ToShortDateString()}");
-                    Console.WriteLine($"Ejemplar código: {prestamo.Ejemplar.CodigoEjemplar}, Documento: {prestamo.Ejemplar.Documento.Titulo}");
+                    Console.WriteLine("Ejemplares prestados:");
+
+                    foreach (var ejemplar in prestamo.Ejemplares)
+                    {
+                        Console.WriteLine($"- Ejemplar código: {ejemplar.CodigoEjemplar}, Documento: {ejemplar.Documento.Titulo}");
+                    }
+
                     Console.WriteLine("-----------------------------");
                 }
             }
@@ -153,6 +179,7 @@ namespace Logica_Negocio
                 Console.WriteLine("El ejemplar ha sido devuelto.");
             }
         }
-
     }
+
 }
+
