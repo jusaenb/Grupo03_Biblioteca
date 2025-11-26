@@ -60,7 +60,7 @@ namespace Logica_Negocio
             // Marcar el ejemplar como disponible
             ejemplar.Disponible = true;
             prestamo.Estado = "Finalizado";
-            Console.WriteLine($"El préstamo con el usuario {prestamo.Usuario} se ha finalizado.");
+            Console.WriteLine($"El préstamo con el usuario {prestamo.Usuario.Nombre} se ha finalizado.");
 
         }
 
@@ -81,7 +81,7 @@ namespace Logica_Negocio
 
             foreach (var prestamo in prestamosActivos)
             {
-                Console.WriteLine($"Préstamo activo para el usuario {prestamo.Usuario}:");
+                Console.WriteLine($"Préstamo activo para el usuario {prestamo.Usuario.Nombre}:");
                 Console.WriteLine($"Fecha de préstamo: {prestamo.FechaPrestamo.ToShortDateString()}");
                 Console.WriteLine($"Fecha de devolución: {prestamo.FechaDevolucion.ToShortDateString()}");              
                 Console.WriteLine($" - Ejemplar código: {prestamo.Ejemplar.CodigoEjemplar}, Documento: {prestamo.Ejemplar.Documento.Titulo}");
@@ -134,7 +134,7 @@ namespace Logica_Negocio
 
             foreach (var prestamo in prestamosDelDocumento)
             {
-                Console.WriteLine($"Préstamo {prestamo.Estado} para el usuario {prestamo.Usuario}:");
+                Console.WriteLine($"Préstamo {prestamo.Estado} para el usuario {prestamo.Usuario.Nombre}:");
                 Console.WriteLine($"Fecha de préstamo: {prestamo.FechaPrestamo.ToShortDateString()}");
                 Console.WriteLine($"Fecha de devolución: {prestamo.FechaDevolucion.ToShortDateString()}");
                 Console.WriteLine($"Ejemplar prestado: Código {prestamo.Ejemplar.CodigoEjemplar}, Documento: {prestamo.Ejemplar.Documento.Titulo}");
