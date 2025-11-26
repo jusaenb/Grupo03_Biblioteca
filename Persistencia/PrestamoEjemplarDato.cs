@@ -14,6 +14,10 @@ namespace Persistencia
             this.fecha = fecha;
             
         }
-
+        public DateTime Fecha
+        {
+            get { return this.fecha; }
+            set { this.fecha = value; }
+        }
     }
 }
