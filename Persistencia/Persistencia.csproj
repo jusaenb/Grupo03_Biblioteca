@@ -46,6 +46,9 @@
     <Compile Include="DocumentoDato.cs" />
     <Compile Include="EjemplarDato.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="PersonalAdquisicionesDato.cs" />
+    <Compile Include="PersonalDato.cs" />
+    <Compile Include="PersonalSalaDato.cs" />
     <Compile Include="PrestamoDato.cs" />
     <Compile Include="PrestamoEjemplarDato.cs" />
     <Compile Include="Tabla.cs" />
