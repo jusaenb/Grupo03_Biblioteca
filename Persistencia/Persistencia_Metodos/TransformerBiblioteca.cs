@@ -47,7 +47,7 @@ namespace Persistencia
         public static Ejemplar EjemplarDatoAEjemplar(EjemplarDato dato)
         {
             Documento doc = PersistenciaDocumento.READ(dato.Isbn);
-            // Convertimos el ID string a int si tu modelo MD.Ejemplar usa int
+            
             int codigo = int.Parse(dato.Id);
             return new Ejemplar(codigo, doc, !dato.Prestado);
         }
