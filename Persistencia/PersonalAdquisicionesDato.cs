@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class PersonalAdquisicionesDato : PersonalDato
+    internal class PersonalAdquisicionesDato : PersonalDato 
     {
         public PersonalAdquisicionesDato(String dni, String nombre) : base(dni, nombre)
         {

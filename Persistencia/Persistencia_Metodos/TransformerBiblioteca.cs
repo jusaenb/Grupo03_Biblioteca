@@ -58,8 +58,7 @@ namespace Persistencia
         public static PrestamoDato PrestamoAPrestamoDato(Prestamo p)
         {
             // Nota: Asumimos que Prestamo tiene un ID único generado (p.ej. un string o GUID)
-            // Si tu clase MD.Prestamo no tiene ID, deberías generarlo antes.
-            // Aquí usaremos la fecha + dni como ID simple si no existe otro.
+        
             string idPrestamo = p.GetHashCode().ToString();
 
             // PrestamoDato(string dni, string id_Prestamo, DateTime fecha, string estado, int id_trabajador)
@@ -75,10 +74,10 @@ namespace Persistencia
 
             // Como MD.Prestamo suele tener un solo ejemplar o una lista, ajustamos:
             // Si tu constructor de Prestamo recibe 1 ejemplar:
-            Ejemplar ej = ejemplares.Count > 0 ? ejemplares[0] : null;
+           
 
             // Constructor MD.Prestamo(Usuario, Ejemplar, DateTime, string)
-            Prestamo p = new Prestamo(usuario, ej, pd.Fecha_prestamo, pd.Estado);
+            Prestamo p = new Prestamo(usuario, ejemplares, pd.Fecha_prestamo, pd.Estado);
 
             // Si el dato tiene fecha devolución (calculada en MD), se setea.
             // Si MD.Prestamo calcula la fecha devolución en el constructor, ya está listo.

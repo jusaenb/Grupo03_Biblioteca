@@ -28,7 +28,8 @@ namespace Persistencia
                 CREATE(ejemplar);
             }
         }
-
+        //Pre: codigoEjmplar no puede ser nulo
+        //Post: Borra el ejemplar con codigo codigoEjemplar
         public static void DELETE(int codigoEjemplar)
         {
             string id = codigoEjemplar.ToString();
