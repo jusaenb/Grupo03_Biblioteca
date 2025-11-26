@@ -78,5 +78,12 @@ namespace LN
         {
             return PersistenciaUsuario.READALL();
         }
+        public bool TienePrestamosFueraDePlazo(string dniUsuario)
+        {
+            var prestamosActivos = PersistenciaPrestamo.READALL()
+                .Where(p => p.Usuario.Dni == dniUsuario && p.Estado == "En Proceso");
+
+            return prestamosActivos.Any(p => p.FechaDevolucion < DateTime.Now);
+        }
     }
 }
