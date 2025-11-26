@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Persistencia
 {
-    internal class DocumentoDato : Entity<int>
+    public class DocumentoDato : Entity<int>
     {
         private int año;
         private string titulo;

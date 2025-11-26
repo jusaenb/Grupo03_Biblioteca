@@ -28,7 +28,6 @@ namespace Persistencia
         {
             if (dato.Tipo == "AudioLibro")
             {
-                // Recuperar AudioLibroDato específico si fuera necesario para duración/formato
                 AudioLibroDato audioDato = BD.TablaAudioLibros[dato.Id];
                 return new AudioLibro(dato.Titulo, dato.Autor, dato.Editorial, dato.Año, dato.Id, audioDato.Formato, audioDato.Duracion);
             }
