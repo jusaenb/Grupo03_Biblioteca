@@ -5,6 +5,10 @@ namespace Persistencia
 {
     public static class PersistenciaEjemplar
     {
+        public static bool EXIST(string codigoEjemplar)
+        {
+            return BD.TablaEjemplares.Contains(codigoEjemplar);
+        }
         public static void CREATE(Ejemplar ejemplar)
         {
             string id = ejemplar.CodigoEjemplar.ToString();

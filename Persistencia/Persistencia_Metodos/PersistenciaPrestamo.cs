@@ -6,6 +6,10 @@ namespace Persistencia
 {
     public static class PersistenciaPrestamo
     {
+        public static bool EXIST(string idPrestamo)
+        {
+            return BD.TablaPrestamos.Contains(idPrestamo);
+        }
         public static void CREATE(Prestamo prestamo)
         {
             PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);

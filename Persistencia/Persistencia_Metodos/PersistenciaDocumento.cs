@@ -6,6 +6,10 @@ namespace Persistencia
 {
     public static class PersistenciaDocumento
     {
+        public static bool EXIST(int isbn)
+        {
+            return BD.TablaDocumentos.Contains(isbn);
+        }
         public static void CREATE(Documento documento)
         {
             if (!BD.TablaDocumentos.Contains(documento.Isbn))

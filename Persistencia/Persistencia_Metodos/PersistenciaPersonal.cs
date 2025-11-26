@@ -5,6 +5,10 @@ namespace Persistencia
 {
     public static class PersistenciaPersonal
     {
+        public static bool EXIST(string dni)
+        {
+            return BD.TablaPersonal.Contains(dni);
+        }
         public static void CREATE(Personal personal)
         {
             if (!BD.TablaPersonal.Contains(personal.Dni))
