@@ -74,14 +74,19 @@ namespace Persistencia
             return lista;
         }
 
-        public static List<Prestamo> READALL_POR_ISBN(int isbn)
+       public static List<Prestamo> READALL_POR_ISBN(int isbn)
         {
             List<Prestamo> lista = new List<Prestamo>();
-            // Esto es ineficiente pero funcional para listas en memoria:
+        
             foreach (PrestamoDato pd in BD.TablaPrestamos)
             {
+                // Convertimos el dato a objeto Prestamo (que ya tiene la lista de ejemplares cargada)
                 Prestamo p = TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
-                if (p.Ejemplar.Documento.Isbn == isbn)
+        
+                // CORRECCIÓN:
+                // Verificamos si en la lista 'Ejemplares' existe ALGUNO (.Any) 
+                // cuyo documento tenga el ISBN buscado.
+                if (p.Ejemplares.Any(e => e.Documento.Isbn == isbn))
                 {
                     lista.Add(p);
                 }
