@@ -45,6 +45,7 @@
     <Compile Include="LNPersonal.cs" />
     <Compile Include="LNPersonalAdquisiciones.cs" />
     <Compile Include="LNPersonalSala.cs" />
+    <Compile Include="LNPrestamo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
