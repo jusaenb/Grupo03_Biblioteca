@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MD;
-
+using Persistencia;
 namespace LN
 {
     public abstract class LNPersonal

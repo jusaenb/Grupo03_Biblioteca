@@ -9,32 +9,22 @@ namespace Persistencia
 {
     static class BD
     {
-        // ==========================================
-        // DOCUMENTOS Y EJEMPLARES
-        // ==========================================
+
         static Tabla<int, DocumentoDato> tablaDocumentos;
         static Tabla<int, AudioLibroDato> tablaAudioLibros;
         static Tabla<string, EjemplarDato> tablaEjemplares;
 
-        // ==========================================
-        // PERSONAL (Usuarios no incluido por falta de UsuarioDato)
-        // ==========================================
+        static Tabla<string, UsuarioDato> tablaUsuarios;
         static Tabla<string, PersonalDato> tablaPersonal;
         static Tabla<string, PersonalSalaDato> tablaPersonalSala;
         static Tabla<string, PersonalAdquisicionesDato> tablaPersonalAdquisiciones;
 
-        // ==========================================
-        // PRÉSTAMOS
-        // ==========================================
         static Tabla<string, PrestamoDato> tablaPrestamos;
         static Tabla<Compuesto, PrestamoEjemplarDato> tablaPrestamoEjemplar;
 
 
-        // ==========================================
-        // PROPIEDADES PÚBLICAS (Lazy Initialization)
-        // ==========================================
 
-        // --- DOCUMENTOS ---
+
         public static Tabla<int, DocumentoDato> TablaDocumentos
         {
             get
@@ -59,7 +49,7 @@ namespace Persistencia
             }
         }
 
-        // --- EJEMPLARES ---
+
         public static Tabla<string, EjemplarDato> TablaEjemplares
         {
             get
@@ -72,7 +62,18 @@ namespace Persistencia
             }
         }
 
-        // --- PERSONAL ---
+        public static Tabla<string, UsuarioDato> TablaUsuarios
+        {
+            get
+            {
+                if (tablaUsuarios == null)
+                {
+                    tablaUsuarios = new Tabla<string, UsuarioDato>();
+                }
+                return tablaUsuarios;
+            }
+        }
+
         public static Tabla<string, PersonalDato> TablaPersonal
         {
             get
@@ -109,7 +110,6 @@ namespace Persistencia
             }
         }
 
-        // --- PRÉSTAMOS ---
         public static Tabla<string, PrestamoDato> TablaPrestamos
         {
             get

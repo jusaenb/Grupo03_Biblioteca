@@ -52,6 +52,10 @@
       <Project>{dd251329-40d3-4965-9c82-a364751ebac2}</Project>
       <Name>MD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Persistencia\Persistencia.csproj">
+      <Project>{c274230c-1c53-4a3c-a9df-599e755a5aee}</Project>
+      <Name>Persistencia</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

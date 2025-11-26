@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MD
+namespace Persistencia
 {
-    public class Usuario
+    internal class UsuarioDato : Entity<string>
     {
-        public string Dni { get; }
         public string Nombre { get; set; }
 
-
-        public Usuario(string dni, string nombre)
+        public UsuarioDato(string dni, string nombre) : base(dni)
         {
-            Dni = dni;
-            Nombre = nombre;
+            this.Nombre = nombre;
         }
     }
 }
