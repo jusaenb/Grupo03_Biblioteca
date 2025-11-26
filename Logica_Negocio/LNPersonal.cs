@@ -78,12 +78,16 @@ namespace LN
         {
             return PersistenciaUsuario.READALL();
         }
-        public bool TienePrestamosFueraDePlazo(string dniUsuario)
+        public bool TienePrestamosActivos(string dni)
         {
-            var prestamosActivos = PersistenciaPrestamo.READALL()
-                .Where(p => p.Usuario.Dni == dniUsuario && p.Estado == "En Proceso");
+            var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
+            return prestamos.Any(p => p.Estado == "En Proceso");
+        }
 
-            return prestamosActivos.Any(p => p.FechaDevolucion < DateTime.Now);
+        public bool TienePrestamosFueraDePlazo(string dni)
+        {
+            var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
+            return prestamos.Any(p => p.Estado == "En Proceso" && p.FechaDevolucion < DateTime.Now);
         }
     }
 }
