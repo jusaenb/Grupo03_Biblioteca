@@ -23,6 +23,7 @@ namespace LN
         /// <param name="titulo"></param>
         public void DarAltaDocumento(string isbn, string titulo)
         {
+            if(Logica_Negoc)
 
         }
 
