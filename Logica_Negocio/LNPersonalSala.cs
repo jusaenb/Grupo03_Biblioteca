@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Persistencia;
 
 namespace LN
 {
@@ -24,7 +25,7 @@ namespace LN
         /// <param name="ejemplares"></param>
         public void DarAltaPrestamo(string dniUsuario, List<int> codigosEjemplares)
         {
-            if (!PersistenciaUsuario.EXISTE(dniUsuario))
+            if (!PersistenciaUsuario.EXIST(dniUsuario))
                 throw new ArgumentException("Usuario no encontrado.");
 
             Usuario usuario = PersistenciaUsuario.READ(dniUsuario);
