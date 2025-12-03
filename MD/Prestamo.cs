@@ -21,14 +21,10 @@ namespace MD
             this.fechaPrestamo = fechaPrestamo;
             this.estado = estado;
             this.trabajador = trabajador;
-
-            int dias = 15;
-            if (this.ejemplares.Count > 0)
-            {
-                dias = this.ejemplares.Min(e => e.Documento.DiasPrestamo);
-            }
-            this.fechaDevolucion = fechaPrestamo.AddDays(dias);
-
+        }
+        public DateTime CalcularFechaDevolucion(Ejemplar e)
+        {
+            return this.fechaPrestamo.AddDays(e.Documento.DiasPrestamo);
         }
         public Usuario Usuario
         {

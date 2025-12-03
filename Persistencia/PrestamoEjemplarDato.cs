@@ -9,15 +9,21 @@ namespace Persistencia
     internal class PrestamoEjemplarDato : Entity<Compuesto>
     {
         private DateTime fecha;
-        public PrestamoEjemplarDato(string prestamo, string ejemplar, DateTime fecha) : base(new Compuesto(prestamo, ejemplar))
+        private bool devuelto;
+        public PrestamoEjemplarDato(string prestamo, string ejemplar, DateTime fecha, bool devuelto) : base(new Compuesto(prestamo, ejemplar))
         {
             this.fecha = fecha;
-            
+            this.devuelto = false;
         }
         public DateTime Fecha
         {
             get { return this.fecha; }
             set { this.fecha = value; }
+        }
+        public bool Devuelto
+        {
+            get { return this.devuelto; }
+            set { this.devuelto = value; }
         }
     }
 }

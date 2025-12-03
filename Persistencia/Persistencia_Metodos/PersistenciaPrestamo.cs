@@ -19,10 +19,13 @@ namespace Persistencia
     {
         BD.TablaPrestamos.Add(pd);
 
-        // CAMBIO: Recorrer la lista de ejemplares del préstamo
         foreach (var ejemplar in prestamo.Ejemplares)
         {
             string idEjemplar = ejemplar.CodigoEjemplar.ToString();
+
+            int dias = ejemplar.Documento.DiasPrestamo;
+            DateTime fechaLimite = prestamo.FechaPrestamo.AddDays(dias);
+
 
             // Crear clave compuesta (IdPrestamo, IdEjemplar)
             Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
@@ -30,7 +33,7 @@ namespace Persistencia
             if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
             {
                 // Guardamos la relación
-                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, prestamo.FechaPrestamo);
+                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, fechaLimite, false);
                 BD.TablaPrestamoEjemplar.Add(ped);
             }
         }
@@ -135,6 +138,34 @@ namespace Persistencia
                 }
             }
             return ejemplares;
+        }
+        public static void MARCAR_DEVUELTO(string idPrestamo, string idEjemplar)
+        {
+            // Buscamos en la tabla intermedia usando la clave compuesta
+            // Nota: Como tu clase Tabla busca por ID, tenemos que iterar o construir la clave
+            foreach (var ped in BD.TablaPrestamoEjemplar)
+            {
+                if (ped.Id.Cadena1 == idPrestamo && ped.Id.Cadena2 == idEjemplar)
+                {
+                    ped.Devuelto = true;
+                    break;
+                }
+            }
+        }
+        public static bool ESTAN_TODOS_DEVUELTOS(string idPrestamo)
+        {
+            // Buscamos todas las líneas de este préstamo
+            // Si hay ALGUNA que tenga Devuelto == false, entonces NO están todos.
+            bool quedaAlguno = false;
+            foreach (var ped in BD.TablaPrestamoEjemplar)
+            {
+                if (ped.Id.Cadena1 == idPrestamo && !ped.Devuelto)
+                {
+                    quedaAlguno = true;
+                    break;
+                }
+            }
+            return !quedaAlguno; 
         }
     }
 }
