@@ -56,13 +56,17 @@ namespace Presentacion
             {                
                 if (personal is PersonalSala)
                 {
-                    FMenuSala menuSala = new FMenuSala();
-                    menuSala.Show();
+                    LNPersonalSala lnPersonalSala = new LNPersonalSala((PersonalSala)personal);
+                    frmPersonalSala frm = new frmPersonalSala();
+                    frm.Inicializar(lnPersonalSala);
+                    frm.Show();
                 }
                 else if (personal is PersonalAdquisiciones)
                 {
-                    FMenuAdquisiciones menuAdquisiciones = new FMenuAdquisiciones();
-                    menuAdquisiciones.Show();
+                    LNPersonalAdquisiciones lnAdquisiciones = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
+                    frmPersonalAdquisiciones frm = new frmPersonalAdquisiciones();
+                    frm.Inicializar(lnAdquisiciones); 
+                    frm.Show();
                 }
                 this.Hide(); 
             }

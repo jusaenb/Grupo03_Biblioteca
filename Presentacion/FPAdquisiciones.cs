@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LN;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,8 @@ namespace Presentacion
 {
     public partial class FPAdquisiciones : Form
     {
-        public FPAdquisiciones()
+        private LNPersonalAdquisiciones lnAdquisiciones;
+        public FPAdquisiciones(LNPersonalAdquisiciones lnAdq)
         {
             InitializeComponent();
         }

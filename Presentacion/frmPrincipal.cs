@@ -7,7 +7,7 @@ namespace Presentacion
 {
     public partial class frmPrincipal : Form
     {
-        private LNPersonal _ln;
+        protected LNPersonal _ln;
 
         public frmPrincipal(LNPersonal ln)
         {
