@@ -13,6 +13,7 @@ namespace MD
         private string autor;
         private int isbn;
         private string editorial;
+        public virtual int DiasPrestamo => 15;
         public Documento(int añoPublicacion, string titulo, string autor, int isbn, string editorial)
         {
             this.añoPublicacion = añoPublicacion;

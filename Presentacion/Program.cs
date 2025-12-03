@@ -1,6 +1,8 @@
-﻿using System;
+﻿using LN;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +18,15 @@ namespace Presentacion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FLogin());
+            FLogin login = new FLogin();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                // 2. Si el login es correcto, recuperamos la LN creada en el login
+                LNPersonal logicaNegocio = login.LogicaNegocio;
+
+                // 3. Abrimos la ventana principal pasándole la lógica
+                Application.Run(new FPrincipal(logicaNegocio));
+            }
         }
     }
 }
