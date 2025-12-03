@@ -58,6 +58,12 @@
     <Compile Include="fmPrincipal.Designer.cs">
       <DependentUpon>fmPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="FPAdquisiciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FPAdquisiciones.Designer.cs">
+      <DependentUpon>FPAdquisiciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAltaPrestamo.cs">
       <SubType>Form</SubType>
     </Compile>
