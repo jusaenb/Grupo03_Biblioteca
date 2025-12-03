@@ -22,16 +22,13 @@ namespace MD
             this.estado = estado;
             this.trabajador = trabajador;
 
-            bool contieneAudiolibro = this.ejemplares.Any(e => e.Documento is AudioLibro);
+            int dias = 15;
+            if (this.ejemplares.Count > 0)
+            {
+                dias = this.ejemplares.Min(e => e.Documento.DiasPrestamo);
+            }
+            this.fechaDevolucion = fechaPrestamo.AddDays(dias);
 
-            if (contieneAudiolibro)
-            {
-                this.fechaDevolucion = fechaPrestamo.AddDays(10);
-            }
-            else
-            {
-                this.fechaDevolucion = fechaPrestamo.AddDays(15);
-            }
         }
         public Usuario Usuario
         {
