@@ -11,7 +11,8 @@ namespace LN
         public LNPersonalSala(PersonalSala personalSala) : base(personalSala)
         {
         }
-
+        //PRE: no puede haber valores nulos
+        //Post: da de alta un prestamo a un usuario a un ejemplar si esta disponible
         public void DarAltaPrestamo(string dniUsuario, List<int> codigosEjemplares)
         {
             // 1. Validar Usuario

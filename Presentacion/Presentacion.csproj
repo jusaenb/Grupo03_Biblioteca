@@ -52,6 +52,36 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmPrincipal.Designer.cs">
+      <DependentUpon>fmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetalleEjemplar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetalleEjemplar.Designer.cs">
+      <DependentUpon>frmDetalleEjemplar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetalleUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetalleUsuario.Designer.cs">
+      <DependentUpon>frmDetalleUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetalleDocumento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDetalleDocumento.Designer.cs">
+      <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSolicitar_Dato.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSolicitar_Dato.Designer.cs">
+      <DependentUpon>frmSolicitar_Dato.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,6 +105,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logica_Negocio\Logica_Negocio.csproj">
+      <Project>{94ab87c5-96b8-49d7-9e99-1b740d966bf4}</Project>
+      <Name>Logica_Negocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MD\MD.csproj">
+      <Project>{dd251329-40d3-4965-9c82-a364751ebac2}</Project>
+      <Name>MD</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

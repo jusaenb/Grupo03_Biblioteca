@@ -51,7 +51,7 @@ namespace LN
             if (!PersistenciaDocumento.EXIST(isbnDocumento))
                 throw new ArgumentException("El documento base no existe.");
 
-            // Validar código único (convertimos int a string porque tu EjemplarDato usa string como ID)
+            
             if (PersistenciaEjemplar.EXIST(codigoEjemplar.ToString()))
                 throw new InvalidOperationException("Ese código de ejemplar ya existe.");
 
