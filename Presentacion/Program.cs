@@ -25,7 +25,7 @@ namespace Presentacion
                 LNPersonal logicaNegocio = login.LogicaNegocio;
 
                 // 3. Abrimos la ventana principal pasándole la lógica
-                Application.Run(new FPrincipal(logicaNegocio));
+                Application.Run(new frmPrincipal(logicaNegocio));
             }
         }
     }
