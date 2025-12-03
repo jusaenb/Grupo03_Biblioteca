@@ -8,10 +8,13 @@ namespace Presentacion
     public partial class frmPrincipal : Form
     {
         protected LNPersonal _ln;
-
-        public frmPrincipal(LNPersonal ln)
+        public frmPrincipal()
         {
             InitializeComponent();
+        }
+        public frmPrincipal(LNPersonal ln)
+        {
+            InitializeComponent ();
             _ln = ln;
             ConfigurarPermisos();
         }

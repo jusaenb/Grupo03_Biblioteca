@@ -209,8 +209,8 @@
         private System.Windows.Forms.ToolStripMenuItem bajaEjemplarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem busquedaEjemplarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuPrestamos;
-        private System.Windows.Forms.ToolStripMenuItem altaPrestamoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem devolucionToolStripMenuItem;
+        protected System.Windows.Forms.ToolStripMenuItem altaPrestamoToolStripMenuItem;
+        protected System.Windows.Forms.ToolStripMenuItem devolucionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuConfiguracion;
     }
 }
