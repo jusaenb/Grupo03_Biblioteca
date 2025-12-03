@@ -9,28 +9,28 @@ namespace Persistencia
     public class PrestamoDato : Entity<String>
     {
         private string dni_Usuario;
-        private int id_trabajador;
+        private string dni_trabajador;
         private DateTime fecha_prestamo;
         private string estado;
-        public PrestamoDato(string dni, string id_Prestamo, DateTime fecha_prestamo, string estado, int id_trabajador) : base(id_Prestamo)
+        public PrestamoDato(string dni, string id_Prestamo, DateTime fecha_prestamo, string estado, string dni_trabajador) : base(id_Prestamo)
         {
             this.dni_Usuario = dni;
             this.fecha_prestamo = fecha_prestamo;
             this.estado = estado;
-            this.id_trabajador = id_trabajador;
+            this.dni_trabajador = dni_trabajador;
         }
         public string Dni_usuario
         {
             get { return dni_Usuario; }
             set { dni_Usuario = value; }
         }
-        public int Id_trabajador
+        public string Dni_trabajador
         {
             get
             {
-                return id_trabajador;
+                return dni_trabajador;
             }
-            set { id_trabajador = value; }
+            set { dni_trabajador = value; }
         }
         public DateTime Fecha_prestamo
         {

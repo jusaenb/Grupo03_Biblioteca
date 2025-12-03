@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MD;
+using System.Linq;
 
 namespace Persistencia
 {

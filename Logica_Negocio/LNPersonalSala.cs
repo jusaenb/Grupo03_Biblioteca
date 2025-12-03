@@ -39,7 +39,7 @@ namespace LN
                 throw new ArgumentException("Debe seleccionar al menos un ejemplar.");
 
             // 3. Crear Préstamo
-            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplaresParaPrestar, DateTime.Now, "En Proceso");
+            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplaresParaPrestar, DateTime.Now, "En Proceso", this.Personal);
 
             // 4. Guardar Préstamo
             PersistenciaPrestamo.CREATE(nuevoPrestamo);

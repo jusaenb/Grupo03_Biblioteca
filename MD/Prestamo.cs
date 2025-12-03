@@ -12,12 +12,16 @@ namespace MD
         private List<Ejemplar> ejemplares;
         private DateTime fechaPrestamo;
         private DateTime fechaDevolucion;
-        private string estado; 
-        public Prestamo(Usuario usuario, List<Ejemplar> ejemplares, DateTime fechaPrestamo, string estado)
+        private string estado;
+        private Personal trabajador;
+        public Prestamo(Usuario usuario, List<Ejemplar> ejemplares, DateTime fechaPrestamo, string estado, Personal trabajador)
         {
             this.usuario = usuario;
             this.ejemplares = ejemplares ?? new List<Ejemplar>();
             this.fechaPrestamo = fechaPrestamo;
+            this.estado = estado;
+            this.trabajador = trabajador;
+
             bool contieneAudiolibro = this.ejemplares.Any(e => e.Documento is AudioLibro);
 
             if (contieneAudiolibro)
@@ -54,6 +58,11 @@ namespace MD
         {
             get { return estado; }
             set { estado = value; }
+        }
+        public Personal Trabajador
+        {
+            get { return trabajador; }
+            set { trabajador = value; }
         }
     }
 }
