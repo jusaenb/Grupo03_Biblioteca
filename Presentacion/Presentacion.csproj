@@ -58,11 +58,11 @@
     <Compile Include="fmPrincipal.Designer.cs">
       <DependentUpon>fmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FPersonalAdquisiciones.cs">
+    <Compile Include="FPAdquisiciones.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FPersonalAdquisiciones.Designer.cs">
-      <DependentUpon>FPersonalAdquisiciones.cs</DependentUpon>
+    <Compile Include="FPAdquisiciones.Designer.cs">
+      <DependentUpon>FPAdquisiciones.cs</DependentUpon>
     </Compile>
     <Compile Include="frmAltaPrestamo.cs">
       <SubType>Form</SubType>

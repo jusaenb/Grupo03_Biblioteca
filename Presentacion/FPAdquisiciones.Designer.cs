@@ -1,6 +1,6 @@
 ﻿namespace Presentacion
 {
-    partial class FPersonalAdquisiciones
+    partial class FPAdquisiciones
     {
         /// <summary>
         /// Required designer variable.
