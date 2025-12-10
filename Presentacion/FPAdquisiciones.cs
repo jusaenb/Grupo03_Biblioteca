@@ -19,7 +19,7 @@ namespace Presentacion
         private void AltaDocumento_Click(object sender, EventArgs e)
         {
             // Abre el formulario para alta de documento
-            frmDetalleDocumento frm = new frmDetalleDocumento();
+            frmAltaDocumento frm = new frmAltaDocumento();
             frm.ShowDialog();
         }
 

@@ -52,6 +52,12 @@
     <Compile Include="FLogin.Designer.cs">
       <DependentUpon>FLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAltaDocumento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaDocumento.Designer.cs">
+      <DependentUpon>frmAltaDocumento.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmListadoDocumentos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FPAdquisiciones.resx">
       <DependentUpon>FPAdquisiciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaDocumento.resx">
+      <DependentUpon>frmAltaDocumento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetalleDocumento.resx">
+      <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmListadoUsuarios.resx">
       <DependentUpon>frmListadoUsuarios.cs</DependentUpon>
