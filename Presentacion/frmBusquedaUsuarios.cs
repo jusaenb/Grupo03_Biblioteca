@@ -21,7 +21,7 @@ namespace Presentacion
             InitializeComponent();
             _ln = ln;
         }
-        private void frmBusquedaUsuario_Load(object sender, EventArgs e)
+        private void frmBusquedaUsuarios_Load(object sender, EventArgs e)
         {
             try
             {
