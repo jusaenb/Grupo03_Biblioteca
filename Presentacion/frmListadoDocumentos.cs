@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using LN;
 
@@ -13,10 +13,9 @@ namespace Presentacion
         {
             InitializeComponent();
             _ln = ln;
-            ConfigurarGrid();
         }
 
-        private void ConfigurarGrid()
+        private void frmListadoDocumentos_Load(object sender, EventArgs e)
         {
             try
             {
