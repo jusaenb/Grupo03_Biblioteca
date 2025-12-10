@@ -20,6 +20,8 @@ namespace Presentacion
             InitializeComponent();
         }
 
+        public LNPersonal LogicaNegocio { get; internal set; }
+
         private void buttonEntrar_Click(object sender, EventArgs e)
         {
             String nombre=textBoxNombre.Text;

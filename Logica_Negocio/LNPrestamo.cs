@@ -16,7 +16,7 @@ namespace Logica_Negocio
         /// PRE: Recibe una lista de ejemplares y el usuario que realiza el préstamo.
         /// POST: Los ejemplares se marcan como no disponibles, se crea el préstamo en la base de datos y se guarda la relación con los ejemplares.
         /// </summary>
-        public void RealizarPrestamo(Usuario usuario, List<Ejemplar> ejemplares)
+        public void RealizarPrestamo(Usuario usuario, List<Ejemplar> ejemplares, Personal trabajador)
         {
             // Verificar si todos los ejemplares están disponibles para préstamo
             foreach (var ejemplar in ejemplares)
@@ -30,7 +30,7 @@ namespace Logica_Negocio
 
             // Crear el préstamo
             DateTime fechaPrestamo = DateTime.Now;
-            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplares, fechaPrestamo, "En proceso");
+            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplares, fechaPrestamo, "En proceso", trabajador);
 
             // Crear el préstamo en la base de datos
             PersistenciaPrestamo.CREATE(nuevoPrestamo);
