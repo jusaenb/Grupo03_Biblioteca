@@ -8,54 +8,44 @@ namespace Presentacion
     {
         private LNPersonalSala _lnSala;
 
-        // Constructor que recibe la lógica específica de Sala
-        public frmPersonalSala():base()
+        // Pasamos la lógica al constructor padre (base) para que inicialice los menús comunes
+        public frmPersonalSala(LNPersonalSala ln) : base(ln)
         {
-
-        }
-        public void Inicializar(LNPersonalSala ln) 
-        {
-           
+            InitializeComponent();
             _lnSala = ln;
 
-            // Conectamos los eventos de los botones del menú Préstamos
-           
-            this.altaPrestamoToolStripMenuItem.Click += new System.EventHandler(this.altaPrestamoToolStripMenuItem_Click);
-            this.devolucionToolStripMenuItem.Click += new System.EventHandler(this.devolucionToolStripMenuItem_Click);
+            // Vinculamos los eventos específicos de Sala
+            this.altaPrestamoToolStripMenuItem.Click += new EventHandler(this.AltaPrestamo_Click);
+            this.devolucionToolStripMenuItem.Click += new EventHandler(this.Devolucion_Click);
         }
 
-        // Evento para Alta de Préstamo
-        private void altaPrestamoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AltaPrestamo_Click(object sender, EventArgs e)
         {
-            // Abrimos el formulario de Alta de Préstamo pasándole la lógica de sala
+            // Abrimos el formulario de alta de préstamo
             frmAltaPrestamo frm = new frmAltaPrestamo(_lnSala);
             frm.ShowDialog();
         }
 
-        // Evento para Devolución
-        private void devolucionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Devolucion_Click(object sender, EventArgs e)
         {
-            // 1. Pedir el código del ejemplar a devolver usando el formulario genérico
             frmSolicitarDato frm = new frmSolicitarDato("Introduzca el código del ejemplar a devolver:");
-            
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                if (int.TryParse(frm.ValorIntroducido, out int codigoEjemplar))
+                if (int.TryParse(frm.ValorIntroducido, out int codigo))
                 {
                     try
                     {
-                        // 2. Llamar a la lógica de negocio para procesar la devolución
-                        _lnSala.DevolverEjemplar(codigoEjemplar);
-                        MessageBox.Show("Ejemplar devuelto correctamente.\nSi era el último del préstamo, este se ha finalizado.", "Devolución Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _lnSala.DevolverEjemplar(codigo);
+                        MessageBox.Show("Ejemplar devuelto correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al realizar la devolución: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("El código del ejemplar debe ser un número válido.", "Formato incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El código debe ser numérico.");
                 }
             }
         }

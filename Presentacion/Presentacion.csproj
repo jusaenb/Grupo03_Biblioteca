@@ -52,6 +52,18 @@
     <Compile Include="FLogin.Designer.cs">
       <DependentUpon>FLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmListadoDocumentos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmListadoDocumentos.Designer.cs">
+      <DependentUpon>frmListadoDocumentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmListadoUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmListadoUsuarios.Designer.cs">
+      <DependentUpon>frmListadoUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPersonalSala.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +106,12 @@
     <Compile Include="frmDetalleDocumento.Designer.cs">
       <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmRecorridoUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRecorridoUsuarios.Designer.cs">
+      <DependentUpon>frmRecorridoUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSolicitar_Dato.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FPAdquisiciones.resx">
       <DependentUpon>FPAdquisiciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmListadoUsuarios.resx">
+      <DependentUpon>frmListadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

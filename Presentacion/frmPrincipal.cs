@@ -88,5 +88,35 @@ namespace Presentacion
                 }
             }
         }
+        // Añadir en Presentacion/frmPrincipal.cs
+
+        // 1. Evento para Listado de Usuarios
+        private void listadoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmListadoUsuarios frm = new frmListadoUsuarios(_ln);
+            frm.ShowDialog();
+        }
+
+        // 2. Evento para Recorrido Uno a Uno
+        private void recorridoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmRecorridoUsuarios frm = new frmRecorridoUsuarios(_ln);
+            frm.ShowDialog();
+        }
+
+        // 3. Evento para Listado de Documentos (Solo Adquisiciones)
+        private void listadoDocumentosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Verificamos si el personal tiene permisos (es Adquisiciones)
+            if (_ln is LNPersonalAdquisiciones lnAdq)
+            {
+                frmListadoDocumentos frm = new frmListadoDocumentos(lnAdq);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Acceso denegado. Solo personal de adquisiciones puede ver este listado.");
+            }
+        }
     }
 }
