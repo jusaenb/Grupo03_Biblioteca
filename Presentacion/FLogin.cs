@@ -59,8 +59,8 @@ namespace Presentacion
                 if (personal is PersonalSala)
                 {
                     LNPersonalSala lnPersonalSala = new LNPersonalSala((PersonalSala)personal);
-                    frmPersonalSala frm = new frmPersonalSala();
-                    frm.Inicializar(lnPersonalSala);
+                    frmPersonalSala frm = new frmPersonalSala(lnPersonalSala);
+                    
                     frm.Show();
                 }
                 else if (personal is PersonalAdquisiciones)
