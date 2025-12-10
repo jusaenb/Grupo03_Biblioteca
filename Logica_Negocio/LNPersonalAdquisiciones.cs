@@ -73,5 +73,15 @@ namespace LN
 
             PersistenciaEjemplar.DELETE(codigoEjemplar);
         }
+        // Método que faltaba para dar de baja documentos
+        public void DarBajaDocumento(int isbn)
+        {
+            if (!PersistenciaDocumento.EXIST(isbn))
+                throw new ArgumentException("El documento no existe.");
+
+            // Recuperamos el documento para borrarlo
+            Documento doc = PersistenciaDocumento.READ(isbn);
+            PersistenciaDocumento.DELETE(doc);
+        }
     }
 }

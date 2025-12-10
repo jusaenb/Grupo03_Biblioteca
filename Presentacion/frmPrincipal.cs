@@ -118,5 +118,6 @@ namespace Presentacion
                 MessageBox.Show("Acceso denegado. Solo personal de adquisiciones puede ver este listado.");
             }
         }
+
     }
 }
