@@ -7,6 +7,7 @@ namespace Presentacion
     public partial class frmPersonalSala : frmPrincipal
     {
         private LNPersonalSala _lnSala;
+        private frmPersonalSala() { InitializeComponent(); }
 
         // Pasamos la lógica al constructor padre (base) para que inicialice los menús comunes
         public frmPersonalSala(LNPersonalSala ln) : base(ln)
