@@ -61,5 +61,17 @@ namespace Persistencia
             }
             return lista;
         }
+        // Sobrecarga para obtener TODOS los ejemplares (necesario para Alta Préstamo)
+        public static List<Ejemplar> READALL()
+        {
+            List<Ejemplar> lista = new List<Ejemplar>();
+
+            // Recorremos toda la tabla de ejemplares sin filtrar por ISBN
+            foreach (EjemplarDato ed in BD.TablaEjemplares)
+            {
+                lista.Add(TransformersBiblioteca.EjemplarDatoAEjemplar(ed));
+            }
+            return lista;
+        }
     }
 }

@@ -92,5 +92,11 @@ namespace LN
                 .Where(p => p.Estado == "En Proceso")
                 .ToList();
         }
+        // Método para obtener solo los ejemplares que se pueden prestar
+        public List<Ejemplar> ListadoEjemplaresDisponibles()
+        {
+            List<Ejemplar> todos = PersistenciaEjemplar.READALL(); // Usamos el método que añadimos antes a Persistencia
+            return todos.Where(e => e.Disponible).ToList();
+        }
     }
 }

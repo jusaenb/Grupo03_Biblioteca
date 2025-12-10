@@ -2,63 +2,95 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using LN;
+using MD;
 
 namespace Presentacion
 {
     public partial class frmAltaPrestamo : Form
     {
         private LNPersonalSala _ln;
-        private List<int> _codigosEjemplares;
+        private List<int> _codigosEjemplaresSeleccionados;
 
         public frmAltaPrestamo(LNPersonalSala ln)
         {
             InitializeComponent();
             _ln = ln;
-            _codigosEjemplares = new List<int>();
+            _codigosEjemplaresSeleccionados = new List<int>();
+
+            InicializarFormulario();
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private void InicializarFormulario()
         {
-            if (int.TryParse(txtCodigoEjemplar.Text, out int codigo))
+            // Poner fecha actual
+            txtFecha.Text = DateTime.Now.ToShortDateString();
+
+            // Cargar usuarios en el ComboBox
+            try
             {
-                if (!_codigosEjemplares.Contains(codigo))
-                {
-                    _codigosEjemplares.Add(codigo);
-                    lstEjemplares.Items.Add($"Ejemplar: {codigo}");
-                    txtCodigoEjemplar.Clear();
-                    txtCodigoEjemplar.Focus();
-                }
-                else
-                {
-                    MessageBox.Show("Este ejemplar ya está en la lista.");
-                }
+                cmbUsuarios.DataSource = _ln.ListadoUsuarios();
+                cmbUsuarios.DisplayMember = "Dni"; // Mostramos DNI según PDF
+                cmbUsuarios.ValueMember = "Dni";
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("El código del ejemplar debe ser numérico.");
+                MessageBox.Show("Error al cargar usuarios: " + ex.Message);
+            }
+        }
+
+        private void btnAnadirEjemplar_Click(object sender, EventArgs e)
+        {
+            // Abrimos el formulario de selección
+            frmAnadirEjemplar frm = new frmAnadirEjemplar(_ln);
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                Ejemplar ej = frm.EjemplarSeleccionado;
+                if (ej != null)
+                {
+                    // Comprobamos que no esté ya añadido en la lista temporal de este préstamo
+                    if (!_codigosEjemplaresSeleccionados.Contains(ej.CodigoEjemplar))
+                    {
+                        _codigosEjemplaresSeleccionados.Add(ej.CodigoEjemplar);
+                        // Añadimos al ListBox visual
+                        lstEjemplares.Items.Add($"ID ejemplar: {ej.CodigoEjemplar} - {ej.Documento.Titulo}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Este ejemplar ya está en la lista.");
+                    }
+                }
             }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtDniUsuario.Text))
+            if (cmbUsuarios.SelectedItem == null)
             {
-                MessageBox.Show("Debe indicar el DNI del usuario.");
+                MessageBox.Show("Debe seleccionar un usuario.");
                 return;
             }
 
-            if (_codigosEjemplares.Count == 0)
+            if (_codigosEjemplaresSeleccionados.Count == 0)
             {
-                MessageBox.Show("Debe añadir al menos un ejemplar al préstamo.");
+                MessageBox.Show("Debe añadir al menos un ejemplar.");
                 return;
             }
+
+            // Nota sobre el ID manual: 
+            // Tu lógica de negocio actual genera el ID automáticamente (GetHashCode).
+            // Aunque el PDF pide un campo ID visual, no podemos forzarlo en la lógica actual sin modificar Persistencia.
+            // Procedemos con la lógica existente ignorando txtID.Text o lo pasamos si refactorizas LN.
+            // Aquí seguiremos la lógica existente:
 
             try
             {
-                // Llamada al método de la capa de lógica que gestiona todo el proceso
-                _ln.DarAltaPrestamo(txtDniUsuario.Text, _codigosEjemplares);
+                string dniUsuario = (string)cmbUsuarios.SelectedValue;
 
-                MessageBox.Show("Préstamo realizado con éxito.", "Operación completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Llamada a la lógica
+                _ln.DarAltaPrestamo(dniUsuario, _codigosEjemplaresSeleccionados);
+
+                MessageBox.Show("Préstamo realizado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)

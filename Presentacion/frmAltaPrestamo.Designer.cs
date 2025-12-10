@@ -2,138 +2,138 @@
 {
     partial class frmAltaPrestamo
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblID;
+        private System.Windows.Forms.TextBox txtID;
+        private System.Windows.Forms.Label lblFecha;
+        private System.Windows.Forms.TextBox txtFecha;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.ComboBox cmbUsuarios;
+        private System.Windows.Forms.GroupBox grpEjemplares;
+        private System.Windows.Forms.ListBox lstEjemplares;
+        private System.Windows.Forms.Button btnAnadirEjemplar;
+        private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.Button btnCancelar;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.grpUsuario = new System.Windows.Forms.GroupBox();
-            this.txtDniUsuario = new System.Windows.Forms.TextBox();
-            this.lblDni = new System.Windows.Forms.Label();
+            this.lblID = new System.Windows.Forms.Label();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.lblFecha = new System.Windows.Forms.Label();
+            this.txtFecha = new System.Windows.Forms.TextBox();
+            this.lblUsuario = new System.Windows.Forms.Label();
+            this.cmbUsuarios = new System.Windows.Forms.ComboBox();
             this.grpEjemplares = new System.Windows.Forms.GroupBox();
-            this.btnAgregar = new System.Windows.Forms.Button();
             this.lstEjemplares = new System.Windows.Forms.ListBox();
-            this.txtCodigoEjemplar = new System.Windows.Forms.TextBox();
-            this.lblCodigo = new System.Windows.Forms.Label();
+            this.btnAnadirEjemplar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.grpUsuario.SuspendLayout();
             this.grpEjemplares.SuspendLayout();
             this.SuspendLayout();
             // 
-            // grpUsuario
+            // lblID
             // 
-            this.grpUsuario.Controls.Add(this.txtDniUsuario);
-            this.grpUsuario.Controls.Add(this.lblDni);
-            this.grpUsuario.Location = new System.Drawing.Point(20, 20);
-            this.grpUsuario.Name = "grpUsuario";
-            this.grpUsuario.Size = new System.Drawing.Size(400, 80);
-            this.grpUsuario.TabIndex = 0;
-            this.grpUsuario.TabStop = false;
-            this.grpUsuario.Text = "Datos del Usuario";
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(40, 30);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(24, 16);
+            this.lblID.TabIndex = 0;
+            this.lblID.Text = "ID:";
             // 
-            // txtDniUsuario
+            // txtID
             // 
-            this.txtDniUsuario.Location = new System.Drawing.Point(100, 30);
-            this.txtDniUsuario.Name = "txtDniUsuario";
-            this.txtDniUsuario.Size = new System.Drawing.Size(200, 22);
-            this.txtDniUsuario.TabIndex = 1;
+            this.txtID.Location = new System.Drawing.Point(100, 27);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(120, 22);
+            this.txtID.TabIndex = 1;
             // 
-            // lblDni
+            // lblFecha
             // 
-            this.lblDni.AutoSize = true;
-            this.lblDni.Location = new System.Drawing.Point(20, 33);
-            this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(33, 16);
-            this.lblDni.TabIndex = 0;
-            this.lblDni.Text = "DNI:";
+            this.lblFecha.AutoSize = true;
+            this.lblFecha.Location = new System.Drawing.Point(40, 70);
+            this.lblFecha.Name = "lblFecha";
+            this.lblFecha.Size = new System.Drawing.Size(48, 16);
+            this.lblFecha.TabIndex = 2;
+            this.lblFecha.Text = "Fecha:";
+            // 
+            // txtFecha
+            // 
+            this.txtFecha.Location = new System.Drawing.Point(100, 67);
+            this.txtFecha.Name = "txtFecha";
+            this.txtFecha.ReadOnly = true;
+            this.txtFecha.Size = new System.Drawing.Size(120, 22);
+            this.txtFecha.TabIndex = 3;
+            // 
+            // lblUsuario
+            // 
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Location = new System.Drawing.Point(40, 110);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(57, 16);
+            this.lblUsuario.TabIndex = 4;
+            this.lblUsuario.Text = "Usuario:";
+            // 
+            // cmbUsuarios
+            // 
+            this.cmbUsuarios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbUsuarios.FormattingEnabled = true;
+            this.cmbUsuarios.Location = new System.Drawing.Point(100, 107);
+            this.cmbUsuarios.Name = "cmbUsuarios";
+            this.cmbUsuarios.Size = new System.Drawing.Size(200, 24);
+            this.cmbUsuarios.TabIndex = 5;
             // 
             // grpEjemplares
             // 
-            this.grpEjemplares.Controls.Add(this.btnAgregar);
             this.grpEjemplares.Controls.Add(this.lstEjemplares);
-            this.grpEjemplares.Controls.Add(this.txtCodigoEjemplar);
-            this.grpEjemplares.Controls.Add(this.lblCodigo);
-            this.grpEjemplares.Location = new System.Drawing.Point(20, 120);
+            this.grpEjemplares.Location = new System.Drawing.Point(320, 20);
             this.grpEjemplares.Name = "grpEjemplares";
-            this.grpEjemplares.Size = new System.Drawing.Size(400, 200);
-            this.grpEjemplares.TabIndex = 1;
+            this.grpEjemplares.Size = new System.Drawing.Size(300, 200);
+            this.grpEjemplares.TabIndex = 6;
             this.grpEjemplares.TabStop = false;
-            this.grpEjemplares.Text = "Selección de Ejemplares";
-            // 
-            // btnAgregar
-            // 
-            this.btnAgregar.Location = new System.Drawing.Point(280, 28);
-            this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(100, 26);
-            this.btnAgregar.TabIndex = 3;
-            this.btnAgregar.Text = "Añadir";
-            this.btnAgregar.UseVisualStyleBackColor = true;
-            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
+            this.grpEjemplares.Text = "Ejemplares añadidos";
             // 
             // lstEjemplares
             // 
             this.lstEjemplares.FormattingEnabled = true;
             this.lstEjemplares.ItemHeight = 16;
-            this.lstEjemplares.Location = new System.Drawing.Point(23, 70);
+            this.lstEjemplares.Location = new System.Drawing.Point(15, 30);
             this.lstEjemplares.Name = "lstEjemplares";
-            this.lstEjemplares.Size = new System.Drawing.Size(357, 116);
-            this.lstEjemplares.TabIndex = 4;
+            this.lstEjemplares.Size = new System.Drawing.Size(270, 148);
+            this.lstEjemplares.TabIndex = 0;
             // 
-            // txtCodigoEjemplar
+            // btnAnadirEjemplar
             // 
-            this.txtCodigoEjemplar.Location = new System.Drawing.Point(140, 30);
-            this.txtCodigoEjemplar.Name = "txtCodigoEjemplar";
-            this.txtCodigoEjemplar.Size = new System.Drawing.Size(120, 22);
-            this.txtCodigoEjemplar.TabIndex = 2;
-            // 
-            // lblCodigo
-            // 
-            this.lblCodigo.AutoSize = true;
-            this.lblCodigo.Location = new System.Drawing.Point(20, 33);
-            this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(108, 16);
-            this.lblCodigo.TabIndex = 0;
-            this.lblCodigo.Text = "Código Ejemplar:";
+            this.btnAnadirEjemplar.Location = new System.Drawing.Point(43, 160);
+            this.btnAnadirEjemplar.Name = "btnAnadirEjemplar";
+            this.btnAnadirEjemplar.Size = new System.Drawing.Size(150, 30);
+            this.btnAnadirEjemplar.TabIndex = 7;
+            this.btnAnadirEjemplar.Text = "Añadir ejemplar";
+            this.btnAnadirEjemplar.UseVisualStyleBackColor = true;
+            this.btnAnadirEjemplar.Click += new System.EventHandler(this.btnAnadirEjemplar_Click);
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(210, 340);
+            this.btnAceptar.Location = new System.Drawing.Point(220, 250);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(100, 35);
-            this.btnAceptar.TabIndex = 2;
-            this.btnAceptar.Text = "Realizar Préstamo";
+            this.btnAceptar.TabIndex = 8;
+            this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
             this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancelar.Location = new System.Drawing.Point(320, 340);
+            this.btnCancelar.Location = new System.Drawing.Point(340, 250);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 35);
-            this.btnCancelar.TabIndex = 3;
+            this.btnCancelar.TabIndex = 9;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             // 
@@ -143,36 +143,26 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancelar;
-            this.ClientSize = new System.Drawing.Size(444, 401);
+            this.ClientSize = new System.Drawing.Size(650, 310);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
+            this.Controls.Add(this.btnAnadirEjemplar);
             this.Controls.Add(this.grpEjemplares);
-            this.Controls.Add(this.grpUsuario);
+            this.Controls.Add(this.cmbUsuarios);
+            this.Controls.Add(this.lblUsuario);
+            this.Controls.Add(this.txtFecha);
+            this.Controls.Add(this.lblFecha);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.lblID);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAltaPrestamo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Nuevo Préstamo";
-            this.grpUsuario.ResumeLayout(false);
-            this.grpUsuario.PerformLayout();
+            this.Text = "Alta de un préstamo";
             this.grpEjemplares.ResumeLayout(false);
-            this.grpEjemplares.PerformLayout();
             this.ResumeLayout(false);
-
+            this.PerformLayout();
         }
-
-        #endregion
-
-        private System.Windows.Forms.GroupBox grpUsuario;
-        private System.Windows.Forms.TextBox txtDniUsuario;
-        private System.Windows.Forms.Label lblDni;
-        private System.Windows.Forms.GroupBox grpEjemplares;
-        private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.ListBox lstEjemplares;
-        private System.Windows.Forms.TextBox txtCodigoEjemplar;
-        private System.Windows.Forms.Label lblCodigo;
-        private System.Windows.Forms.Button btnAceptar;
-        private System.Windows.Forms.Button btnCancelar;
     }
 }
