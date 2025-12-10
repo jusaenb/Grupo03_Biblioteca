@@ -11,12 +11,19 @@ using System.Windows.Forms;
 
 namespace Presentacion
 {
-    public partial class FPAdquisiciones : Form
+    public partial class FPAdquisiciones : frmPrincipal
     {
         private LNPersonalAdquisiciones lnAdquisiciones;
-        public FPAdquisiciones(LNPersonalAdquisiciones lnAdq)
+        public FPAdquisiciones() : base()
         {
-            InitializeComponent();
+
+        }
+        public void Inicializar(LNPersonalAdquisiciones ln)
+        {
+
+            lnAdquisiciones = ln;
+
+            
         }
     }
 }

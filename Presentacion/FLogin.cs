@@ -64,7 +64,7 @@ namespace Presentacion
                 else if (personal is PersonalAdquisiciones)
                 {
                     LNPersonalAdquisiciones lnAdquisiciones = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
-                    frmPersonalAdquisiciones frm = new frmPersonalAdquisiciones();
+                    FPAdquisiciones frm = new FPAdquisiciones();
                     frm.Inicializar(lnAdquisiciones); 
                     frm.Show();
                 }
