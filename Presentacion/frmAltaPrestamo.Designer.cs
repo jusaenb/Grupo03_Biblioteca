@@ -42,7 +42,7 @@
             this.lblID.AutoSize = true;
             this.lblID.Location = new System.Drawing.Point(40, 30);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(24, 16);
+            this.lblID.Size = new System.Drawing.Size(23, 16);
             this.lblID.TabIndex = 0;
             this.lblID.Text = "ID:";
             // 
@@ -160,9 +160,11 @@
             this.Name = "frmAltaPrestamo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de un préstamo";
+            this.Load += new System.EventHandler(this.frmAltaPrestamo_Load);
             this.grpEjemplares.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

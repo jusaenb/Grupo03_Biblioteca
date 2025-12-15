@@ -138,8 +138,9 @@
             // altaEjemplarToolStripMenuItem
             // 
             this.altaEjemplarToolStripMenuItem.Name = "altaEjemplarToolStripMenuItem";
-            this.altaEjemplarToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
+            this.altaEjemplarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.altaEjemplarToolStripMenuItem.Text = "Alta";
+            this.altaEjemplarToolStripMenuItem.Click += new System.EventHandler(this.altaEjemplarToolStripMenuItem_Click);
             // 
             // bajaEjemplarToolStripMenuItem
             // 

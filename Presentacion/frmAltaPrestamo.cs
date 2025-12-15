@@ -98,5 +98,10 @@ namespace Presentacion
                 MessageBox.Show("Error al realizar el préstamo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void frmAltaPrestamo_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
