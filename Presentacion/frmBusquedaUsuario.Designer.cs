@@ -1,6 +1,6 @@
 ﻿namespace Presentacion
 {
-    partial class frmBusquedaUsuarios
+    partial class frmBusquedaUsuario
     {
         /// <summary>
         /// Required designer variable.
@@ -67,7 +67,7 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Nombre:";
             // 
-            // frmBusquedaUsuarios
+            // frmBusquedaUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -76,9 +76,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.cmbDni);
-            this.Name = "frmBusquedaUsuarios";
-            this.Text = "frmBusquedaUsuarios";
-            this.Load += new System.EventHandler(this.frmBusquedaUsuarios_Load);
+            this.Name = "frmBusquedaUsuario";
+            this.Text = "frmBusquedaUsuario";
+            this.Load += new System.EventHandler(this.frmBusquedaUsuario_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

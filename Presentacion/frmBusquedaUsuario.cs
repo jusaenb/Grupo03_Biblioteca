@@ -12,16 +12,16 @@ using System.Windows.Forms;
 
 namespace Presentacion
 {
-    public partial class frmBusquedaUsuarios : Form
+    public partial class frmBusquedaUsuario : Form
     {
         private LNPersonal _ln;
         private BindingSource bs = new BindingSource();
-        public frmBusquedaUsuarios(LNPersonal ln)
+        public frmBusquedaUsuario(LNPersonal ln)
         {
             InitializeComponent();
             _ln = ln;
         }
-        private void frmBusquedaUsuarios_Load(object sender, EventArgs e)
+        private void frmBusquedaUsuario_Load(object sender, EventArgs e)
         {
             try
             {

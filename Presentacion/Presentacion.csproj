@@ -58,6 +58,12 @@
     <Compile Include="frmAltaDocumento.Designer.cs">
       <DependentUpon>frmAltaDocumento.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAltaUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAltaUsuario.Designer.cs">
+      <DependentUpon>frmAltaUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmBusquedaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmAltaPrestamo.resx">
       <DependentUpon>frmAltaPrestamo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAltaUsuario.resx">
+      <DependentUpon>frmAltaUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmBusquedaUsuario.resx">
       <DependentUpon>frmBusquedaUsuario.cs</DependentUpon>
