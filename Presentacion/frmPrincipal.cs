@@ -118,5 +118,74 @@ namespace Presentacion
                 MessageBox.Show("Acceso denegado. Solo personal de adquisiciones puede ver este listado.");
             }
         }
+
+        private void bajaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI para Baja:");
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string dni = frm.ValorIntroducido;
+                if (!_ln.ExisteUsuario(dni))
+                {
+                    MessageBox.Show("El usuario no existe.");
+                }
+                else
+                {
+                    // Recuperamos el usuario para mostrar sus datos
+                    Usuario u = _ln.ObtenerUsuario(dni);
+
+                    // Confirmación simple (o puedes abrir el formulario detalle en modo lectura)
+                    DialogResult res = MessageBox.Show(
+                        $"¿Desea dar de baja al usuario {u.Nombre} con DNI {u.Dni}?",
+                        "Confirmar Baja",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (res == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            _ln.BajaUsuario(dni);
+                            MessageBox.Show("Usuario eliminado correctamente.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void busquedaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI a buscar:");
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string dni = frm.ValorIntroducido;
+                if (_ln.ExisteUsuario(dni))
+                {
+                    // Abrimos el detalle en modo lectura (necesitas adaptar frmDetalleUsuario)
+                    frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln);
+                    // Truco: Podrías añadir una propiedad pública a frmDetalleUsuario para bloquear los textbox
+                    detalle.Text = "Consulta de Usuario";
+                    detalle.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Usuario no encontrado.");
+                }
+            }
+        }
+
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }

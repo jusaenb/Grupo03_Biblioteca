@@ -43,7 +43,7 @@
             this.lblCodigo.AutoSize = true;
             this.lblCodigo.Location = new System.Drawing.Point(30, 30);
             this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(108, 16);
+            this.lblCodigo.Size = new System.Drawing.Size(111, 16);
             this.lblCodigo.TabIndex = 0;
             this.lblCodigo.Text = "Código Ejemplar:";
             // 
@@ -60,7 +60,7 @@
             this.lblPersonal.AutoSize = true;
             this.lblPersonal.Location = new System.Drawing.Point(30, 70);
             this.lblPersonal.Name = "lblPersonal";
-            this.lblPersonal.Size = new System.Drawing.Size(93, 16);
+            this.lblPersonal.Size = new System.Drawing.Size(115, 16);
             this.lblPersonal.TabIndex = 2;
             this.lblPersonal.Text = "Alta realizada por:";
             // 
@@ -131,6 +131,7 @@
             this.Name = "frmDetalleEjemplar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de Ejemplar";
+            this.Load += new System.EventHandler(this.frmDetalleEjemplar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

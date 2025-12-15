@@ -73,5 +73,37 @@ namespace Presentacion
                 MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void altaEjemplarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Verificamos que sea personal de adquisiciones
+            if (_ln is LNPersonalAdquisiciones lnAdq)
+            {
+                frmSolicitarDato frm = new frmSolicitarDato("Introduzca Código del nuevo Ejemplar:");
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Validamos que sea numérico (según tu modelo es int)
+                    if (int.TryParse(frm.ValorIntroducido, out int codigo))
+                    {
+                        // Abrimos el formulario de detalle pasándole el código y la lógica
+                        frmDetalleEjemplar detalle = new frmDetalleEjemplar(codigo, lnAdq);
+                        detalle.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("El código debe ser numérico.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Acceso denegado. Solo Adquisiciones puede dar de alta ejemplares.");
+            }
+        }
+
+        private void frmDetalleEjemplar_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

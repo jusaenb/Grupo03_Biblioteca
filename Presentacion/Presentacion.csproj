@@ -138,6 +138,9 @@
     <EmbeddedResource Include="frmDetalleDocumento.resx">
       <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmDetalleEjemplar.resx">
+      <DependentUpon>frmDetalleEjemplar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmListadoUsuarios.resx">
       <DependentUpon>frmListadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
