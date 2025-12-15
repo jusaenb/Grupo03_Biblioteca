@@ -18,6 +18,7 @@ namespace Presentacion
         public FLogin()
         {
             InitializeComponent();
+            textBoxContraseña.PasswordChar = '*';
         }
 
         public LNPersonal LogicaNegocio { get; internal set; }
