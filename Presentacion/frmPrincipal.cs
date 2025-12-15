@@ -132,25 +132,27 @@ namespace Presentacion
                 else
                 {
                     // Recuperamos el usuario para mostrar sus datos
-                    Usuario u = _ln.ObtenerUsuario(dni);
-
-                    // Confirmación simple (o puedes abrir el formulario detalle en modo lectura)
-                    DialogResult res = MessageBox.Show(
-                        $"¿Desea dar de baja al usuario {u.Nombre} con DNI {u.Dni}?",
-                        "Confirmar Baja",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning);
-
-                    if (res == DialogResult.Yes)
+                    frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln, false);
+                    // Si el usuario cierra el detalle, preguntamos confirmación de baja
+                    if (detalle.ShowDialog() == DialogResult.OK || detalle.DialogResult == DialogResult.Cancel)
                     {
-                        try
+                        // Confirmación final de la Baja
+                        DialogResult res = MessageBox.Show(
+                            "¿Está seguro que desea dar de baja al usuario?",
+                            "Aviso",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning);
+                        if (res == DialogResult.Yes)
                         {
-                            _ln.BajaUsuario(dni);
-                            MessageBox.Show("Usuario eliminado correctamente.");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
+                            try
+                            {
+                                _ln.BajaUsuario(dni);
+                                MessageBox.Show("Usuario eliminado correctamente.");
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
                         }
                     }
                 }
@@ -166,8 +168,7 @@ namespace Presentacion
                 if (_ln.ExisteUsuario(dni))
                 {
                     // Abrimos el detalle en modo lectura (necesitas adaptar frmDetalleUsuario)
-                    frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln);
-                    // Truco: Podrías añadir una propiedad pública a frmDetalleUsuario para bloquear los textbox
+                    frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln, false);                    // Truco: Podrías añadir una propiedad pública a frmDetalleUsuario para bloquear los textbox
                     detalle.Text = "Consulta de Usuario";
                     detalle.ShowDialog();
                 }
