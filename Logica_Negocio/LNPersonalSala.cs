@@ -98,5 +98,10 @@ namespace LN
             List<Ejemplar> todos = PersistenciaEjemplar.READALL(); // Usamos el método que añadimos antes a Persistencia
             return todos.Where(e => e.Disponible).ToList();
         }
+        public Ejemplar ObtenerEjemplar(int codigo)
+        {
+            // Necesitas 'using Persistencia;' arriba
+            return PersistenciaEjemplar.READ(codigo);
+        }
     }
 }

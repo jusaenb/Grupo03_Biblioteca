@@ -1,4 +1,4 @@
-﻿namespace Presentacion
+﻿/*namespace Presentacion
 {
     partial class FPAdquisiciones
     {
@@ -44,3 +44,4 @@
         #endregion
     }
 }
+*/

@@ -1,4 +1,4 @@
-﻿namespace Presentacion
+﻿/*namespace Presentacion
 {
     partial class frmAltaDocumento
     {
@@ -94,3 +94,4 @@
         private System.Windows.Forms.TextBox textBoxISBN;
     }
 }
+*/

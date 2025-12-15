@@ -40,25 +40,44 @@ namespace Presentacion
 
         private void btnAnadirEjemplar_Click(object sender, EventArgs e)
         {
-            // Abrimos el formulario de selección
-            frmAnadirEjemplar frm = new frmAnadirEjemplar(_ln);
-
+            frmSolicitarDato frm = new frmSolicitarDato("Introduce Código del Ejemplar:");
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                Ejemplar ej = frm.EjemplarSeleccionado;
-                if (ej != null)
+                if (int.TryParse(frm.ValorIntroducido, out int codigo))
                 {
-                    // Comprobamos que no esté ya añadido en la lista temporal de este préstamo
-                    if (!_codigosEjemplaresSeleccionados.Contains(ej.CodigoEjemplar))
+                    // 2. Comprobamos si ya lo hemos añadido a la lista visual
+                    if (_codigosEjemplaresSeleccionados.Contains(codigo))
                     {
-                        _codigosEjemplaresSeleccionados.Add(ej.CodigoEjemplar);
-                        // Añadimos al ListBox visual
-                        lstEjemplares.Items.Add($"ID ejemplar: {ej.CodigoEjemplar} - {ej.Documento.Titulo}");
+                        MessageBox.Show("Este ejemplar ya está en la lista.");
+                        return;
+                    }
+
+                    // 3. Buscamos el ejemplar en la BBDD para ver si existe y obtener título
+                    // (Necesitarás añadir ObtenerEjemplar en LNPersonalSala, ver Paso 2)
+                    Ejemplar ej = _ln.ObtenerEjemplar(codigo);
+
+                    if (ej != null)
+                    {
+                        if (ej.Disponible)
+                        {
+                            _codigosEjemplaresSeleccionados.Add(ej.CodigoEjemplar);
+                            // Añadimos al ListBox visual con el título del libro
+                            string info = $"ID: {ej.CodigoEjemplar} - {ej.Documento.Titulo}";
+                            lstEjemplares.Items.Add(info);
+                        }
+                        else
+                        {
+                            MessageBox.Show("El ejemplar no está disponible (ya está prestado).");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Este ejemplar ya está en la lista.");
+                        MessageBox.Show("No existe ningún ejemplar con ese código.");
                     }
+                }
+                else
+                {
+                    MessageBox.Show("El código debe ser un número.");
                 }
             }
         }
