@@ -74,5 +74,30 @@ namespace Persistencia
             }
             return documentos;
         }
+
+        public static Documento ObtenerDocumento(int isbn)
+        {
+            // Reutilizamos tu método READ que ya sabe buscar en BD
+            return READ(isbn);
+        }
+
+        // 2. Devuelve la lista completa de documentos
+        public static List<Documento> ListadoDocumentos()
+        {
+            // Reutilizamos tu método READALL que ya sabe recorrer BD.TablaDocumentos
+            return READALL();
+        }
+
+        // 3. Borra un documento
+        public static void BajaDocumento(int isbn)
+        {
+            // Primero lo buscamos
+            Documento doc = READ(isbn);
+            if (doc != null)
+            {
+                // Reutilizamos tu método DELETE
+                DELETE(doc);
+            }
+        }
     }
 }

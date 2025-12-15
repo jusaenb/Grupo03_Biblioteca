@@ -11,5 +11,10 @@ namespace Presentacion
             InitializeComponent();
             lblMensaje.Text = mensaje;
         }
+
+        private void frmSolicitarDato_Load(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

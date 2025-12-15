@@ -75,5 +75,8 @@ namespace Presentacion
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+        private void frmDetalleUsuario_Load(object sender, EventArgs e)
+        {
+        }
     }
 }

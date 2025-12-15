@@ -10,18 +10,50 @@ namespace Presentacion
     {
         private int _codigoEjemplar;
         private LNPersonalAdquisiciones _ln;
+        private bool Alta;
 
-        public frmDetalleEjemplar(int codigo, LNPersonalAdquisiciones ln)
+        public frmDetalleEjemplar(int codigo, LNPersonalAdquisiciones ln, bool alta = true)
         {
             InitializeComponent();
             _codigoEjemplar = codigo;
             _ln = ln;
-
-            // Inicializar datos fijos
+            Alta = alta;
+            ConfigurarFormulario();
+        }
+        private void ConfigurarFormulario()
+        {
             txtCodigo.Text = _codigoEjemplar.ToString();
-            txtPersonal.Text = _ln.Personal.Nombre; // Nombre del trabajador logueado
+            txtCodigo.ReadOnly = true; // El código nunca se cambia
+            txtPersonal.Text = _ln.Personal.Nombre;
+            txtPersonal.ReadOnly = true;
 
-            CargarDocumentos();
+            if (Alta)
+            {
+                // --- MODO ALTA ---
+                this.Text = "Alta de Ejemplar";
+                CargarDocumentos();
+            }
+            else
+            {
+                // --- MODO BAJA / CONSULTA ---
+                this.Text = "Detalle del Ejemplar";
+
+                // Ocultamos el combo de elegir libro y mostramos un TextBox solo lectura
+                cmbDocumentos.Visible = false;
+                // (Si tienes un TextBox 'txtTituloLibro' úsalo, si no, reutiliza el combo bloqueado)
+
+                // Buscamos datos del ejemplar
+                Ejemplar ej = _ln.ObtenerEjemplar(_codigoEjemplar);
+                if (ej != null)
+                {
+                    // Mostramos el título del libro asociado en algún control
+                    // Por simplicidad, si no tienes un label extra, lo mostramos en el título de la ventana
+                    this.Text += " - Libro: " + ej.Documento.Titulo;
+                }
+
+                btnAceptar.Visible = false; // Ocultar botón Guardar
+                // Si tienes botón cancelar, cámbialo a Cerrar
+            }
         }
 
         private void CargarDocumentos()

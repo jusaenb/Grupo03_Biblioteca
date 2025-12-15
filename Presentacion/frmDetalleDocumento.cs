@@ -9,17 +9,49 @@ namespace Presentacion
     {
         private int _isbn;
         private LNPersonalAdquisiciones _ln;
+        private bool Alta;
 
-        public frmDetalleDocumento(int isbn, LNPersonalAdquisiciones ln)
+        public frmDetalleDocumento(int isbn, LNPersonalAdquisiciones ln, bool alta = true)
         {
             InitializeComponent();
             _isbn = isbn;
             _ln = ln;
             txtISBN.Text = isbn.ToString();
+            alta = Alta;
 
-            // Configuración inicial
-            rbLibro.Checked = true;
-            grpAudio.Enabled = false; // Deshabilitado por defecto
+            ConfigurarFormulario();
+        }
+        private void ConfigurarFormulario()
+        {
+            txtISBN.Text = _isbn.ToString();
+
+            if (Alta)
+            {
+                this.Text = "Alta de Documento";
+                txtISBN.ReadOnly = true;
+            }
+            else
+            {
+                // MODO CONSULTA/BAJA
+                this.Text = "Datos del Documento";
+                Documento doc = _ln.ObtenerDocumento(_isbn);
+                if (doc != null)
+                {
+                    txtTitulo.Text = doc.Titulo;
+                    txtAutor.Text = doc.Autor;
+                    txtEditorial.Text = doc.Editorial;
+                    // Cargar resto de datos...
+                }
+
+                // Bloquear todo
+                txtTitulo.ReadOnly = true;
+                txtAutor.ReadOnly = true;
+                txtEditorial.ReadOnly = true;
+                grpTipo.Enabled = false; // Bloquear radio buttons
+
+                btnAceptar.Visible = false; // Ocultar botón guardar
+                btnCancelar.Text = "Cerrar";
+            }
         }
 
         private void rbAudiolibro_CheckedChanged(object sender, EventArgs e)
@@ -68,6 +100,11 @@ namespace Presentacion
             {
                 MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void frmDetalleDocumento_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

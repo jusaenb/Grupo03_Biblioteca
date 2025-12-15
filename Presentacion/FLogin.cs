@@ -55,22 +55,19 @@ namespace Presentacion
             LNPersonal lnPersonal = new LNPersonal(personal);
 
             if (lnPersonal.Loguearse(contraseña))
-            {                
+            {
+                this.Hide();
+                LNPersonal lnFinal = null;
                 if (personal is PersonalSala)
                 {
-                    LNPersonalSala lnPersonalSala = new LNPersonalSala((PersonalSala)personal);
-                    frmPersonalSala frm = new frmPersonalSala(lnPersonalSala);
-                    
-                    frm.Show();
+                    lnFinal = new LNPersonalSala((PersonalSala)personal);
                 }
-                else if (personal is PersonalAdquisiciones)
+                else
                 {
-                    LNPersonalAdquisiciones lnAdquisiciones = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
-                    FPAdquisiciones frm = new FPAdquisiciones();
-                    frm.Inicializar(lnAdquisiciones); 
-                    frm.Show();
+                    lnFinal = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
                 }
-                this.Hide(); 
+                frmPrincipal frm = new frmPrincipal(lnFinal);
+                frm.ShowDialog();
             }
             else
             {
@@ -85,6 +82,11 @@ namespace Presentacion
             {
                 buttonEntrar_Click(sender, e);
             }
+        }
+
+        private void FLogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

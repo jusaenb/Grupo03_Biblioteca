@@ -214,5 +214,69 @@ namespace Presentacion
                 MessageBox.Show("Acceso denegado. Solo personal de adquisiciones.");
             }
         }
+
+        private void bajaDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_ln is LNPersonalAdquisiciones lnAdq)
+            {
+                // 1. Pedir ISBN
+                frmSolicitarDato frm = new frmSolicitarDato("ISBN a borrar:");
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    if (int.TryParse(frm.ValorIntroducido, out int isbn))
+                    {
+                        // 2. Verificar si existe (usando el método que creamos en LNPersonalAdquisiciones)
+                        if (lnAdq.ObtenerDocumento(isbn) != null)
+                        {
+                            // 3. Abrir detalle en modo LECTURA (false)
+                            // NOTA: Asegúrate de que frmDetalleDocumento tenga el constructor con bool
+                            frmDetalleDocumento detalle = new frmDetalleDocumento(isbn, lnAdq, false);
+                            detalle.ShowDialog();
+
+                            // 4. Preguntar y borrar
+                            if (MessageBox.Show("¿Eliminar este documento?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                // IMPORTANTE: Debes tener este método en tu LNPersonalAdquisiciones
+                                // Si no lo tienes, puedes llamar a PersistenciaDocumento.BajaDocumento(isbn);
+                                lnAdq.DarBajaDocumento(isbn);
+                                MessageBox.Show("Documento eliminado.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Documento no encontrado.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("El ISBN debe ser numérico.");
+                    }
+                }
+            }
+        }
+
+        private void busquedaDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_ln is LNPersonalAdquisiciones lnAdq)
+            {
+                frmSolicitarDato frm = new frmSolicitarDato("ISBN a buscar:");
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    if (int.TryParse(frm.ValorIntroducido, out int isbn))
+                    {
+                        if (lnAdq.ObtenerDocumento(isbn) != null)
+                        {
+                            // Abrimos detalle en modo lectura
+                            frmDetalleDocumento detalle = new frmDetalleDocumento(isbn, lnAdq, false);
+                            detalle.ShowDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Documento no encontrado.");
+                        }
+                    }
+                }
+            }
+        }
     }
 }

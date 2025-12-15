@@ -130,11 +130,11 @@
     <Compile Include="frmRecorridoUsuarios.Designer.cs">
       <DependentUpon>frmRecorridoUsuarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSolicitar_Dato.cs">
+    <Compile Include="frmSolicitarDato.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSolicitar_Dato.Designer.cs">
-      <DependentUpon>frmSolicitar_Dato.cs</DependentUpon>
+    <Compile Include="frmSolicitarDato.Designer.cs">
+      <DependentUpon>frmSolicitarDato.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSolicitarDato.resx">
+      <DependentUpon>frmSolicitarDato.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

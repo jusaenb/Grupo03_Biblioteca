@@ -83,5 +83,13 @@ namespace LN
             Documento doc = PersistenciaDocumento.READ(isbn);
             PersistenciaDocumento.DELETE(doc);
         }
+        public Documento ObtenerDocumento(int isbn)
+        {
+            return PersistenciaDocumento.ObtenerDocumento(isbn);
+        }
+        public Ejemplar ObtenerEjemplar(int codigo)
+        {
+            return PersistenciaEjemplar.READ(codigo);
+        }
     }
 }

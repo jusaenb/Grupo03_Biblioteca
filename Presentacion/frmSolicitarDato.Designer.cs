@@ -39,7 +39,7 @@
             this.lblMensaje.AutoSize = true;
             this.lblMensaje.Location = new System.Drawing.Point(29, 26);
             this.lblMensaje.Name = "lblMensaje";
-            this.lblMensaje.Size = new System.Drawing.Size(130, 16);
+            this.lblMensaje.Size = new System.Drawing.Size(124, 16);
             this.lblMensaje.TabIndex = 0;
             this.lblMensaje.Text = "Introduzca el valor...";
             // 
@@ -87,6 +87,7 @@
             this.Name = "frmSolicitarDato";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Solicitud de Datos";
+            this.Load += new System.EventHandler(this.frmSolicitarDato_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
