@@ -79,7 +79,23 @@ namespace LN
             if (!PersistenciaDocumento.EXIST(isbn))
                 throw new ArgumentException("El documento no existe.");
 
-            // Recuperamos el documento para borrarlo
+            List<Ejemplar> todosLosEjemplares = PersistenciaEjemplar.READALL();
+            bool tieneEjemplares = false;
+
+            foreach (Ejemplar ej in todosLosEjemplares)
+            {
+                // Como Ejemplar tiene un objeto Documento dentro, comparamos el ISBN
+                if (ej.Documento != null && ej.Documento.Isbn == isbn)
+                {
+                    tieneEjemplares = true;
+                    break;
+                }
+            }
+
+            if (tieneEjemplares)
+            {
+                throw new InvalidOperationException("No se puede borrar el documento porque tiene ejemplares registrados. Dé de baja los ejemplares primero.");
+            }
             Documento doc = PersistenciaDocumento.READ(isbn);
             PersistenciaDocumento.DELETE(doc);
         }
