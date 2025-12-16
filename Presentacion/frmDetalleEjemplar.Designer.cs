@@ -89,6 +89,7 @@
             this.cmbDocumentos.Name = "cmbDocumentos";
             this.cmbDocumentos.Size = new System.Drawing.Size(250, 24);
             this.cmbDocumentos.TabIndex = 5;
+            this.cmbDocumentos.SelectedIndexChanged += new System.EventHandler(this.cmbDocumentos_SelectedIndexChanged);
             // 
             // btnAceptar
             // 

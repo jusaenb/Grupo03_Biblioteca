@@ -34,63 +34,103 @@ namespace Presentacion
             }
         }
 
-       
+
         private void altaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 1. Solicitar DNI
-            frmSolicitarDato frmDni = new frmSolicitarDato("Introduzca DNI del Usuario:");
-            if (frmDni.ShowDialog() == DialogResult.OK)
+            bool intentarDeNuevo = true;
+
+            // Bucle para permitir reintentos si el usuario elige "Sí"
+            while (intentarDeNuevo)
             {
+                // 1. Mostrar formulario para pedir DNI
+                frmSolicitarDato frmDni = new frmSolicitarDato("Introduzca DNI del Usuario:");
+
+                // Si el usuario da a Cancelar o cierra la ventanita, salimos del todo
+                if (frmDni.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
                 string dni = frmDni.ValorIntroducido;
 
                 // 2. Comprobar si existe
                 if (_ln.ExisteUsuario(dni))
                 {
-                    MessageBox.Show($"El usuario con DNI {dni} ya existe en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    // Aquí podrías preguntar si quiere intentar con otro DNI (bucle)
+                    // Mostrar mensaje con botones Sí/No
+                    DialogResult respuesta = MessageBox.Show(
+                        $"El usuario con DNI {dni} ya existe.\n¿Desea introducir otro DNI?",
+                        "Usuario duplicado",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (respuesta == DialogResult.No)
+                    {
+                        // Si dice NO, volvemos al formulario principal (rompemos el bucle)
+                        intentarDeNuevo = false;
+                    }
+                    // Si dice SÍ, el bucle 'while' se repite y vuelve a salir la ventana de pedir DNI
                 }
                 else
                 {
-                    // 3. Abrir formulario de detalle para Alta
+                    // 3. Si no existe, abrimos el formulario de Alta
                     frmDetalleUsuario frmDetalle = new frmDetalleUsuario(dni, _ln);
                     frmDetalle.ShowDialog();
+
+                    // Una vez terminada el alta, salimos del bucle
+                    intentarDeNuevo = false;
                 }
             }
         }
 
-        
+
         private void altaDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSolicitarDato frmIsbn = new frmSolicitarDato("Introduzca ISBN del Documento:");
-            if (frmIsbn.ShowDialog() == DialogResult.OK)
+            // Solo personal de adquisiciones (Tu código ya lo filtra visualmente, pero doble check no sobra)
+            if (_ln is LNPersonalAdquisiciones lnAdq)
             {
-                int isbn;
-                if (int.TryParse(frmIsbn.ValorIntroducido, out isbn))
+                bool intentar = true;
+                while (intentar)
                 {
-                    
-                    var lnAdq = (LNPersonalAdquisiciones)_ln;
+                    frmSolicitarDato frmIsbn = new frmSolicitarDato("Introduzca ISBN del Documento:");
+                    if (frmIsbn.ShowDialog() != DialogResult.OK) return;
 
-                   
-                    try
+                    if (int.TryParse(frmIsbn.ValorIntroducido, out int isbn))
                     {
-                        
-                        frmDetalleDocumento frmDoc = new frmDetalleDocumento(isbn, lnAdq);
-                        frmDoc.ShowDialog();
+                        // 1. Comprobar si YA EXISTE antes de abrir el formulario
+                        if (lnAdq.ObtenerDocumento(isbn) != null)
+                        {
+                            // REQUISITO: Mensaje y permitir introducir otro
+                            DialogResult res = MessageBox.Show(
+                                $"El documento con ISBN {isbn} ya existe.\n¿Desea introducir otro?",
+                                "Duplicado",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Warning);
+
+                            if (res == DialogResult.No) intentar = false;
+                        }
+                        else
+                        {
+                            // 2. Si es NUEVO, abrimos el formulario de alta
+                            try
+                            {
+                                frmDetalleDocumento frmDoc = new frmDetalleDocumento(isbn, lnAdq);
+                                frmDoc.ShowDialog();
+                                intentar = false; // Al terminar el alta, salimos
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error: " + ex.Message);
+                            }
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show("El ISBN debe ser numérico.");
                     }
-                }
-                else
-                {
-                    MessageBox.Show("El ISBN debe ser numérico.");
                 }
             }
         }
-        // Añadir en Presentacion/frmPrincipal.cs
 
-        // 1. Evento para Listado de Usuarios
         private void listadoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmListadoUsuarios frm = new frmListadoUsuarios(_ln);
@@ -121,62 +161,75 @@ namespace Presentacion
 
         private void bajaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI para Baja:");
-            if (frm.ShowDialog() == DialogResult.OK)
+            bool intentar = true;
+
+            while (intentar)
             {
+                // 1. Pedir DNI
+                frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI para Baja:");
+
+                // Si el usuario cancela la ventanita de pedir DNI, salimos del todo
+                if (frm.ShowDialog() != DialogResult.OK) return;
+
                 string dni = frm.ValorIntroducido;
+
                 if (!_ln.ExisteUsuario(dni))
                 {
-                    MessageBox.Show("El usuario no existe.");
+                    DialogResult res = MessageBox.Show(
+                        "El usuario no existe.\n¿Desea introducir otro DNI?",
+                        "Error",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (res == DialogResult.No)
+                    {
+                        intentar = false; // Rompemos el bucle y salimos
+                    }
+                    // Si dice Sí, el bucle se repite
                 }
                 else
                 {
-                    // Recuperamos el usuario para mostrar sus datos
+                    // 2. Si existe, mostramos los datos
+                    // Usamos 'false' (Consulta) para que salga en modo lectura
                     frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln, false);
-                    // Si el usuario cierra el detalle, preguntamos confirmación de baja
-                    if (detalle.ShowDialog() == DialogResult.OK || detalle.DialogResult == DialogResult.Cancel)
+
+                    // Truco visual: Cambiamos el texto del botón para que tenga sentido en un borrado
+                    // (Si hiciste el cambio de Enum 'Modo.Baja' que hablamos antes, úsalo aquí. Si no, usa este parche)
+                    detalle.Text = "Baja de Usuario";
+
+                    // Mostramos la ventana. Esperamos a que el usuario la cierre.
+                    detalle.ShowDialog();
+
+                    // 3. Confirmación FINAL (Al volver de ver los datos)
+                    DialogResult confirmacion = MessageBox.Show(
+                        "¿Está seguro que desea dar de baja al usuario " + dni + "?",
+                        "Confirmar Baja",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (confirmacion == DialogResult.Yes)
                     {
-                        // Confirmación final de la Baja
-                        DialogResult res = MessageBox.Show(
-                            "¿Está seguro que desea dar de baja al usuario?",
-                            "Aviso",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Warning);
-                        if (res == DialogResult.Yes)
+                        try
                         {
-                            try
-                            {
-                                _ln.BajaUsuario(dni);
-                                MessageBox.Show("Usuario eliminado correctamente.");
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
+                            _ln.BajaUsuario(dni);
+                            MessageBox.Show("Usuario eliminado correctamente.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al borrar: " + ex.Message);
                         }
                     }
+
+                    // Una vez gestionado (borrado o cancelado), salimos del bucle
+                    intentar = false;
                 }
             }
         }
 
         private void busquedaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI a buscar:");
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                string dni = frm.ValorIntroducido;
-                if (_ln.ExisteUsuario(dni))
-                {
-                    // Abrimos el detalle en modo lectura (necesitas adaptar frmDetalleUsuario)
-                    frmDetalleUsuario detalle = new frmDetalleUsuario(dni, _ln, false);                    // Truco: Podrías añadir una propiedad pública a frmDetalleUsuario para bloquear los textbox
-                    detalle.Text = "Consulta de Usuario";
-                    detalle.ShowDialog();
-                }
-                else
-                {
-                    MessageBox.Show("Usuario no encontrado.");
-                }
-            }
+            frmBusquedaUsuario frm = new frmBusquedaUsuario(_ln);
+            frm.ShowDialog();
         }
 
         private void frmPrincipal_Load(object sender, EventArgs e)
@@ -191,29 +244,41 @@ namespace Presentacion
 
         private void altaEjemplarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Verificamos permisos y convertimos la lógica al tipo adecuado
             if (_ln is LNPersonalAdquisiciones lnAdq)
             {
-                frmSolicitarDato frm = new frmSolicitarDato("Introduzca Código del nuevo Ejemplar:");
-
-                if (frm.ShowDialog() == DialogResult.OK)
+                bool intentar = true;
+                while (intentar)
                 {
+                    frmSolicitarDato frm = new frmSolicitarDato("Introduzca Código del nuevo Ejemplar:");
+                    if (frm.ShowDialog() != DialogResult.OK) return;
+
                     if (int.TryParse(frm.ValorIntroducido, out int codigo))
                     {
-                        
+                        // 1. Comprobar existencia
+                        if (lnAdq.ObtenerEjemplar(codigo) != null)
+                        {
+                            // REQUISITO: Mensaje y reintento
+                            DialogResult res = MessageBox.Show(
+                                $"El ejemplar {codigo} ya existe.\n¿Desea introducir otro?",
+                                "Duplicado",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Warning);
 
-                        frmDetalleEjemplar detalle = new frmDetalleEjemplar(codigo, lnAdq);
-                        detalle.ShowDialog();
+                            if (res == DialogResult.No) intentar = false;
+                        }
+                        else
+                        {
+                            // 2. Si es NUEVO, abrir formulario
+                            frmDetalleEjemplar detalle = new frmDetalleEjemplar(codigo, lnAdq);
+                            detalle.ShowDialog();
+                            intentar = false;
+                        }
                     }
                     else
                     {
                         MessageBox.Show("El código debe ser numérico.");
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Acceso denegado. Solo personal de adquisiciones.");
             }
         }
 

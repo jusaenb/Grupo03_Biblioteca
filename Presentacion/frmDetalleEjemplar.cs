@@ -83,26 +83,26 @@ namespace Presentacion
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (cmbDocumentos.SelectedItem == null)
-            {
-                MessageBox.Show("Debe seleccionar un documento asociado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                // Obtenemos el ISBN seleccionado
+                // Recuperamos el ISBN del combo seleccionado
+                if (cmbDocumentos.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar un documento.");
+                    return;
+                }
+
                 int isbnSeleccionado = (int)cmbDocumentos.SelectedValue;
 
-                // Llamamos a la lógica de negocio
+                // Llamamos a tu lógica de Alta
                 _ln.DarAltaEjemplar(_codigoEjemplar, isbnSeleccionado);
 
-                MessageBox.Show("Ejemplar dado de alta correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ejemplar creado correctamente.");
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
@@ -134,6 +134,15 @@ namespace Presentacion
         }
 
         private void frmDetalleEjemplar_Load(object sender, EventArgs e)
+        {
+            cmbDocumentos.DataSource = _ln.ListadoDocumentos();
+            cmbDocumentos.DisplayMember = "Titulo"; // O "Isbn" si prefieres que se vea el número
+            cmbDocumentos.ValueMember = "Isbn";     // Lo que guardamos es el ISBN
+
+            txtPersonal.Text = _ln.Personal.Nombre;
+        }
+
+        private void cmbDocumentos_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

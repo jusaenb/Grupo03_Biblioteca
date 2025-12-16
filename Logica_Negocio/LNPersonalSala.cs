@@ -95,5 +95,69 @@ namespace LN
             // Necesitas 'using Persistencia;' arriba
             return PersistenciaEjemplar.READ(codigo);
         }
+        public List<Ejemplar> ObtenerEjemplaresPrestadosUsuario(string dniUsuario)
+        {
+            List<Ejemplar> resultado = new List<Ejemplar>();
+
+            // Obtenemos todos los préstamos activos
+            var prestamosActivos = PersistenciaPrestamo.READALL()
+                                   .Where(p => p.Estado == "En Proceso" && p.Usuario.Dni == dniUsuario);
+
+            foreach (var prestamo in prestamosActivos)
+            {
+                resultado.AddRange(prestamo.Ejemplares);
+            }
+            return resultado;
+        }
+        public List<Prestamo> ObtenerPrestamosFueraDePlazo()
+        {
+            var todos = PersistenciaPrestamo.READALL().Where(p => p.Estado == "En Proceso");
+            List<Prestamo> morosos = new List<Prestamo>();
+
+            foreach (var p in todos)
+            {
+                // Comprobamos cada ejemplar del préstamo
+                foreach (var ej in p.Ejemplares)
+                {
+                    // Calculamos fecha límite: FechaPrestamo + Dias del tipo de documento
+                    DateTime fechaLimite = p.FechaPrestamo.AddDays(ej.Documento.DiasPrestamo);
+
+                    if (DateTime.Now > fechaLimite)
+                    {
+                        morosos.Add(p);
+                        break; // Con que tenga uno caducado, el préstamo sale en la lista
+                    }
+                }
+            }
+            return morosos;
+        }
+        public DateTime? ObtenerFechaDisponibilidad(int isbn)
+        {
+            // 1. Ver si hay alguno libre ya
+            var ejemplares = PersistenciaEjemplar.READALL().Where(e => e.Documento.Isbn == isbn);
+            if (ejemplares.Any(e => e.Disponible)) return DateTime.Now; // ¡Ya está libre!
+
+            // 2. Si no, buscar cuándo devuelven el primero
+            var prestamosConEseLibro = PersistenciaPrestamo.READALL_POR_ISBN(isbn)
+                                       .Where(p => p.Estado == "En Proceso");
+
+            DateTime? fechaMasProxima = null;
+
+            foreach (var p in prestamosConEseLibro)
+            {
+                // Buscamos el ejemplar concreto de este libro dentro del préstamo
+                var ejemplar = p.Ejemplares.FirstOrDefault(e => e.Documento.Isbn == isbn);
+                if (ejemplar != null)
+                {
+                    DateTime fechaDev = p.FechaPrestamo.AddDays(ejemplar.Documento.DiasPrestamo);
+
+                    if (fechaMasProxima == null || fechaDev < fechaMasProxima)
+                    {
+                        fechaMasProxima = fechaDev;
+                    }
+                }
+            }
+            return fechaMasProxima;
+        }
     }
 }

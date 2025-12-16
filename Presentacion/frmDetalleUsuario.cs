@@ -9,66 +9,101 @@ namespace Presentacion
     {
         private string _dni;
         private LNPersonal _ln;
-        private bool _esAlta;
+        public enum Modo { Alta, Baja, Consulta }
+        private Modo _modo;
 
-        public frmDetalleUsuario(string dni, LNPersonal ln, bool esAlta = true)
+        public frmDetalleUsuario(string dni, LNPersonal ln, Modo modo)
         {
             InitializeComponent();
             _dni = dni;
             _ln = ln;
-            txtDni.Text = dni; // Mostramos el DNI introducido previamente
-            _esAlta = esAlta;
+            _modo = modo;
 
-            ConfigurarModoFormulario();
+            ConfigurarFormulario();
         }
-        private void ConfigurarModoFormulario()
+        public frmDetalleUsuario(string dni, LNPersonal ln, bool esAlta = true)
+            : this(dni, ln, esAlta ? Modo.Alta : Modo.Consulta) { }
+        private void ConfigurarFormulario()
         {
-            if (_esAlta)
+            txtDni.Text = _dni;
+
+            switch (_modo)
             {
-                // --- MODO ALTA ---
-                this.Text = "Alta de Usuario";
-                txtDni.ReadOnly = true;
+                case Modo.Alta:
+                    this.Text = "Alta de Usuario";
+                    txtDni.ReadOnly = true; // El DNI ya viene validado de fuera
+                    txtNombre.ReadOnly = false;
+                    btnAceptar.Text = "Dar alta";
+                    break;
+
+                case Modo.Baja:
+                    this.Text = "Baja de Usuario";
+                    CargarDatosUsuario();
+                    txtDni.ReadOnly = true;
+                    txtNombre.ReadOnly = true;
+                    btnAceptar.Text = "Aceptar"; // Según enunciado
+                    break;
+
+                case Modo.Consulta:
+                    this.Text = "Consulta de Usuario";
+                    CargarDatosUsuario();
+                    txtDni.ReadOnly = true;
+                    txtNombre.ReadOnly = true;
+                    btnAceptar.Text = "Cerrar";
+                    break;
             }
-            else
+        }
+        private void CargarDatosUsuario()
+        {
+            Usuario u = _ln.ObtenerUsuario(_dni);
+            if (u != null)
             {
-                // --- MODO CONSULTA/BAJA ---
-                this.Text = "Datos de Usuario"; // Título de la ventana
-
-                Usuario u = _ln.ObtenerUsuario(_dni);
-                if (u != null)
-                {
-                    txtNombre.Text = u.Nombre; // Muestra el nombre
-                }
-
-                // Bloqueamos la edición (solo lectura)
-                txtNombre.ReadOnly = true;
-                txtDni.ReadOnly = true;
-
-                // Cambiamos el botón "Aceptar" para que sirva solo para cerrar
-                btnAceptar.Text = "Cerrar";
+                txtNombre.Text = u.Nombre;
             }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (btnAceptar.Text == "Cerrar")
-            {
-                this.Close();
-                return;
-            }
-
-            // Lógica de Alta
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
-            {
-                MessageBox.Show("Debes introducir un nombre para el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
-                _ln.AltaUsuario(_dni, txtNombre.Text);
-                MessageBox.Show("Usuario dado de alta correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                if (_modo == Modo.Consulta)
+                {
+                    this.Close();
+                }
+                else if (_modo == Modo.Alta)
+                {
+                    if (string.IsNullOrWhiteSpace(txtNombre.Text))
+                    {
+                        MessageBox.Show("Debes introducir un nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    _ln.AltaUsuario(_dni, txtNombre.Text);
+                    MessageBox.Show("Usuario dado de alta correctamente.");
+                    this.DialogResult = DialogResult.OK; // Indicamos éxito
+                    this.Close();
+                }
+                else if (_modo == Modo.Baja)
+                {
+                    // --- LÓGICA ESPECÍFICA DE BAJA (Según enunciado) ---
+                    DialogResult res = MessageBox.Show(
+                        "¿Está seguro de que desea dar de baja al usuario?",
+                        "Confirmar Baja",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (res == DialogResult.Yes)
+                    {
+                        _ln.BajaUsuario(_dni);
+                        MessageBox.Show("El usuario ha sido dado de baja correctamente.");
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else
+                    {
+                        // Si dice NO, "se volverá al formulario principal sin hacer nada"
+                        this.Close();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -77,6 +112,11 @@ namespace Presentacion
         }
         private void frmDetalleUsuario_Load(object sender, EventArgs e)
         {
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
