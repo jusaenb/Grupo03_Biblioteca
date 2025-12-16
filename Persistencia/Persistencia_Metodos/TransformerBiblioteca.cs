@@ -87,26 +87,35 @@ namespace Persistencia
         // --- PERSONAL ---
         public static PersonalDato PersonalAPersonalDato(Personal p)
         {
+            PersonalDato pd = null;
             if (p is PersonalSala)
-                return new PersonalSalaDato(p.Dni, p.Nombre);
+                pd = new PersonalSalaDato(p.Dni, p.Nombre);
             else if (p is PersonalAdquisiciones)
-                return new PersonalAdquisicionesDato(p.Dni, p.Nombre);
-
-            return new PersonalDato(p.Dni, p.Nombre);
+                pd = new PersonalAdquisicionesDato(p.Dni, p.Nombre);
+            else
+                pd = new PersonalDato(p.Dni, p.Nombre); 
+            pd.Contrasena = p.Contrasena;
+            return pd;
         }
 
         public static Personal PersonalDatoAPersonal(PersonalDato pd)
         {
+            Personal personal = null;
             // Verificamos el tipo exacto en las tablas específicas si es necesario
             if (BD.TablaPersonalSala.Contains(pd.Id))
             {
-                return new PersonalSala(pd.Id, pd.Nombre);
+                personal = new PersonalSala(pd.Id, pd.Nombre);
             }
             if (BD.TablaPersonalAdquisiciones.Contains(pd.Id))
             {
-                return new PersonalAdquisiciones(pd.Id, pd.Nombre);
+                personal = new PersonalAdquisiciones(pd.Id, pd.Nombre);
             }
-            return null; 
+            if (personal != null)
+            {
+                personal.Contrasena = pd.Contrasena;
+            }
+
+            return personal;
         }
     }
 }

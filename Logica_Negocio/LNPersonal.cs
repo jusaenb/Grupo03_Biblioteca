@@ -32,6 +32,10 @@ namespace LN
             {
                 return false;
             }
+            if (personalEnBD.Contrasena != password) 
+            {
+                return false;
+            }
             return true;
         }
 

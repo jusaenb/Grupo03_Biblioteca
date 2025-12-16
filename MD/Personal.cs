@@ -11,6 +11,7 @@ namespace MD
     {
         public string Dni { get; set; }
         public string Nombre { get; }
+        public string Contrasena { get; set; }
         public Rol Rol { get; protected set; }
         /// <summary>
         /// Inicializa una nueva instancia de clase Personal.
@@ -21,6 +22,7 @@ namespace MD
         {
             Dni = dni;
             Nombre = nombre;
+            this.Contrasena = "1234";
         }
     }
 }

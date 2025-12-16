@@ -9,6 +9,7 @@ namespace Persistencia
     public class PersonalDato : Entity<String>
     {
         private String nombre;
+        private String contrasena;
 
         public PersonalDato(String dni, String nombre) : base(dni)
         {
@@ -19,6 +20,11 @@ namespace Persistencia
         {
             get { return nombre; }
             set { nombre = value; }
+        }
+        public String Contrasena
+        {
+            get { return contrasena; }
+            set { contrasena = value; }
         }
     }
 }
