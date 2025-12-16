@@ -54,7 +54,6 @@ namespace Presentacion
                 PersistenciaPersonal.CREATE(personalAdq);
 
 
-                // --- B. CREAR USUARIOS (SOCIOS) ---
                 Usuario usuario1 = new Usuario("1111A", "Luis Lector");
                 Usuario usuario2 = new Usuario("2222B", "Maria Estudiante");
 

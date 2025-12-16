@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MD
 {
-    public  class Documento
+    public class Documento
     {
-        private int añoPublicacion;
-        private string titulo;
-        private string autor;
-        private int isbn;
-        private string editorial;
+        private int añoPublicacion { get; set; }
+        private string titulo { get; set; }
+        private string autor { get; set; }
+        private int isbn { get; set; }
+        private string editorial { get; set; }
         public virtual int DiasPrestamo => 15;
         public Documento(int añoPublicacion, string titulo, string autor, int isbn, string editorial)
         {

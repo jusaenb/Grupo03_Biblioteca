@@ -85,7 +85,7 @@ namespace Presentacion
 
         private void altaDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Solo personal de adquisiciones (Tu código ya lo filtra visualmente, pero doble check no sobra)
+
             if (_ln is LNPersonalAdquisiciones lnAdq)
             {
                 bool intentar = true;
@@ -113,8 +113,13 @@ namespace Presentacion
                             // 2. Si es NUEVO, abrimos el formulario de alta
                             try
                             {
+
                                 frmDetalleDocumento frmDoc = new frmDetalleDocumento(isbn, lnAdq);
-                                frmDoc.ShowDialog();
+                                if (frmDoc.ShowDialog() == DialogResult.OK)
+                                {
+                                    MessageBox.Show("Documento dado de alta correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                }
                                 intentar = false; // Al terminar el alta, salimos
                             }
                             catch (Exception ex)

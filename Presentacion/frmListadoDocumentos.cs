@@ -19,14 +19,12 @@ namespace Presentacion
         {
             try
             {
-                // 1. Crear BindingSource
                 _bindingSource = new BindingSource();
+                var lista = _ln.ListadoDocumentos();
+                dgvDocumentos.AutoGenerateColumns = true;
 
-                // 2. Asignar lista de documentos
-                _bindingSource.DataSource = _ln.ListadoDocumentos();
+                _bindingSource.DataSource = lista;
 
-                // 3. Vincular DataGridView al BindingSource
-                // Esto generará automáticamente las columnas Isbn, Titulo, Autor, etc.
                 dgvDocumentos.DataSource = _bindingSource;
             }
             catch (Exception ex)

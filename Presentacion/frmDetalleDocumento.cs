@@ -20,6 +20,8 @@ namespace Presentacion
             Alta = alta;
 
             ConfigurarFormulario();
+            rbLibro.Checked = true;
+            ActualizarInterfaz();
         }
         private void ConfigurarFormulario()
         {
@@ -34,20 +36,47 @@ namespace Presentacion
             {
                 // MODO CONSULTA/BAJA
                 this.Text = "Datos del Documento";
+
+                // Recuperamos el documento
                 Documento doc = _ln.ObtenerDocumento(_isbn);
+
                 if (doc != null)
                 {
+                    // 1. Rellenar datos comunes
                     txtTitulo.Text = doc.Titulo;
                     txtAutor.Text = doc.Autor;
                     txtEditorial.Text = doc.Editorial;
-                    // Cargar resto de datos...
+                    txtAno.Text = doc.AñoPublicacion.ToString(); // ¡Te faltaba mostrar el año!
+
+                    // 2. COMPROBACIÓN DE TIPO (Aquí está la solución a tu problema)
+                    if (doc is AudioLibro)
+                    {
+                        rbAudiolibro.Checked = true; // Marcamos el circulito de AudioLibro
+
+                        // Convertimos la variable 'doc' a 'AudioLibro' para poder ver sus campos específicos
+                        AudioLibro audio = (AudioLibro)doc;
+
+                        txtFormato.Text = audio.Formato;
+                        txtDuracion.Text = audio.Duracion.ToString();
+                    }
+                    else
+                    {
+                        // Si tienes un rbLibro, lo marcas aquí. Si no, basta con desmarcar el otro.
+                        // rbLibro.Checked = true; 
+                        rbAudiolibro.Checked = false;
+                    }
                 }
 
-                // Bloquear todo
+                // 3. Bloquear todos los campos para que no se puedan editar
                 txtTitulo.ReadOnly = true;
                 txtAutor.ReadOnly = true;
                 txtEditorial.ReadOnly = true;
+                txtAno.ReadOnly = true;
+                txtFormato.ReadOnly = true;  // Bloqueamos también los específicos
+                txtDuracion.ReadOnly = true;
+
                 grpTipo.Enabled = false; // Bloquear radio buttons
+                grpAudio.Enabled = false; // Bloquear el grupo de campos de audio (opcional, ya que los textbox son readonly)
 
                 btnAceptar.Visible = false; // Ocultar botón guardar
                 btnCancelar.Text = "Cerrar";
@@ -105,6 +134,20 @@ namespace Presentacion
         private void frmDetalleDocumento_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void ActualizarInterfaz()
+        {
+
+            bool esAudiolibro = rbAudiolibro.Checked;
+
+            grpAudio.Enabled = esAudiolibro;
+
+        }
+
+        private void rbTipo_CheckedChanged(object sender, EventArgs e)
+        {
+            ActualizarInterfaz();
         }
     }
 }
