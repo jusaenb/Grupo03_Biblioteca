@@ -51,5 +51,10 @@ namespace Presentacion
         {
             this.Close();
         }
+
+        private void frmListadoUsuarios_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Presentacion
             _isbn = isbn;
             _ln = ln;
             txtISBN.Text = isbn.ToString();
-            alta = Alta;
+            Alta = alta;
 
             ConfigurarFormulario();
         }

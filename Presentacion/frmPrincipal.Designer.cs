@@ -45,6 +45,9 @@
             this.altaPrestamoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.devolucionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
+            this.listadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recorridoUnoAUnoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listadoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +73,9 @@
             this.menuUsuarios.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.altaUsuarioToolStripMenuItem,
             this.bajaUsuarioToolStripMenuItem,
-            this.busquedaUsuarioToolStripMenuItem});
+            this.busquedaUsuarioToolStripMenuItem,
+            this.listadoToolStripMenuItem,
+            this.recorridoUnoAUnoToolStripMenuItem});
             this.menuUsuarios.Name = "menuUsuarios";
             this.menuUsuarios.Size = new System.Drawing.Size(79, 24);
             this.menuUsuarios.Text = "Usuarios";
@@ -101,10 +106,12 @@
             this.menuDocumentos.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.altaDocumentoToolStripMenuItem,
             this.bajaDocumentoToolStripMenuItem,
-            this.busquedaDocumentoToolStripMenuItem});
+            this.busquedaDocumentoToolStripMenuItem,
+            this.listadoToolStripMenuItem1});
             this.menuDocumentos.Name = "menuDocumentos";
             this.menuDocumentos.Size = new System.Drawing.Size(107, 24);
             this.menuDocumentos.Text = "Documentos";
+            this.menuDocumentos.Click += new System.EventHandler(this.menuDocumentos_Click);
             // 
             // altaDocumentoToolStripMenuItem
             // 
@@ -185,6 +192,27 @@
             this.menuConfiguracion.Size = new System.Drawing.Size(116, 24);
             this.menuConfiguracion.Text = "Configuración";
             // 
+            // listadoToolStripMenuItem
+            // 
+            this.listadoToolStripMenuItem.Name = "listadoToolStripMenuItem";
+            this.listadoToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
+            this.listadoToolStripMenuItem.Text = "Listado";
+            this.listadoToolStripMenuItem.Click += new System.EventHandler(this.listadoUsuariosToolStripMenuItem_Click);
+            // 
+            // recorridoUnoAUnoToolStripMenuItem
+            // 
+            this.recorridoUnoAUnoToolStripMenuItem.Name = "recorridoUnoAUnoToolStripMenuItem";
+            this.recorridoUnoAUnoToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
+            this.recorridoUnoAUnoToolStripMenuItem.Text = "Recorrido uno a uno";
+            this.recorridoUnoAUnoToolStripMenuItem.Click += new System.EventHandler(this.recorridoUsuariosToolStripMenuItem_Click);
+            // 
+            // listadoToolStripMenuItem1
+            // 
+            this.listadoToolStripMenuItem1.Name = "listadoToolStripMenuItem1";
+            this.listadoToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.listadoToolStripMenuItem1.Text = "Listado";
+            this.listadoToolStripMenuItem1.Click += new System.EventHandler(this.listadoDocumentosToolStripMenuItem_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -223,5 +251,8 @@
         protected System.Windows.Forms.ToolStripMenuItem busquedaEjemplarToolStripMenuItem;
         protected System.Windows.Forms.ToolStripMenuItem menuPrestamos;
         protected System.Windows.Forms.ToolStripMenuItem menuConfiguracion;
+        private System.Windows.Forms.ToolStripMenuItem listadoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recorridoUnoAUnoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listadoToolStripMenuItem1;
     }
 }

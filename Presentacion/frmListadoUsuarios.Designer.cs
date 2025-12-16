@@ -26,6 +26,24 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
+            // lstDNI
+            // 
+            this.lstDNI.FormattingEnabled = true;
+            this.lstDNI.ItemHeight = 16;
+            this.lstDNI.Location = new System.Drawing.Point(30, 60);
+            this.lstDNI.Name = "lstDNI";
+            this.lstDNI.Size = new System.Drawing.Size(150, 260);
+            this.lstDNI.TabIndex = 2;
+            // 
+            // lstNombre
+            // 
+            this.lstNombre.FormattingEnabled = true;
+            this.lstNombre.ItemHeight = 16;
+            this.lstNombre.Location = new System.Drawing.Point(200, 60);
+            this.lstNombre.Name = "lstNombre";
+            this.lstNombre.Size = new System.Drawing.Size(200, 260);
+            this.lstNombre.TabIndex = 3;
+            // 
             // btnOrdenDNI
             // 
             this.btnOrdenDNI.Location = new System.Drawing.Point(30, 20);
@@ -45,22 +63,6 @@
             this.btnOrdenNombre.Text = "Ordenar por Nombre";
             this.btnOrdenNombre.UseVisualStyleBackColor = true;
             this.btnOrdenNombre.Click += new System.EventHandler(this.btnOrdenNombre_Click);
-            // 
-            // lstDNI
-            // 
-            this.lstDNI.FormattingEnabled = true;
-            this.lstDNI.Location = new System.Drawing.Point(30, 60);
-            this.lstDNI.Name = "lstDNI";
-            this.lstDNI.Size = new System.Drawing.Size(150, 264);
-            this.lstDNI.TabIndex = 2;
-            // 
-            // lstNombre
-            // 
-            this.lstNombre.FormattingEnabled = true;
-            this.lstNombre.Location = new System.Drawing.Point(200, 60);
-            this.lstNombre.Name = "lstNombre";
-            this.lstNombre.Size = new System.Drawing.Size(200, 264);
-            this.lstNombre.TabIndex = 3;
             // 
             // btnCerrar
             // 
@@ -87,7 +89,9 @@
             this.Name = "frmListadoUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Listado de usuarios";
+            this.Load += new System.EventHandler(this.frmListadoUsuarios_Load);
             this.ResumeLayout(false);
+
         }
     }
 }
