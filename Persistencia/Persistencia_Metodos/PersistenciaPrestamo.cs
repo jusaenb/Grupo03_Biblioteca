@@ -167,5 +167,58 @@ namespace Persistencia
             }
             return !quedaAlguno; 
         }
+        public static void RegistrarDevolucion(int codigoEjemplar)
+        {
+            string idEjemplar = codigoEjemplar.ToString();
+            string idPrestamoEncontrado = null;
+
+            // 1. BUSCAR LA RELACIÓN EN LA TABLA INTERMEDIA
+            // Buscamos a qué préstamo pertenece este libro
+            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
+            {
+                // ped.Id.Cadena2 es el ID del Ejemplar
+                if (ped.Id.Cadena2 == idEjemplar && !ped.Devuelto)
+                {
+                    // ¡ENCONTRADO!
+                    idPrestamoEncontrado = ped.Id.Cadena1; // Recuperamos el ID REAL del préstamo
+
+                    // A. Marcamos el libro como devuelto
+                    ped.Devuelto = true;
+                    break; // Ya encontramos el libro, salimos del bucle
+                }
+            }
+
+            if (idPrestamoEncontrado == null)
+            {
+                throw new Exception("No se encontró ningún préstamo activo para el ejemplar " + codigoEjemplar);
+            }
+
+            // 2. COMPROBAR SI HAY QUE CERRAR EL PRÉSTAMO COMPLETO
+            // Verificamos si quedan libros sin devolver en ese mismo préstamo
+            bool quedanLibros = false;
+            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
+            {
+                // Buscamos otros libros del MISMO préstamo (Cadena1)
+                if (ped.Id.Cadena1 == idPrestamoEncontrado && !ped.Devuelto)
+                {
+                    quedanLibros = true;
+                    break;
+                }
+            }
+
+            // 3. SI NO QUEDAN LIBROS, CAMBIAMOS EL ESTADO DEL PRÉSTAMO A "FINALIZADO"
+            if (!quedanLibros)
+            {
+                if (BD.TablaPrestamos.Contains(idPrestamoEncontrado))
+                {
+                    PrestamoDato pd = BD.TablaPrestamos[idPrestamoEncontrado];
+                    pd.Estado = "Finalizado";
+
+                    // Actualizamos en la lista (Borrar y Añadir para forzar refresco si es necesario)
+                    BD.TablaPrestamos.Remove(idPrestamoEncontrado);
+                    BD.TablaPrestamos.Add(pd);
+                }
+            }
+        }
     }
 }

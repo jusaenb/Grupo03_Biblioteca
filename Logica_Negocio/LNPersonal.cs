@@ -22,8 +22,17 @@ namespace LN
         /// </summary>
         public bool Loguearse(string password)
         {
-            // Usamos la fachada de PersistenciaPersonal
-            return PersistenciaPersonal.EXIST(this.personal.Dni);
+            if (!PersistenciaPersonal.EXIST(this.personal.Dni))
+            {
+                return false;
+            }
+            Personal personalEnBD = PersistenciaPersonal.READ(this.personal.Dni);
+            if (personalEnBD == null) return false;
+            if (personalEnBD.Rol != this.personal.Rol)
+            {
+                return false;
+            }
+            return true;
         }
 
         // GESTIÓN DE USUARIOS

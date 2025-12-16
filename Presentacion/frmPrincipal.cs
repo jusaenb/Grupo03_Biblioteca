@@ -278,5 +278,48 @@ namespace Presentacion
                 }
             }
         }
+        private void altaPrestamoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Verificamos que sea Personal de Sala (por seguridad, aunque el menú ya filtra)
+            if (_ln is LNPersonalSala lnSala)
+            {
+                // Abrimos el formulario de Alta de Préstamo pasándole la lógica correspondiente
+                frmAltaPrestamo frm = new frmAltaPrestamo(lnSala);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Solo el personal de sala puede gestionar préstamos.");
+            }
+        }
+        private void devolucionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_ln is LNPersonalSala lnSala)
+            {
+                // Usamos tu formulario genérico para pedir el ID del ejemplar a devolver
+                frmSolicitarDato frm = new frmSolicitarDato("Introduce el ID del Ejemplar a devolver:");
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    if (int.TryParse(frm.ValorIntroducido, out int idEjemplar))
+                    {
+                        try
+                        {
+                            // Llamamos a la lógica de negocio para procesar la devolución
+                            lnSala.DevolverEjemplar(idEjemplar);
+                            MessageBox.Show("Ejemplar devuelto correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error al devolver: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("El código debe ser un número.");
+                    }
+                }
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ using Persistencia;
 
 namespace Logica_Negocio
 {
-    internal class LNPrestamo
+    public class LNPrestamo
     {
 
         /// <summary>

@@ -55,34 +55,26 @@ namespace LN
 
         public void DevolverEjemplar(int codigoEjemplar)
         {
-            // 1. Buscar el préstamo activo
-            Prestamo prestamo = PersistenciaPrestamo.READ_POR_EJEMPLAR(codigoEjemplar);
-            if (prestamo == null)
-            {
-                throw new InvalidOperationException("No se encontró préstamo activo.");
-            }
-
-            string idPrestamo = prestamo.GetHashCode().ToString(); // Ojo, usar el mismo ID que uses en Transformer
-            string idEjemplar = codigoEjemplar.ToString();
-
-            // 2. Marcar ESTE libro como devuelto en la BD (Tabla intermedia)
-            PersistenciaPrestamo.MARCAR_DEVUELTO(idPrestamo, idEjemplar);
-
-            // 3. Liberar el Ejemplar (para que otro lo pueda coger)
+            // 1. Validar que el ejemplar existe
             Ejemplar ej = PersistenciaEjemplar.READ(codigoEjemplar);
-            ej.Disponible = true;
-            PersistenciaEjemplar.UPDATE(ej);
-
-            // 4. Comprobar si el préstamo se cierra COMPLETAMENTE
-            if (PersistenciaPrestamo.ESTAN_TODOS_DEVUELTOS(idPrestamo))
+            if (ej == null)
             {
-                prestamo.Estado = "Finalizado";
-                PersistenciaPrestamo.UPDATE(prestamo);
-                Console.WriteLine("Préstamo finalizado por completo.");
+                throw new ArgumentException("El ejemplar no existe en la base de datos.");
             }
-            else
+
+            // 2. Llamar al método directo de persistencia que maneja los IDs correctamente
+            try
             {
-                Console.WriteLine("Libro devuelto. El préstamo sigue activo con otros libros.");
+                PersistenciaPrestamo.RegistrarDevolucion(codigoEjemplar);
+
+                // 3. Liberar el ejemplar (ponerlo disponible de nuevo)
+                ej.Disponible = true;
+                PersistenciaEjemplar.UPDATE(ej);
+            }
+            catch (Exception ex)
+            {
+                // Re-lanzamos el error para que salga el mensaje en pantalla
+                throw ex;
             }
         }
 
