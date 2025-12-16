@@ -13,24 +13,28 @@ namespace Presentacion
         {
             InitializeComponent();
             _ln = ln;
+
+            CargarDatos();
         }
 
-        private void frmListadoDocumentos_Load(object sender, EventArgs e)
+        private void CargarDatos()
         {
             try
             {
-                _bindingSource = new BindingSource();
-                var lista = _ln.ListadoDocumentos();
+                // Configurar que las columnas se creen solas según las propiedades de la clase
                 dgvDocumentos.AutoGenerateColumns = true;
 
-                _bindingSource.DataSource = lista;
+                var lista = _ln.ListadoDocumentos();
 
-                dgvDocumentos.DataSource = _bindingSource;
+                dgvDocumentos.DataSource = lista;
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar documentos: " + ex.Message);
+                MessageBox.Show("Error al cargar: " + ex.Message);
             }
         }
+
+        // Ya puedes borrar el método frmListadoDocumentos_Load si quieres
     }
 }

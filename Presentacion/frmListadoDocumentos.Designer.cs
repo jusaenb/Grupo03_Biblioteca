@@ -43,6 +43,7 @@
             this.Text = "Listado de documentos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentos)).EndInit();
             this.ResumeLayout(false);
+
         }
     }
 }
