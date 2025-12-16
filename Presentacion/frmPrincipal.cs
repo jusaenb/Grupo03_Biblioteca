@@ -191,17 +191,19 @@ namespace Presentacion
 
         private void altaEjemplarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Verificamos permisos y convertimos la lógica al tipo adecuado
             if (_ln is LNPersonalAdquisiciones lnAdq)
             {
                 frmSolicitarDato frm = new frmSolicitarDato("Introduzca Código del nuevo Ejemplar:");
+
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     if (int.TryParse(frm.ValorIntroducido, out int codigo))
                     {
-                        // Abrimos el formulario de detalle que ya creaste
+                        
+
                         frmDetalleEjemplar detalle = new frmDetalleEjemplar(codigo, lnAdq);
-                        detalle.MdiParent = this; // Opcional, si quieres que esté dentro
-                        detalle.Show();
+                        detalle.ShowDialog();
                     }
                     else
                     {
