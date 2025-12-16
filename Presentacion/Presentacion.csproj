@@ -74,6 +74,12 @@
     <Compile Include="frmListadoDocumentos.Designer.cs">
       <DependentUpon>frmListadoDocumentos.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmListadoEjemplares.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmListadoEjemplares.Designer.cs">
+      <DependentUpon>frmListadoEjemplares.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmListadoUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,7 +98,9 @@
     <Compile Include="frmPrincipal.Designer.cs">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="FPAdquisiciones.cs" />
+    <Compile Include="FPAdquisiciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FPAdquisiciones.Designer.cs">
       <DependentUpon>FPAdquisiciones.cs</DependentUpon>
     </Compile>
@@ -160,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmDetalleUsuario.resx">
       <DependentUpon>frmDetalleUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmListadoEjemplares.resx">
+      <DependentUpon>frmListadoEjemplares.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmListadoUsuarios.resx">
       <DependentUpon>frmListadoUsuarios.cs</DependentUpon>

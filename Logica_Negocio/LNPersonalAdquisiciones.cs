@@ -63,7 +63,7 @@ namespace LN
             PersistenciaEjemplar.CREATE(nuevoEjemplar);
         }
 
-        public void DarBajaLogicaEjemplar(int codigoEjemplar)
+        public void BajaEjemplar(int codigoEjemplar)
         {
             Ejemplar ej = PersistenciaEjemplar.READ(codigoEjemplar);
             if (ej == null) throw new ArgumentException("El ejemplar no existe.");
@@ -106,6 +106,11 @@ namespace LN
         public Ejemplar ObtenerEjemplar(int codigo)
         {
             return PersistenciaEjemplar.READ(codigo);
+        }
+        public List<Ejemplar> ListadoEjemplares()
+        {
+            // Asumo que tu persistencia tiene un método READALL, igual que en documentos
+            return PersistenciaEjemplar.READALL();
         }
     }
 }

@@ -15,14 +15,14 @@ namespace Presentacion
             InitializeComponent();
             _lnSala = ln;
 
-            // Vinculamos los eventos específicos de Sala
             this.altaPrestamoToolStripMenuItem.Click += new EventHandler(this.AltaPrestamo_Click);
             this.devolucionToolStripMenuItem.Click += new EventHandler(this.Devolucion_Click);
+            this.menuDocumentos.Visible = false;
+            this.menuEjemplares.Visible = false;
         }
 
         private void AltaPrestamo_Click(object sender, EventArgs e)
         {
-            // Abrimos el formulario de alta de préstamo
             frmAltaPrestamo frm = new frmAltaPrestamo(_lnSala);
             frm.ShowDialog();
         }

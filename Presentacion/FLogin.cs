@@ -25,56 +25,71 @@ namespace Presentacion
 
         private void buttonEntrar_Click(object sender, EventArgs e)
         {
-            String nombre=textBoxNombre.Text;
-            String contraseña=textBoxContraseña.Text;
-            String dni=textBoxDNI.Text;
+            String nombre = textBoxNombre.Text;
+            String contraseña = textBoxContraseña.Text;
+            String dni = textBoxDNI.Text;
 
-            if (string.IsNullOrEmpty(nombre)||string.IsNullOrEmpty(contraseña)||string.IsNullOrEmpty(dni))
+            // 1. Basic Validation
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(contraseña) || string.IsNullOrEmpty(dni))
             {
-                MessageBox.Show("Por favor ingrese su nombre y contraseña.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Por favor ingrese todos los datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-
-            Personal personal=null;
-
+            // 2. Determine Personal Type based on Radio Buttons
+            Personal personal = null;
             if (radioButtonPersonalSala.Checked)
             {
                 personal = new PersonalSala(dni, nombre);
             }
             else if (radioButtonPersonalAdquisiciones.Checked)
             {
-                personal=new PersonalAdquisiciones(dni, nombre);
+                personal = new PersonalAdquisiciones(dni, nombre);
             }
 
             if (personal == null)
             {
-                MessageBox.Show("Por favor, seleccione un tipo de personal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Seleccione un tipo de personal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // 3. Attempt Login
             LNPersonal lnPersonal = new LNPersonal(personal);
 
             if (lnPersonal.Loguearse(contraseña))
             {
-                this.Hide();
-                LNPersonal lnFinal = null;
+                this.Hide(); // Hide Login form
+
+                // 4. INSTANTIATE THE CORRECT CHILD FORM
+                // Instead of creating a generic frmPrincipal, we check the type
+                // and create either frmPersonalSala or FPAdquisiciones.
+
                 if (personal is PersonalSala)
                 {
-                    lnFinal = new LNPersonalSala((PersonalSala)personal);
+                    // Create specific Logic for Sala
+                    LNPersonalSala lnSala = new LNPersonalSala((PersonalSala)personal);
+
+                    // Launch the specific Child Form for Sala
+                    frmPersonalSala frm = new frmPersonalSala(lnSala);
+                    frm.ShowDialog();
                 }
-                else
+                else if (personal is PersonalAdquisiciones)
                 {
-                    lnFinal = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
+                    // Create specific Logic for Adquisiciones
+                    LNPersonalAdquisiciones lnAdq = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
+
+                    // Launch the specific Child Form for Adquisiciones
+                    FPAdquisiciones frm = new FPAdquisiciones(lnAdq);
+                    frm.ShowDialog();
                 }
-                frmPrincipal frm = new frmPrincipal(lnFinal);
-                frm.ShowDialog();
+
+                // Close app when the main form is closed
+                this.Close();
             }
             else
             {
-                MessageBox.Show("Credenciales incorrectas. Intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Credenciales incorrectas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void FLogin_KeyDown(object sender, KeyEventArgs e)

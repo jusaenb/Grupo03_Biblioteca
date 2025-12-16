@@ -1,4 +1,4 @@
-﻿/*namespace Presentacion
+﻿namespace Presentacion
 {
     partial class FPAdquisiciones
     {
@@ -32,16 +32,18 @@
             // 
             // FPAdquisiciones
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "FPAdquisiciones";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.FPAdquisiciones_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
     }
 }
-*/
