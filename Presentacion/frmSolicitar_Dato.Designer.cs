@@ -37,46 +37,47 @@
             // lblMensaje
             // 
             this.lblMensaje.AutoSize = true;
-            this.lblMensaje.Location = new System.Drawing.Point(29, 26);
+            this.lblMensaje.Location = new System.Drawing.Point(30, 30);
             this.lblMensaje.Name = "lblMensaje";
-            this.lblMensaje.Size = new System.Drawing.Size(130, 16);
+            this.lblMensaje.Size = new System.Drawing.Size(65, 17);
             this.lblMensaje.TabIndex = 0;
-            this.lblMensaje.Text = "Introduzca el valor...";
+            this.lblMensaje.Text = "Mensaje:";
             // 
             // txtValor
             // 
-            this.txtValor.Location = new System.Drawing.Point(32, 56);
+            this.txtValor.Location = new System.Drawing.Point(33, 60);
             this.txtValor.Name = "txtValor";
-            this.txtValor.Size = new System.Drawing.Size(328, 22);
+            this.txtValor.Size = new System.Drawing.Size(320, 22);
             this.txtValor.TabIndex = 1;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnAceptar.Location = new System.Drawing.Point(163, 103);
+            this.btnAceptar.Location = new System.Drawing.Point(147, 100);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(94, 31);
+            this.btnAceptar.Size = new System.Drawing.Size(100, 30);
             this.btnAceptar.TabIndex = 2;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // btnCancelar
             // 
             this.btnCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancelar.Location = new System.Drawing.Point(266, 103);
+            this.btnCancelar.Location = new System.Drawing.Point(253, 100);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(94, 31);
+            this.btnCancelar.Size = new System.Drawing.Size(100, 30);
             this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // frmSolicitarDato
             // 
             this.AcceptButton = this.btnAceptar;
+            this.CancelButton = this.btnCancelar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancelar;
-            this.ClientSize = new System.Drawing.Size(395, 160);
+            this.ClientSize = new System.Drawing.Size(390, 150);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.txtValor);
@@ -86,7 +87,7 @@
             this.MinimizeBox = false;
             this.Name = "frmSolicitarDato";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Solicitud de Datos";
+            this.Text = "Introducir dato";
             this.ResumeLayout(false);
             this.PerformLayout();
 

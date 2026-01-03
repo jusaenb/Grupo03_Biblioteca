@@ -1,23 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using LN;
+using Logica_Negocio;
 using MD;
 
 namespace Presentacion
 {
     public partial class frmAltaPrestamo : Form
     {
-        private LNPersonalSala _ln;
+        private ILNPersonalSala _ln;
         private List<int> _codigosEjemplaresSeleccionados;
+        private int _posicionY = 20;
 
-        public frmAltaPrestamo(LNPersonalSala ln)
+        public frmAltaPrestamo(ILNPersonalSala ln,int n)
         {
             InitializeComponent();
             _ln = ln;
             _codigosEjemplaresSeleccionados = new List<int>();
 
-            InicializarFormulario();
+           Prestamo p2 = _ln.ListadoPrestamosActivos().FirstOrDefault(p=>p.Identi==n.ToString());
+            if (p2 != null)
+            {
+                Iniciarformulario2(p2);
+            }
+            else
+            {
+                InicializarFormulario();
+            }
+               
         }
 
         private void InicializarFormulario()
@@ -29,7 +41,7 @@ namespace Presentacion
             try
             {
                 cmbUsuarios.DataSource = _ln.ListadoUsuarios();
-                cmbUsuarios.DisplayMember = "Dni"; // Mostramos DNI según PDF
+                cmbUsuarios.DisplayMember = "Nombre"; // Mostramos DNI según PDF
                 cmbUsuarios.ValueMember = "Dni";
             }
             catch (Exception ex)
@@ -37,23 +49,99 @@ namespace Presentacion
                 MessageBox.Show("Error al cargar usuarios: " + ex.Message);
             }
         }
+        private void Iniciarformulario2(Prestamo p)
+        {
+            txtID.Text = p.Identi;
+            txtID.ReadOnly = true;
+            txtFecha.Text = p.FechaPrestamo.ToString();
+              cmbUsuarios.DataSource = new List<Usuario> { p.Usuario };
+            cmbUsuarios.DisplayMember = "Dni";
+            cmbUsuarios.ValueMember = "Dni";
+            btnAnadirEjemplar.Click -= btnAnadirEjemplar_Click;
+            btnAnadirEjemplar.Visible = false;
+
+         
+
+            foreach (Ejemplar e in p.Ejemplares)
+            {
+                Label l1 = new Label();
+                l1.Text = "ID" + e.CodigoEjemplar.ToString();
+                l1.AutoSize = true;
+                l1.Location = new System.Drawing.Point(10, this._posicionY + 3);
+                grpEjemplares.Controls.Add(l1);
+
+                TextBox txt = new TextBox();
+                txt.Text = e.Documento.Titulo;
+                txt.ReadOnly = true;
+                txt.Location = new System.Drawing.Point(60, _posicionY);
+                txt.Width = 140;
+                grpEjemplares.Controls.Add(txt);
+
+                RadioButton radio = new RadioButton();
+                radio.Text = "Prestado";
+                radio.Checked = true;
+                radio.AutoSize = true;
+                radio.Location = new System.Drawing.Point(220, _posicionY);
+                grpEjemplares.Controls.Add(radio);
+
+                Label lblFechaDevolucion = new Label();
+                lblFechaDevolucion.Text = "Devolución: " + p.CalcularFechaDevolucion(e).ToShortDateString();
+                lblFechaDevolucion.AutoSize = true;
+                lblFechaDevolucion.Location = new System.Drawing.Point(320, _posicionY);
+                grpEjemplares.Controls.Add(lblFechaDevolucion);
+
+                _posicionY += 30;
+            }
+             btnAceptar.Click-=btnAceptar_Click;
+            btnAceptar.Click += (s, e) =>
+            {
+                this.Close();
+            };
+        }
 
         private void btnAnadirEjemplar_Click(object sender, EventArgs e)
         {
-            // Abrimos el formulario de selección
-            frmAnadirEjemplar frm = new frmAnadirEjemplar(_ln);
+            frmEjemplaresDisponbiles frm = new frmEjemplaresDisponbiles(_ln,_codigosEjemplaresSeleccionados);
 
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 Ejemplar ej = frm.EjemplarSeleccionado;
+                cmbUsuarios.Enabled = false; 
                 if (ej != null)
                 {
-                    // Comprobamos que no esté ya añadido en la lista temporal de este préstamo
                     if (!_codigosEjemplaresSeleccionados.Contains(ej.CodigoEjemplar))
                     {
                         _codigosEjemplaresSeleccionados.Add(ej.CodigoEjemplar);
-                        // Añadimos al ListBox visual
-                        lstEjemplares.Items.Add($"ID ejemplar: {ej.CodigoEjemplar} - {ej.Documento.Titulo}");
+
+                        // 1. Label (ID)
+                        Label lbl = new Label();
+                        lbl.Text = $"ID {ej.CodigoEjemplar}:";
+                        lbl.AutoSize = true;
+                        lbl.Location = new System.Drawing.Point(6, _posicionY + 3); // Un poco más a la izquierda
+                        grpEjemplares.Controls.Add(lbl);
+
+                        // 2. TextBox (Título) -> HACERLO MÁS PEQUEÑO
+                        TextBox txt = new TextBox();
+                        txt.Text = ej.Documento.Titulo;
+                        txt.ReadOnly = true;
+                        // CAMBIO 1: Anchura reducida de 200 a 130 para que quepa el botón
+                        txt.Width = 130;
+                        // CAMBIO 2: Posición X=75 para pegarlo un poco más a la label
+                        txt.Location = new System.Drawing.Point(50, _posicionY);
+                        grpEjemplares.Controls.Add(txt);
+
+                        
+                        RadioButton rb = new RadioButton();
+                        rb.Text = "Prestado"; // Texto corto para que quepa
+                        rb.Checked = true;
+                        rb.Enabled = false;
+                        rb.AutoSize = true; // Importante para que se vea el texto entero
+                                           
+                        rb.Location = new System.Drawing.Point(192, _posicionY);
+                        grpEjemplares.Controls.Add(rb);
+
+                        // Bajamos el puntero
+                        _posicionY += 30;
                     }
                     else
                     {
@@ -77,18 +165,14 @@ namespace Presentacion
                 return;
             }
 
-            // Nota sobre el ID manual: 
-            // Tu lógica de negocio actual genera el ID automáticamente (GetHashCode).
-            // Aunque el PDF pide un campo ID visual, no podemos forzarlo en la lógica actual sin modificar Persistencia.
-            // Procedemos con la lógica existente ignorando txtID.Text o lo pasamos si refactorizas LN.
-            // Aquí seguiremos la lógica existente:
+            
 
             try
             {
                 string dniUsuario = (string)cmbUsuarios.SelectedValue;
 
                 // Llamada a la lógica
-                _ln.DarAltaPrestamo(dniUsuario, _codigosEjemplaresSeleccionados);
+                _ln.DarAltaPrestamo(dniUsuario, _codigosEjemplaresSeleccionados,txtID.Text);
 
                 MessageBox.Show("Préstamo realizado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

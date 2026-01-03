@@ -48,5 +48,9 @@ namespace MD
         {
             return this.dni.GetHashCode();
         }
+        public override String ToString()
+        {
+            return  this.dni ;
+        }
     }
 }

@@ -10,7 +10,6 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.ComboBox cmbUsuarios;
         private System.Windows.Forms.GroupBox grpEjemplares;
-        private System.Windows.Forms.ListBox lstEjemplares;
         private System.Windows.Forms.Button btnAnadirEjemplar;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
@@ -30,11 +29,9 @@
             this.lblUsuario = new System.Windows.Forms.Label();
             this.cmbUsuarios = new System.Windows.Forms.ComboBox();
             this.grpEjemplares = new System.Windows.Forms.GroupBox();
-            this.lstEjemplares = new System.Windows.Forms.ListBox();
             this.btnAnadirEjemplar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.grpEjemplares.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblID
@@ -42,7 +39,7 @@
             this.lblID.AutoSize = true;
             this.lblID.Location = new System.Drawing.Point(40, 30);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(24, 16);
+            this.lblID.Size = new System.Drawing.Size(23, 16);
             this.lblID.TabIndex = 0;
             this.lblID.Text = "ID:";
             // 
@@ -90,22 +87,12 @@
             // 
             // grpEjemplares
             // 
-            this.grpEjemplares.Controls.Add(this.lstEjemplares);
-            this.grpEjemplares.Location = new System.Drawing.Point(320, 20);
+            this.grpEjemplares.Location = new System.Drawing.Point(328, 30);
             this.grpEjemplares.Name = "grpEjemplares";
-            this.grpEjemplares.Size = new System.Drawing.Size(300, 200);
+            this.grpEjemplares.Size = new System.Drawing.Size(635, 200);
             this.grpEjemplares.TabIndex = 6;
             this.grpEjemplares.TabStop = false;
             this.grpEjemplares.Text = "Ejemplares añadidos";
-            // 
-            // lstEjemplares
-            // 
-            this.lstEjemplares.FormattingEnabled = true;
-            this.lstEjemplares.ItemHeight = 16;
-            this.lstEjemplares.Location = new System.Drawing.Point(15, 30);
-            this.lstEjemplares.Name = "lstEjemplares";
-            this.lstEjemplares.Size = new System.Drawing.Size(270, 148);
-            this.lstEjemplares.TabIndex = 0;
             // 
             // btnAnadirEjemplar
             // 
@@ -143,7 +130,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancelar;
-            this.ClientSize = new System.Drawing.Size(650, 310);
+            this.ClientSize = new System.Drawing.Size(984, 310);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnAnadirEjemplar);
@@ -160,9 +147,9 @@
             this.Name = "frmAltaPrestamo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de un préstamo";
-            this.grpEjemplares.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

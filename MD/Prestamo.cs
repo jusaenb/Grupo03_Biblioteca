@@ -14,13 +14,15 @@ namespace MD
         private DateTime fechaDevolucion;
         private string estado;
         private Personal trabajador;
-        public Prestamo(Usuario usuario, List<Ejemplar> ejemplares, DateTime fechaPrestamo, string estado, Personal trabajador)
+        private string identi;
+        public Prestamo(Usuario usuario, List<Ejemplar> ejemplares, DateTime fechaPrestamo, string estado, Personal trabajador, string identi)
         {
             this.usuario = usuario;
-            this.ejemplares = ejemplares ?? new List<Ejemplar>();
+            this.Ejemplares = ejemplares ?? new List<Ejemplar>();
             this.fechaPrestamo = fechaPrestamo;
             this.estado = estado;
             this.trabajador = trabajador;
+            this.identi = identi;
         }
         public DateTime CalcularFechaDevolucion(Ejemplar e)
         {
@@ -56,6 +58,11 @@ namespace MD
         {
             get { return trabajador; }
             set { trabajador = value; }
+        }
+        public string Identi
+        {
+            get { return identi; }
+            set { identi = value; }
         }
     }
 }

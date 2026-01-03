@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
-using MD;
+﻿using MD;
+using System.Collections.Generic;
+using System.Net;
 
 namespace Persistencia
 {
     public static class PersistenciaPersonal
     {
-        public static bool EXIST(string dni)
+        public static bool EXIST(Personal p )
         {
-            return BD.TablaPersonal.Contains(dni);
+            if(p is PersonalSala)
+            {
+                return BD.TablaPersonalSala.Contains(p.Dni);
+            }
+            else
+            {
+                return BD.TablaPersonalAdquisiciones.Contains(p.Dni);
+            }
+                
         }
         public static void CREATE(Personal personal)
         {

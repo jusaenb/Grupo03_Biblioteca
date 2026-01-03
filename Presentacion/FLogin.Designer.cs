@@ -45,42 +45,48 @@
             // 
             this.labelNombre.AutoSize = true;
             this.labelNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNombre.Location = new System.Drawing.Point(52, 47);
+            this.labelNombre.Location = new System.Drawing.Point(69, 58);
+            this.labelNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelNombre.Name = "labelNombre";
-            this.labelNombre.Size = new System.Drawing.Size(76, 20);
+            this.labelNombre.Size = new System.Drawing.Size(94, 25);
             this.labelNombre.TabIndex = 0;
             this.labelNombre.Text = "Nombre:";
             // 
             // textBoxNombre
             // 
-            this.textBoxNombre.Location = new System.Drawing.Point(203, 47);
+            this.textBoxNombre.Location = new System.Drawing.Point(271, 58);
+            this.textBoxNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(100, 20);
+            this.textBoxNombre.Size = new System.Drawing.Size(132, 22);
             this.textBoxNombre.TabIndex = 1;
             // 
             // labelContraseña
             // 
             this.labelContraseña.AutoSize = true;
             this.labelContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelContraseña.Location = new System.Drawing.Point(52, 136);
+            this.labelContraseña.Location = new System.Drawing.Point(69, 167);
+            this.labelContraseña.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelContraseña.Name = "labelContraseña";
-            this.labelContraseña.Size = new System.Drawing.Size(107, 20);
+            this.labelContraseña.Size = new System.Drawing.Size(131, 25);
             this.labelContraseña.TabIndex = 2;
             this.labelContraseña.Text = "Contraseña:";
             // 
             // textBoxContraseña
             // 
-            this.textBoxContraseña.Location = new System.Drawing.Point(203, 135);
+            this.textBoxContraseña.Location = new System.Drawing.Point(271, 166);
+            this.textBoxContraseña.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxContraseña.Name = "textBoxContraseña";
-            this.textBoxContraseña.Size = new System.Drawing.Size(100, 20);
+            this.textBoxContraseña.PasswordChar = '*';
+            this.textBoxContraseña.Size = new System.Drawing.Size(132, 22);
             this.textBoxContraseña.TabIndex = 3;
             // 
             // radioButtonPersonalSala
             // 
             this.radioButtonPersonalSala.AutoSize = true;
-            this.radioButtonPersonalSala.Location = new System.Drawing.Point(18, 28);
+            this.radioButtonPersonalSala.Location = new System.Drawing.Point(24, 34);
+            this.radioButtonPersonalSala.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonPersonalSala.Name = "radioButtonPersonalSala";
-            this.radioButtonPersonalSala.Size = new System.Drawing.Size(88, 17);
+            this.radioButtonPersonalSala.Size = new System.Drawing.Size(111, 20);
             this.radioButtonPersonalSala.TabIndex = 5;
             this.radioButtonPersonalSala.TabStop = true;
             this.radioButtonPersonalSala.Text = "Personal sala";
@@ -89,9 +95,10 @@
             // radioButtonPersonalAdquisiciones
             // 
             this.radioButtonPersonalAdquisiciones.AutoSize = true;
-            this.radioButtonPersonalAdquisiciones.Location = new System.Drawing.Point(18, 62);
+            this.radioButtonPersonalAdquisiciones.Location = new System.Drawing.Point(24, 76);
+            this.radioButtonPersonalAdquisiciones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonPersonalAdquisiciones.Name = "radioButtonPersonalAdquisiciones";
-            this.radioButtonPersonalAdquisiciones.Size = new System.Drawing.Size(133, 17);
+            this.radioButtonPersonalAdquisiciones.Size = new System.Drawing.Size(169, 20);
             this.radioButtonPersonalAdquisiciones.TabIndex = 6;
             this.radioButtonPersonalAdquisiciones.TabStop = true;
             this.radioButtonPersonalAdquisiciones.Text = "Personal adquisiciones";
@@ -99,9 +106,10 @@
             // 
             // buttonEntrar
             // 
-            this.buttonEntrar.Location = new System.Drawing.Point(228, 339);
+            this.buttonEntrar.Location = new System.Drawing.Point(304, 417);
+            this.buttonEntrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonEntrar.Name = "buttonEntrar";
-            this.buttonEntrar.Size = new System.Drawing.Size(75, 23);
+            this.buttonEntrar.Size = new System.Drawing.Size(100, 28);
             this.buttonEntrar.TabIndex = 7;
             this.buttonEntrar.Text = "Entrar";
             this.buttonEntrar.UseVisualStyleBackColor = true;
@@ -111,9 +119,11 @@
             // 
             this.groupBoxTipoEmpleado.Controls.Add(this.radioButtonPersonalSala);
             this.groupBoxTipoEmpleado.Controls.Add(this.radioButtonPersonalAdquisiciones);
-            this.groupBoxTipoEmpleado.Location = new System.Drawing.Point(75, 193);
+            this.groupBoxTipoEmpleado.Location = new System.Drawing.Point(100, 238);
+            this.groupBoxTipoEmpleado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxTipoEmpleado.Name = "groupBoxTipoEmpleado";
-            this.groupBoxTipoEmpleado.Size = new System.Drawing.Size(200, 100);
+            this.groupBoxTipoEmpleado.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxTipoEmpleado.Size = new System.Drawing.Size(267, 123);
             this.groupBoxTipoEmpleado.TabIndex = 8;
             this.groupBoxTipoEmpleado.TabStop = false;
             this.groupBoxTipoEmpleado.Text = "Tipo empleado";
@@ -122,24 +132,26 @@
             // 
             this.labelDNI.AutoSize = true;
             this.labelDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDNI.Location = new System.Drawing.Point(52, 92);
+            this.labelDNI.Location = new System.Drawing.Point(69, 113);
+            this.labelDNI.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelDNI.Name = "labelDNI";
-            this.labelDNI.Size = new System.Drawing.Size(45, 20);
+            this.labelDNI.Size = new System.Drawing.Size(55, 25);
             this.labelDNI.TabIndex = 9;
             this.labelDNI.Text = "DNI:";
             // 
             // textBoxDNI
             // 
-            this.textBoxDNI.Location = new System.Drawing.Point(203, 92);
+            this.textBoxDNI.Location = new System.Drawing.Point(271, 113);
+            this.textBoxDNI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxDNI.Name = "textBoxDNI";
-            this.textBoxDNI.Size = new System.Drawing.Size(100, 20);
+            this.textBoxDNI.Size = new System.Drawing.Size(132, 22);
             this.textBoxDNI.TabIndex = 10;
             // 
             // FLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 392);
+            this.ClientSize = new System.Drawing.Size(523, 482);
             this.Controls.Add(this.textBoxDNI);
             this.Controls.Add(this.labelDNI);
             this.Controls.Add(this.groupBoxTipoEmpleado);
@@ -148,6 +160,7 @@
             this.Controls.Add(this.labelContraseña);
             this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.labelNombre);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FLogin";
             this.Text = "Loguearse";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FLogin_KeyDown);

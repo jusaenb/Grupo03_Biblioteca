@@ -1,122 +1,115 @@
 ﻿using System;
 using System.Windows.Forms;
 using LN;
+using Logica_Negocio;
 using MD;
 
 namespace Presentacion
 {
     public partial class frmPrincipal : Form
     {
-        protected LNPersonal _ln;
+        protected ILNPersonal _ln;
+
+        // Constructor vacío (necesario para el diseñador visual)
         public frmPrincipal()
         {
             InitializeComponent();
         }
-        public frmPrincipal(LNPersonal ln)
+
+        // Constructor principal que recibe la sesión
+        public frmPrincipal(ILNPersonal ln)
         {
-            InitializeComponent ();
+            InitializeComponent();
             _ln = ln;
             ConfigurarPermisos();
         }
 
         private void ConfigurarPermisos()
         {
-            
-            if (_ln.Personal.Rol == Rol.Sala)
+            if (this._ln is ILNPersonalSala)
             {
-                menuDocumentos.Visible = false; 
-                menuEjemplares.Visible = false; 
+                // Sala no ve la gestión de acervo
+                menuDocumentos.Visible = false;
+                menuEjemplares.Visible = false;
             }
-            
-            else if (_ln.Personal.Rol == Rol.Adquisiciones)
+            else if (this._ln is ILNPersonalAdquisiciones)
             {
+                // Adquisiciones no ve préstamos
                 menuPrestamos.Visible = false;
             }
         }
 
-       
-        private void altaToolStripMenuItem_Click(object sender, EventArgs e)
+        // =========================================================================
+        // LÓGICA COMÚN: GESTIÓN DE USUARIOS
+        // (Al ser común a ambos roles, se implementa aquí en el Padre)
+        // =========================================================================
+
+        protected void altaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 1. Solicitar DNI
             frmSolicitarDato frmDni = new frmSolicitarDato("Introduzca DNI del Usuario:");
             if (frmDni.ShowDialog() == DialogResult.OK)
             {
                 string dni = frmDni.ValorIntroducido;
-
-                // 2. Comprobar si existe
                 if (_ln.ExisteUsuario(dni))
                 {
-                    MessageBox.Show($"El usuario con DNI {dni} ya existe en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    // Aquí podrías preguntar si quiere intentar con otro DNI (bucle)
+                    MessageBox.Show($"El usuario con DNI {dni} ya existe.");
                 }
                 else
                 {
-                    // 3. Abrir formulario de detalle para Alta
                     frmDetalleUsuario frmDetalle = new frmDetalleUsuario(dni, _ln);
                     frmDetalle.ShowDialog();
                 }
             }
         }
 
-        
-        private void altaDocumentoToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void bajaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmSolicitarDato frmIsbn = new frmSolicitarDato("Introduzca ISBN del Documento:");
-            if (frmIsbn.ShowDialog() == DialogResult.OK)
+            frmSolicitarDato frm = new frmSolicitarDato("Introduzca DNI a borrar:");
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                int isbn;
-                if (int.TryParse(frmIsbn.ValorIntroducido, out isbn))
+                try
                 {
-                    
-                    var lnAdq = (LNPersonalAdquisiciones)_ln;
-
-                   
-                    try
+                    if(!_ln.ExisteUsuario(frm.ValorIntroducido))
                     {
+                        MessageBox.Show($"El usuario con DNI {frm.ValorIntroducido} no existe.");
+                        return;
+                    }
+                    else
+                    {
+                        frmDetalleUsuario frmDetalle = new frmDetalleUsuario(frm.ValorIntroducido, _ln);
+                        frmDetalle.ShowDialog();
+                       
+                    }
                         
-                        frmDetalleDocumento frmDoc = new frmDetalleDocumento(isbn, lnAdq);
-                        frmDoc.ShowDialog();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("El ISBN debe ser numérico.");
+                    MessageBox.Show("Error: " + ex.Message);
                 }
             }
         }
-        // Añadir en Presentacion/frmPrincipal.cs
 
-        // 1. Evento para Listado de Usuarios
-        private void listadoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void busquedaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmListadoUsuarios frm = new frmListadoUsuarios(_ln);
+            // Usamos el formulario de búsqueda específico que creaste
+            frmBusquedaUsuario frm = new frmBusquedaUsuario(_ln);
             frm.ShowDialog();
         }
 
-        // 2. Evento para Recorrido Uno a Uno
-        private void recorridoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void listadoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmRecorridoUsuarios frm = new frmRecorridoUsuarios(_ln);
+            var lista= _ln.ListadoUsuarios();
+            frmListadoUsuarios frm = new frmListadoUsuarios(lista);
             frm.ShowDialog();
         }
 
-        // 3. Evento para Listado de Documentos (Solo Adquisiciones)
-        private void listadoDocumentosToolStripMenuItem_Click(object sender, EventArgs e)
+        protected void recorridoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Verificamos si el personal tiene permisos (es Adquisiciones)
-            if (_ln is LNPersonalAdquisiciones lnAdq)
-            {
-                frmListadoDocumentos frm = new frmListadoDocumentos(lnAdq);
-                frm.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("Acceso denegado. Solo personal de adquisiciones puede ver este listado.");
-            }
+            var lista=_ln.ListadoUsuarios();
+            FrmRecorridoUs frm= new FrmRecorridoUs(lista);
+            frm.ShowDialog();
         }
+
+        
     }
 }

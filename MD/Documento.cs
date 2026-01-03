@@ -47,6 +47,10 @@ namespace MD
             get { return editorial; }
             set { editorial = value; }
         }
+        public override string ToString()
+        {
+            return this.titulo;
+        }
 
     }
 }

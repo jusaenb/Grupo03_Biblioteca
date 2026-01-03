@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logica_Negocio;
 using MD;
 using Persistencia;
 
 namespace LN
 {
-    public class LNPersonal 
+    public abstract class LNPersonal : ILNPersonal
     {
         protected Personal personal;
 
@@ -23,7 +24,7 @@ namespace LN
         public bool Loguearse(string password)
         {
             // Usamos la fachada de PersistenciaPersonal
-            return PersistenciaPersonal.EXIST(this.personal.Dni);
+            return PersistenciaPersonal.EXIST(this.personal);
         }
 
         // GESTIÓN DE USUARIOS
@@ -86,5 +87,22 @@ namespace LN
             var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
             return prestamos.Any(p => p.Estado == "En Proceso" && p.FechaDevolucion < DateTime.Now);
         }
+        // -----------------------------------------------------------------------------
+        // Método para registrar al personal actual en la Base de Datos
+        // (Necesario para la carga inicial de datos desde Program.cs)
+        // -----------------------------------------------------------------------------
+        public void RegistrarEstePersonal()
+        {
+            // Verificamos si ya existe usando el DNI del personal actual
+            if (!PersistenciaPersonal.EXIST(this.personal))
+            {
+                // Si no existe, llamamos a la capa de persistencia para crearlo
+                PersistenciaPersonal.CREATE(this.personal);
+            }
+        }
+
+       
+
+      
     }
 }

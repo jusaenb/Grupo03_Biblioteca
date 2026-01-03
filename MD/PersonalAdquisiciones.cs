@@ -18,5 +18,6 @@ namespace MD
             this.Rol = Rol.Adquisiciones;
         }
 
+
     }
 }

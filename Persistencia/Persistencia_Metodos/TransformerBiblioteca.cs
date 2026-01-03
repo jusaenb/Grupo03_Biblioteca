@@ -58,11 +58,12 @@ namespace Persistencia
         {
             // Nota: Asumimos que Prestamo tiene un ID único generado (p.ej. un string o GUID)
         
-            string idPrestamo = p.GetHashCode().ToString();
+            string idPrestamo =p.Identi;
             string dniTrabajador = (p.Trabajador != null) ? p.Trabajador.Dni : "";
 
             // PrestamoDato(string dni, string id_Prestamo, DateTime fecha, string estado, int id_trabajador)
             // Asumimos 0 o null para id_trabajador si no se tiene el dato a mano en el objeto Prestamo
+           
             return new PrestamoDato(p.Usuario.Dni, idPrestamo, p.FechaPrestamo, p.Estado, dniTrabajador);
         }
 
@@ -72,12 +73,12 @@ namespace Persistencia
             // Recuperar ejemplares usando la tabla intermedia
             List<Ejemplar> ejemplares = PersistenciaPrestamo.READEjemplaresDePrestamo(pd.Id);
             Personal trabajador = PersistenciaPersonal.READ(pd.Dni_trabajador);
-
+            
 
 
 
             // Constructor MD.Prestamo(Usuario, Ejemplar, DateTime, string)
-            Prestamo p = new Prestamo(usuario, ejemplares, pd.Fecha_prestamo, pd.Estado, trabajador);
+            Prestamo p = new Prestamo(usuario, ejemplares, pd.Fecha_prestamo, pd.Estado, trabajador,pd.Id);
 
             // Si el dato tiene fecha devolución (calculada en MD), se setea.
             // Si MD.Prestamo calcula la fecha devolución en el constructor, ya está listo.

@@ -2,47 +2,66 @@
 {
     partial class frmListadoDocumentos
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.DataGridView dgvDocumentos;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            this.dgvDocumentos = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentos)).BeginInit();
+            this.components = new System.ComponentModel.Container();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvDocumentos
+            // dataGridView1
             // 
-            this.dgvDocumentos.AllowUserToAddRows = false;
-            this.dgvDocumentos.AllowUserToDeleteRows = false;
-            this.dgvDocumentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDocumentos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDocumentos.Location = new System.Drawing.Point(0, 0);
-            this.dgvDocumentos.Name = "dgvDocumentos";
-            this.dgvDocumentos.ReadOnly = true;
-            this.dgvDocumentos.RowHeadersWidth = 51;
-            this.dgvDocumentos.RowTemplate.Height = 24;
-            this.dgvDocumentos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDocumentos.Size = new System.Drawing.Size(800, 450);
-            this.dgvDocumentos.TabIndex = 0;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(593, 260);
+            this.dataGridView1.TabIndex = 0;
             // 
             // frmListadoDocumentos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dgvDocumentos);
+            this.ClientSize = new System.Drawing.Size(617, 508);
+            this.Controls.Add(this.dataGridView1);
             this.Name = "frmListadoDocumentos";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Listado de documentos";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDocumentos)).EndInit();
+            this.Text = "frmListadoDocumentos";
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+
         }
+
+        #endregion
+
+        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

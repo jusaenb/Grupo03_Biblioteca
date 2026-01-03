@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LN;
 using Logica_Negocio;
@@ -20,63 +13,70 @@ namespace Presentacion
             InitializeComponent();
         }
 
-        public LNPersonal LogicaNegocio { get; internal set; }
-
         private void buttonEntrar_Click(object sender, EventArgs e)
         {
-            String nombre=textBoxNombre.Text;
-            String contraseña=textBoxContraseña.Text;
-            String dni=textBoxDNI.Text;
+            string nombre = textBoxNombre.Text;
+            string contraseña = textBoxContraseña.Text;
+            string dni = textBoxDNI.Text;
 
-            if (string.IsNullOrEmpty(nombre)||string.IsNullOrEmpty(contraseña)||string.IsNullOrEmpty(dni))
+            // 1. Validaciones de campos vacíos
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(contraseña) || string.IsNullOrEmpty(dni))
             {
-                MessageBox.Show("Por favor ingrese su nombre y contraseña.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Por favor ingrese todos los datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // Variable polimórfica (Interfaz base)
+            ILNPersonal lnPersonal = null;
+            Personal personal = null;
 
-            Personal personal=null;
-
+            // 2. Creación de la Lógica de Negocio según el RadioButton
+            
             if (radioButtonPersonalSala.Checked)
             {
                 personal = new PersonalSala(dni, nombre);
+                // Guardamos en la variable de interfaz base
+                lnPersonal = new LNPersonalSala((PersonalSala)personal);
             }
             else if (radioButtonPersonalAdquisiciones.Checked)
             {
-                personal=new PersonalAdquisiciones(dni, nombre);
+                personal = new PersonalAdquisiciones(dni, nombre);
+                // Guardamos en la variable de interfaz base
+                lnPersonal = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
             }
 
-            if (personal == null)
+            // Validación de selección
+            if (lnPersonal == null)
             {
-                MessageBox.Show("Por favor, seleccione un tipo de personal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Por favor, seleccione un tipo de personal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            LNPersonal lnPersonal = new LNPersonal(personal);
-
+            // 3. Intento de Login (Usando el método de la interfaz base ILNPersonal)
             if (lnPersonal.Loguearse(contraseña))
-            {                
-                if (personal is PersonalSala)
+            {
+                this.Hide(); // Ocultamos el login si entra
+
+                // 4. Redirección y Casteo Seguro
+                // Verificamos de qué tipo específico es la interfaz para abrir el form correcto
+
+                if (lnPersonal is ILNPersonalSala lnSala) 
                 {
-                    LNPersonalSala lnPersonalSala = new LNPersonalSala((PersonalSala)personal);
-                    frmPersonalSala frm = new frmPersonalSala(lnPersonalSala);
                     
+                    frmPrincipal frm = new frmPersonalSala(lnSala);
                     frm.Show();
                 }
-                else if (personal is PersonalAdquisiciones)
+                else if (lnPersonal is ILNPersonalAdquisiciones lnAdq) // C# Pattern Matching
                 {
-                    LNPersonalAdquisiciones lnAdquisiciones = new LNPersonalAdquisiciones((PersonalAdquisiciones)personal);
-                    FPAdquisiciones frm = new FPAdquisiciones();
-                    frm.Inicializar(lnAdquisiciones); 
+                    // Pasamos la interfaz específica (ILNPersonalAdquisiciones)
+                    frmPrincipal frm = new FPAdquisiciones(lnAdq);
                     frm.Show();
                 }
-                this.Hide(); 
             }
             else
             {
-                MessageBox.Show("Credenciales incorrectas. Intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Credenciales incorrectas o usuario no registrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void FLogin_KeyDown(object sender, KeyEventArgs e)

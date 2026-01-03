@@ -52,11 +52,17 @@
     <Compile Include="FLogin.Designer.cs">
       <DependentUpon>FLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmAltaDocumento.cs">
+    <Compile Include="frmBusquedaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAltaDocumento.Designer.cs">
-      <DependentUpon>frmAltaDocumento.cs</DependentUpon>
+    <Compile Include="frmBusquedaUsuario.Designer.cs">
+      <DependentUpon>frmBusquedaUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEjemplaresDisponbiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEjemplaresDisponbiles.Designer.cs">
+      <DependentUpon>frmEjemplaresDisponbiles.cs</DependentUpon>
     </Compile>
     <Compile Include="frmListadoDocumentos.cs">
       <SubType>Form</SubType>
@@ -112,11 +118,17 @@
     <Compile Include="frmDetalleDocumento.Designer.cs">
       <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRecorridoUsuarios.cs">
+    <Compile Include="FrmRecorridoDocus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRecorridoUsuarios.Designer.cs">
-      <DependentUpon>frmRecorridoUsuarios.cs</DependentUpon>
+    <Compile Include="FrmRecorridoDocus.Designer.cs">
+      <DependentUpon>FrmRecorridoDocus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRecorridoUs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRecorridoUs.Designer.cs">
+      <DependentUpon>FrmRecorridoUs.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSolicitar_Dato.cs">
       <SubType>Form</SubType>
@@ -132,17 +144,35 @@
     <EmbeddedResource Include="FPAdquisiciones.resx">
       <DependentUpon>FPAdquisiciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAltaDocumento.resx">
-      <DependentUpon>frmAltaDocumento.cs</DependentUpon>
+    <EmbeddedResource Include="frmAltaPrestamo.resx">
+      <DependentUpon>frmAltaPrestamo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBusquedaUsuario.resx">
+      <DependentUpon>frmBusquedaUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDetalleDocumento.resx">
       <DependentUpon>frmDetalleDocumento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDetalleEjemplar.resx">
+      <DependentUpon>frmDetalleEjemplar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEjemplaresDisponbiles.resx">
+      <DependentUpon>frmEjemplaresDisponbiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmListadoDocumentos.resx">
+      <DependentUpon>frmListadoDocumentos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmListadoUsuarios.resx">
       <DependentUpon>frmListadoUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRecorridoDocus.resx">
+      <DependentUpon>FrmRecorridoDocus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRecorridoUs.resx">
+      <DependentUpon>FrmRecorridoUs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

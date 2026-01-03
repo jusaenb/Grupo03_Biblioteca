@@ -7,54 +7,56 @@ namespace Persistencia
 {
     public static class PersistenciaPrestamo
     {
+        // PRE: El idPrestamo debe ser una cadena válida.
+        // POST: Devuelve true si existe un préstamo con ese ID, false en caso contrario.
         public static bool EXIST(string idPrestamo)
         {
             return BD.TablaPrestamos.Contains(idPrestamo);
         }
+
+        // PRE: El objeto prestamo no debe ser nulo y su ID no debe existir previamente.
+        // POST: Se añade el préstamo a la base de datos y se registran sus ejemplares asociados.
         public static void CREATE(Prestamo prestamo)
-{
-    PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
-
-    if (!BD.TablaPrestamos.Contains(pd.Id))
-    {
-        BD.TablaPrestamos.Add(pd);
-
-        foreach (var ejemplar in prestamo.Ejemplares)
         {
-            string idEjemplar = ejemplar.CodigoEjemplar.ToString();
+            PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
 
-            int dias = ejemplar.Documento.DiasPrestamo;
-            DateTime fechaLimite = prestamo.FechaPrestamo.AddDays(dias);
-
-
-            // Crear clave compuesta (IdPrestamo, IdEjemplar)
-            Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
-
-            if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
+            if (!BD.TablaPrestamos.Contains(pd.Id))
             {
-                // Guardamos la relación
-                PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, fechaLimite, false);
-                BD.TablaPrestamoEjemplar.Add(ped);
+                BD.TablaPrestamos.Add(pd);
+
+                foreach (var ejemplar in prestamo.Ejemplares)
+                {
+                    string idEjemplar = ejemplar.CodigoEjemplar.ToString();
+                    int dias = ejemplar.Documento.DiasPrestamo;
+                    DateTime fechaLimite = prestamo.FechaPrestamo.AddDays(dias);
+
+                    Compuesto claveCompuesta = new Compuesto(pd.Id, idEjemplar);
+
+                    if (!BD.TablaPrestamoEjemplar.Contains(claveCompuesta))
+                    {
+                        PrestamoEjemplarDato ped = new PrestamoEjemplarDato(pd.Id, idEjemplar, fechaLimite, false);
+                        BD.TablaPrestamoEjemplar.Add(ped);
+                    }
+                    ejemplar.Disponible = false;
+                    PersistenciaEjemplar.UPDATE(ejemplar);
+                }
             }
         }
-    }
-}
 
+        // PRE: El objeto prestamo no debe ser nulo 
+        // POST: Actualiza la información básica del préstamo en la base de datos.
         public static void UPDATE(Prestamo prestamo)
         {
-            
             PrestamoDato pd = TransformersBiblioteca.PrestamoAPrestamoDato(prestamo);
             if (BD.TablaPrestamos.Contains(pd.Id))
             {
-                // Actualizamos datos básicos (Estado, etc.)
                 BD.TablaPrestamos.Remove(pd.Id);
                 BD.TablaPrestamos.Add(pd);
-
-                // Nota: Actualizar relaciones es más complejo, pero para este ejercicio
-                // suele bastar con actualizar el estado del préstamo.
             }
         }
 
+        // PRE: Ninguna.
+        // POST: Devuelve una lista con todos los préstamos registrados en el sistema.
         public static List<Prestamo> READALL()
         {
             List<Prestamo> lista = new List<Prestamo>();
@@ -65,6 +67,8 @@ namespace Persistencia
             return lista;
         }
 
+        // PRE: El parámetro dni no debe ser nulo.
+        // POST: Devuelve una lista de todos los préstamos asociados a ese DNI de usuario.
         public static List<Prestamo> READALL_POR_USUARIO(string dni)
         {
             List<Prestamo> lista = new List<Prestamo>();
@@ -78,18 +82,16 @@ namespace Persistencia
             return lista;
         }
 
-       public static List<Prestamo> READALL_POR_ISBN(int isbn)
+        // PRE: El isbn debe ser un número entero válido.
+        // POST: Devuelve una lista de préstamos que contienen algún ejemplar del libro con ese ISBN.
+        public static List<Prestamo> READALL_POR_ISBN(int isbn)
         {
             List<Prestamo> lista = new List<Prestamo>();
-        
+
             foreach (PrestamoDato pd in BD.TablaPrestamos)
             {
-                // Convertimos el dato a objeto Prestamo (que ya tiene la lista de ejemplares cargada)
                 Prestamo p = TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
-        
-                // CORRECCIÓN:
-                // Verificamos si en la lista 'Ejemplares' existe ALGUNO (.Any) 
-                // cuyo documento tenga el ISBN buscado.
+
                 if (p.Ejemplares.Any(e => e.Documento.Isbn == isbn))
                 {
                     lista.Add(p);
@@ -98,22 +100,20 @@ namespace Persistencia
             return lista;
         }
 
+        // PRE: El codigoEjemplar debe ser válido.
+        // POST: Devuelve el préstamo activo que contiene dicho ejemplar, o null si no se encuentra o ya finalizó.
         public static Prestamo READ_POR_EJEMPLAR(int codigoEjemplar)
         {
             string idEjemplar = codigoEjemplar.ToString();
 
-            // Buscar en la tabla intermedia
             foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
             {
-                // La clase Compuesto o el Dato debe permitir acceder al ID del ejemplar
-                // Asumimos que ped.Id (Compuesto) tiene acceso a Cadena2 (Ejemplar)
                 if (ped.Id.Cadena2 == idEjemplar)
                 {
-                    // Encontrado la relación, buscamos el préstamo padre si está activo
-                    if (BD.TablaPrestamos.Contains(ped.Id.Cadena1)) // Cadena1 = IdPrestamo
+                    if (BD.TablaPrestamos.Contains(ped.Id.Cadena1))
                     {
                         PrestamoDato pd = BD.TablaPrestamos[ped.Id.Cadena1];
-                        if (pd.Estado == "En Proceso") // Solo devolvemos si está activo
+                        if (pd.Estado == "En Proceso")
                         {
                             return TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
                         }
@@ -123,15 +123,18 @@ namespace Persistencia
             return null;
         }
 
-        // Método auxiliar usado por el Transformer
+        // PRE: El idPrestamo debe existir.
+        // POST: Devuelve la lista de objetos Ejemplar asociados a ese préstamo.
         public static List<Ejemplar> READEjemplaresDePrestamo(string idPrestamo)
         {
             List<Ejemplar> ejemplares = new List<Ejemplar>();
+           
+            
             foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
             {
+          
                 if (ped.Id.Cadena1 == idPrestamo)
                 {
-                    // Convertir ID string a int
                     int cod = int.Parse(ped.Id.Cadena2);
                     Ejemplar ej = PersistenciaEjemplar.READ(cod);
                     if (ej != null) ejemplares.Add(ej);
@@ -139,10 +142,11 @@ namespace Persistencia
             }
             return ejemplares;
         }
+
+        // PRE: Los IDs deben ser válidos y debe existir la relación.
+        // POST: Marca la propiedad Devuelto a true para ese ejemplar específico en ese préstamo.
         public static void MARCAR_DEVUELTO(string idPrestamo, string idEjemplar)
         {
-            // Buscamos en la tabla intermedia usando la clave compuesta
-            // Nota: Como tu clase Tabla busca por ID, tenemos que iterar o construir la clave
             foreach (var ped in BD.TablaPrestamoEjemplar)
             {
                 if (ped.Id.Cadena1 == idPrestamo && ped.Id.Cadena2 == idEjemplar)
@@ -152,10 +156,11 @@ namespace Persistencia
                 }
             }
         }
+
+        // PRE: El idPrestamo debe ser válido.
+        // POST: Devuelve true si todos los ejemplares del préstamo están marcados como devueltos, false en caso contrario.
         public static bool ESTAN_TODOS_DEVUELTOS(string idPrestamo)
         {
-            // Buscamos todas las líneas de este préstamo
-            // Si hay ALGUNA que tenga Devuelto == false, entonces NO están todos.
             bool quedaAlguno = false;
             foreach (var ped in BD.TablaPrestamoEjemplar)
             {
@@ -165,7 +170,47 @@ namespace Persistencia
                     break;
                 }
             }
-            return !quedaAlguno; 
+            return !quedaAlguno;
+        }
+
+        // PRE: El idPrestamo debe ser un entero válido.
+        // POST: Devuelve el objeto Prestamo completo si existe, o null si no existe.
+        public static Prestamo OBTENER(int idPrestamo)
+        {
+            string idStr = idPrestamo.ToString();
+
+            if (BD.TablaPrestamos.Contains(idStr))
+            {
+                PrestamoDato pd = BD.TablaPrestamos[idStr];
+                return TransformersBiblioteca.PrestamoDatoAPrestamo(pd);
+            }
+            return null;
+        }
+
+        // PRE: El idPrestamo debe existir en la base de datos.
+        // POST: Elimina el préstamo de la tabla principal y todas sus referencias en la tabla intermedia.
+        public static void BORRAR(int idPrestamo)
+        {
+            string idStr = idPrestamo.ToString();
+            List<Compuesto> clavesParaBorrar = new List<Compuesto>();
+
+            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
+            {
+                if (ped.Id.Cadena1 == idStr)
+                {
+                    clavesParaBorrar.Add(ped.Id);
+                }
+            }
+
+            foreach (Compuesto clave in clavesParaBorrar)
+            {
+                BD.TablaPrestamoEjemplar.Remove(clave);
+            }
+
+            if (BD.TablaPrestamos.Contains(idStr))
+            {
+                BD.TablaPrestamos.Remove(idStr);
+            }
         }
     }
 }

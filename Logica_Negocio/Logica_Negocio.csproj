@@ -41,11 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LNEjemplar.cs" />
+    <Compile Include="ILNPersonal.cs" />
+    <Compile Include="ILNPersonalAdquisiciones.cs" />
+    <Compile Include="ILNPersonalSala.cs" />
     <Compile Include="LNPersonal.cs" />
     <Compile Include="LNPersonalAdquisiciones.cs" />
     <Compile Include="LNPersonalSala.cs" />
-    <Compile Include="LNPrestamo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

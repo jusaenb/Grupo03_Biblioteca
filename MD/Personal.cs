@@ -22,5 +22,9 @@ namespace MD
             Dni = dni;
             Nombre = nombre;
         }
+        public override string ToString()
+        {
+            return  this.Nombre;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MD;
+﻿using Logica_Negocio;
+using MD;
 using Persistencia;
 using System;
 using System.Collections.Generic;
@@ -6,23 +7,22 @@ using System.Linq;
 
 namespace LN
 {
-    public class LNPersonalSala : LNPersonal
+    public class LNPersonalSala : LNPersonal,ILNPersonalSala
     {
         public LNPersonalSala(PersonalSala personalSala) : base(personalSala)
         {
         }
-        //PRE: no puede haber valores nulos
-        //Post: da de alta un prestamo a un usuario a un ejemplar si esta disponible
-        public void DarAltaPrestamo(string dniUsuario, List<int> codigosEjemplares)
+
+        // PRE:  codigosEjemplares no debe ser nulo ni vacío y dniUsuario es una string.
+        // POST: Crea un nuevo préstamo, lo guarda y marca los ejemplares como no disponibles. Lanza excepción si hay errores de validación.
+        public void DarAltaPrestamo(string dniUsuario, List<int> codigosEjemplares,String iden)
         {
-            // 1. Validar Usuario
             if (!PersistenciaUsuario.EXIST(dniUsuario))
                 throw new ArgumentException("Usuario no encontrado.");
 
             Usuario usuario = PersistenciaUsuario.READ(dniUsuario);
             List<Ejemplar> ejemplaresParaPrestar = new List<Ejemplar>();
 
-            // 2. Validar Ejemplares
             foreach (int codigo in codigosEjemplares)
             {
                 Ejemplar ej = PersistenciaEjemplar.READ(codigo);
@@ -39,64 +39,88 @@ namespace LN
             if (ejemplaresParaPrestar.Count == 0)
                 throw new ArgumentException("Debe seleccionar al menos un ejemplar.");
 
-            // 3. Crear Préstamo
-            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplaresParaPrestar, DateTime.Now, "En Proceso", this.Personal);
+            Prestamo nuevoPrestamo = new Prestamo(usuario, ejemplaresParaPrestar, DateTime.Now, "En Proceso", this.Personal,iden);
 
-            // 4. Guardar Préstamo
             PersistenciaPrestamo.CREATE(nuevoPrestamo);
 
-            // 5. Actualizar estado de los ejemplares a NO DISPONIBLE
-            foreach (Ejemplar ej in ejemplaresParaPrestar)
-            {
-                ej.Disponible = false;
-                PersistenciaEjemplar.UPDATE(ej);
-            }
+           
         }
 
+        // PRE: codigoEjemplar debe corresponder a un libro actualmente prestado.
+        // POST: Marca el libro como devuelto y disponible. Si era el último del préstamo, finaliza el préstamo.
         public void DevolverEjemplar(int codigoEjemplar)
         {
-            // 1. Buscar el préstamo activo
             Prestamo prestamo = PersistenciaPrestamo.READ_POR_EJEMPLAR(codigoEjemplar);
             if (prestamo == null)
             {
-                throw new InvalidOperationException("No se encontró préstamo activo.");
+                throw new InvalidOperationException("No se encontró préstamo activo para este ejemplar.");
             }
 
-            string idPrestamo = prestamo.GetHashCode().ToString(); // Ojo, usar el mismo ID que uses en Transformer
+            string idPrestamo = prestamo.GetHashCode().ToString();
             string idEjemplar = codigoEjemplar.ToString();
 
-            // 2. Marcar ESTE libro como devuelto en la BD (Tabla intermedia)
             PersistenciaPrestamo.MARCAR_DEVUELTO(idPrestamo, idEjemplar);
 
-            // 3. Liberar el Ejemplar (para que otro lo pueda coger)
             Ejemplar ej = PersistenciaEjemplar.READ(codigoEjemplar);
-            ej.Disponible = true;
-            PersistenciaEjemplar.UPDATE(ej);
+            if (ej != null)
+            {
+                ej.Disponible = true;
+                PersistenciaEjemplar.UPDATE(ej);
+            }
 
-            // 4. Comprobar si el préstamo se cierra COMPLETAMENTE
             if (PersistenciaPrestamo.ESTAN_TODOS_DEVUELTOS(idPrestamo))
             {
                 prestamo.Estado = "Finalizado";
                 PersistenciaPrestamo.UPDATE(prestamo);
-                Console.WriteLine("Préstamo finalizado por completo.");
-            }
-            else
-            {
-                Console.WriteLine("Libro devuelto. El préstamo sigue activo con otros libros.");
             }
         }
 
+        // PRE: Ninguna.
+        // POST: Devuelve la lista de préstamos que se encuentran en estado 'En Proceso'.
         public List<Prestamo> ListadoPrestamosActivos()
         {
             return PersistenciaPrestamo.READALL()
                 .Where(p => p.Estado == "En Proceso")
                 .ToList();
         }
-        // Método para obtener solo los ejemplares que se pueden prestar
+
+        // PRE: Ninguna.
+        // POST: Devuelve la lista de ejemplares que están marcados como disponibles.
         public List<Ejemplar> ListadoEjemplaresDisponibles()
         {
-            List<Ejemplar> todos = PersistenciaEjemplar.READALL(); // Usamos el método que añadimos antes a Persistencia
+            List<Ejemplar> todos = PersistenciaEjemplar.READALL();
             return todos.Where(e => e.Disponible).ToList();
+        }
+
+        // PRE: El idPrestamo debe existir en la base de datos.
+        // POST: Libera (pone disponibles) todos los ejemplares asociados y elimina el préstamo definitivamente.
+        public void DevolverPrestamoCompleto(int idPrestamo)
+        {
+            Prestamo p = PersistenciaPrestamo.OBTENER(idPrestamo);
+
+            if (p == null)
+            {
+                throw new Exception("No existe ningún préstamo con el ID " + idPrestamo);
+            }
+
+            
+            List<Ejemplar> ejemplaresDelPrestamo = PersistenciaPrestamo.READEjemplaresDePrestamo(idPrestamo.ToString());
+
+            foreach (Ejemplar ej in ejemplaresDelPrestamo)
+            {
+                if (ej != null)
+                {
+                    ej.Disponible = true;
+                    // IMPORTANTE: Guardamos el cambio en la persistencia
+                    PersistenciaEjemplar.UPDATE(ej);
+                }
+            }
+
+            PersistenciaPrestamo.BORRAR(idPrestamo);
+        }
+        public bool ExistePrestamo(string idPrestamo)
+        {
+            return PersistenciaPrestamo.EXIST(idPrestamo);
         }
     }
 }

@@ -17,17 +17,24 @@ namespace Persistencia
         }
         public string Cadena1
         {
-            get { return this.cadena2; }
+            get { return this.cadena1; }
         }
         public string Cadena2
         {
             get { return cadena2; }
         }
 
-        public bool Equals(Compuesto other)
+        public  bool Equals(Compuesto other)
         {
            if (other == null) return false;
             return (Cadena1.Equals(other.Cadena1) && Cadena2.Equals(other.Cadena2));
+
+        }
+        // Combina los dos hashcodes para crear uno único
+        public override int GetHashCode()
+        {
+            
+            return (Cadena1 + "|" + Cadena2).GetHashCode();
         }
     }
 }
