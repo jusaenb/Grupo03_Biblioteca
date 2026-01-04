@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Persistencia
 {
-    public static class PersistenciaPrestamo
+    public  class PersistenciaPrestamo
     {
         // PRE: El idPrestamo debe ser una cadena válida.
         // POST: Devuelve true si existe un préstamo con ese ID, false en caso contrario.
@@ -194,13 +194,10 @@ namespace Persistencia
             string idStr = idPrestamo.ToString();
             List<Compuesto> clavesParaBorrar = new List<Compuesto>();
 
-            foreach (PrestamoEjemplarDato ped in BD.TablaPrestamoEjemplar)
-            {
-                if (ped.Id.Cadena1 == idStr)
-                {
-                    clavesParaBorrar.Add(ped.Id);
-                }
-            }
+             clavesParaBorrar = BD.TablaPrestamoEjemplar
+                .Where(ped => ped.Id.Cadena1 == idStr)
+                .Select(ped => ped.Id)
+                .ToList();
 
             foreach (Compuesto clave in clavesParaBorrar)
             {

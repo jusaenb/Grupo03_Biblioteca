@@ -70,6 +70,24 @@
     <Compile Include="frmListadoDocumentos.Designer.cs">
       <DependentUpon>frmListadoDocumentos.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmListadoEjemplares.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmListadoEjemplares.Designer.cs">
+      <DependentUpon>FrmListadoEjemplares.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmListadoPrestamo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmListadoPrestamo.Designer.cs">
+      <DependentUpon>FrmListadoPrestamo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmListadoUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmListadoUsuario.Designer.cs">
+      <DependentUpon>FrmListadoUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmListadoUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +179,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmListadoDocumentos.resx">
       <DependentUpon>frmListadoDocumentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListadoEjemplares.resx">
+      <DependentUpon>FrmListadoEjemplares.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListadoPrestamo.resx">
+      <DependentUpon>FrmListadoPrestamo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListadoUsuario.resx">
+      <DependentUpon>FrmListadoUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmListadoUsuarios.resx">
       <DependentUpon>frmListadoUsuarios.cs</DependentUpon>

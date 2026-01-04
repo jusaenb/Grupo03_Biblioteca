@@ -18,13 +18,13 @@ namespace Presentacion
     { 
         private BindingSource _bindingSource=new BindingSource();
         private ILNPersonal ln;
-        private DataGridView data2;
+       
         public frmListadoDocumentos()
         {
             InitializeComponent();
           
         }
-        public frmListadoDocumentos(Object o,ILNPersonal l)
+        public frmListadoDocumentos(List<Documento> o,ILNPersonal l)
         {
             InitializeComponent();
             this.ln = l;
@@ -34,39 +34,26 @@ namespace Presentacion
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.ReadOnly = true;
             dataGridView1.DataSource = _bindingSource;
-            if(o is List<Documento> li)
-            {
-                dataGridView1.CellClick += DataGridView1_CellClick;
-            }
+            this.dataGridView1.CellClick += DataGridView1_CellClick;
+            
+
         }
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             try
             {
                Documento d =(Documento) _bindingSource.Current;
-                if(ln is LNPersonalAdquisiciones)
+                if (ln is LNPersonalAdquisiciones)
                 {
                     LNPersonalAdquisiciones ln2 = (LNPersonalAdquisiciones)ln;
                     List<Ejemplar> ejemplares = ln2.ListadoEjemplares().Where(ej => ej.Documento.Isbn.Equals(d.Isbn)).ToList();
-                    if(data2!=null)
-                    {
-                        this.Controls.Remove(data2);
-                        data2.Dispose();
-                    }
-                     data2 = new DataGridView();
-                    data2.AutoGenerateColumns = true;
-                    BindingSource bs = new BindingSource();
-                    bs.DataSource = ejemplares;
-                    data2.DataSource = bs;
-                    data2.ReadOnly = true;
-                    int x = dataGridView1.Location.X;
-                    int y = dataGridView1.Location.Y + dataGridView1.Height + 20;
-                    data2.Location = new Point(x,y);
-                    int ancho = dataGridView1.Width;
-                    int alto = this.ClientSize.Height - y - 10;
-                    data2.Size = new Size(ancho, alto);
-                    this.Controls.Add(data2);
-
+                    BindingSource bind= new BindingSource();
+                    bind.DataSource = ejemplares;
+                    dataGridView2.AutoGenerateColumns = true;
+                    dataGridView2.ReadOnly = true;
+                    dataGridView2.DataSource = bind;
+                    dataGridView2.Visible = true;
                 }
 
             }

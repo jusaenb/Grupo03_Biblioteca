@@ -215,8 +215,8 @@ namespace Presentacion
         }
         private void ListadoEjemplares_Click(object sender, EventArgs e)
         {
-            Object o = _ln.ListadoEjemplares();
-            frmListadoDocumentos frm = new frmListadoDocumentos(o, this._ln);
+            var o = _ln.ListadoEjemplares();
+            FrmListadoEjemplares frm = new FrmListadoEjemplares(o);
             frm.ShowDialog();
         }
         private void BusquedaEjemplarToolStripMenuItem_Click(object sender, EventArgs e)

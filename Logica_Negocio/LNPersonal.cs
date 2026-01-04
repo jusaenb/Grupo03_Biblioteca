@@ -87,10 +87,7 @@ namespace LN
             var prestamos = PersistenciaPrestamo.READALL_POR_USUARIO(dni);
             return prestamos.Any(p => p.Estado == "En Proceso" && p.FechaDevolucion < DateTime.Now);
         }
-        // -----------------------------------------------------------------------------
-        // Método para registrar al personal actual en la Base de Datos
-        // (Necesario para la carga inicial de datos desde Program.cs)
-        // -----------------------------------------------------------------------------
+        
         public void RegistrarEstePersonal()
         {
             // Verificamos si ya existe usando el DNI del personal actual

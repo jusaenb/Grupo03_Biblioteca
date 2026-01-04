@@ -73,8 +73,8 @@ namespace Presentacion
         // POST: Abre el formulario de listados mostrando los ejemplares disponibles.
         private void ListadoEjemplar_Click(object sender, EventArgs e)
         {
-            Object o= _lnSala.ListadoEjemplaresDisponibles();
-            frmListadoDocumentos frm = new frmListadoDocumentos(o, this._ln);
+            var o= _lnSala.ListadoEjemplaresDisponibles();
+            FrmListadoEjemplares frm = new FrmListadoEjemplares(o);
             frm.ShowDialog();
         }
 
@@ -82,8 +82,8 @@ namespace Presentacion
         // POST: Abre el formulario de listados mostrando los préstamos activos.
         private void Listado_Prestamo_Click(object sender, EventArgs e)
         {
-            Object o = _lnSala.ListadoPrestamosActivos();
-            frmListadoDocumentos frm = new frmListadoDocumentos(o, this._ln);
+            var o = _lnSala.ListadoPrestamosActivos();
+            FrmListadoPrestamo frm = new FrmListadoPrestamo(o);
             frm.ShowDialog();
         }
         private void Busqueda_Click(object obj, EventArgs e)
