@@ -57,7 +57,8 @@ namespace Presentacion
                 else
                 {
                     frmDetalleUsuario frmDetalle = new frmDetalleUsuario(dni, _ln);
-                    frmDetalle.ShowDialog();
+                    frmDetalle.MdiParent = this;
+                    frmDetalle.Show();
                 }
             }
         }
@@ -93,21 +94,24 @@ namespace Presentacion
         {
             // Usamos el formulario de búsqueda específico que creaste
             frmBusquedaUsuario frm = new frmBusquedaUsuario(_ln);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         protected void listadoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var lista= _ln.ListadoUsuarios();
             frmListadoUsuarios frm = new frmListadoUsuarios(lista);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         protected void recorridoUsuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var lista=_ln.ListadoUsuarios();
             FrmRecorridoUs frm= new FrmRecorridoUs(lista);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
         

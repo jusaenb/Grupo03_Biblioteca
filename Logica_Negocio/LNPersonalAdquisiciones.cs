@@ -114,6 +114,7 @@ namespace LN
         {
             return PersistenciaEjemplar.READALL();
         }
+       
 
         public string getNombre()
         {

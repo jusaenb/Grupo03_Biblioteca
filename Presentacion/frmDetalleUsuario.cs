@@ -54,7 +54,7 @@ namespace Presentacion
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("Debe introducir un nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                errorProvider1.SetError(txtNombre, "El nombre no puede estar vacío.");
                 return;
             }
 

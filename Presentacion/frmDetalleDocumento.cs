@@ -116,20 +116,20 @@ namespace Presentacion
                 // CASO 3: GUARDAR (ALTA) - Tu lógica de siempre
                 if (string.IsNullOrWhiteSpace(txtTitulo.Text))
                 {
-                    MessageBox.Show("El título es obligatorio.");
+                   errorProvider1.SetError(txtTitulo, "El título es obligatorio.");
                     return;
                 }
 
                 if (!int.TryParse(txtAno.Text, out int anyo))
                 {
-                    MessageBox.Show("El año debe ser numérico.");
+                    errorProvider2.SetError(txtAno, "Año de publicación incorrecto.");
                     return;
                 }
 
                 Documento nuevoDoc;
                 if (rbAudiolibro.Checked)
                 {
-                    if (!int.TryParse(txtDuracion.Text, out int dur)) { MessageBox.Show("Duración incorrecta"); return; }
+                    if (!int.TryParse(txtDuracion.Text, out int dur)) {errorProvider3.SetError(txtDuracion,"Inserte una duración valida"); return; }
                     nuevoDoc = new AudioLibro(txtTitulo.Text, txtAutor.Text,txtEditorial.Text,anyo, int.Parse(txtISBN.Text), txtFormato.Text, dur);
                 }
                 else
