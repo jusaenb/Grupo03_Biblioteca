@@ -20,17 +20,12 @@ namespace Presentacion
         {
             InitializeComponent();
         }
-        public frmEjemplaresDisponbiles(ILNPersonalSala ln,List<int>excluir)
+        public frmEjemplaresDisponbiles(List<Ejemplar> lis)
         {
             InitializeComponent();
-            if(excluir!=null && excluir.Count>0)
-                this.comboBox1.DataSource = ln.ListadoEjemplaresDisponibles().Where(x=>!excluir.Contains(x.CodigoEjemplar)).ToList();
-            else
-            {
-                this.comboBox1.DataSource = ln.ListadoEjemplaresDisponibles();
-            }
-                
             
+             this.comboBox1.DataSource = lis;
+
             this.comboBox1.DisplayMember = "CodigoEjemplar";
             this.comboBox1.ValueMember = "CodigoEjemplar";
             this.comboBox1.Format+=(s,ev)=>

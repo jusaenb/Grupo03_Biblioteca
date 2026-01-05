@@ -101,8 +101,9 @@ namespace Presentacion
 
         private void btnAnadirEjemplar_Click(object sender, EventArgs e)
         {
-            frmEjemplaresDisponbiles frm = new frmEjemplaresDisponbiles(_ln,_codigosEjemplaresSeleccionados);
-
+            List<Ejemplar> lis=_ln.ListadoEjemplaresDisponibles().Where(x=>!_codigosEjemplaresSeleccionados.Contains(x.CodigoEjemplar)).ToList();
+            frmEjemplaresDisponbiles frm = new frmEjemplaresDisponbiles(lis);
+            
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 Ejemplar ej = frm.EjemplarSeleccionado;
@@ -170,7 +171,11 @@ namespace Presentacion
             try
             {
                 string dniUsuario = (string)cmbUsuarios.SelectedValue;
-
+                if (_ln.ExistePrestamo(txtID.Text) || string.IsNullOrEmpty(txtID.Text))
+                {
+                    errorProvider1.SetError(txtID, "El ID del préstamo ya existe o es inválido.");
+                    return;
+                }
                 // Llamada a la lógica
                 _ln.DarAltaPrestamo(dniUsuario, _codigosEjemplaresSeleccionados,txtID.Text);
 

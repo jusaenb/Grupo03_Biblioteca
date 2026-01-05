@@ -22,6 +22,7 @@
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblID = new System.Windows.Forms.Label();
             this.txtID = new System.Windows.Forms.TextBox();
             this.lblFecha = new System.Windows.Forms.Label();
@@ -32,6 +33,8 @@
             this.btnAnadirEjemplar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblID
@@ -124,6 +127,10 @@
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmAltaPrestamo
             // 
             this.AcceptButton = this.btnAceptar;
@@ -147,9 +154,12 @@
             this.Name = "frmAltaPrestamo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de un préstamo";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
