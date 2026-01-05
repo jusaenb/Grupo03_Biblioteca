@@ -20,6 +20,7 @@ namespace MD
             this.usuario = usuario;
             this.Ejemplares = ejemplares ?? new List<Ejemplar>();
             this.fechaPrestamo = fechaPrestamo;
+            this.fechaDevolucion= this.CalcularFechaDevolucion(this.Ejemplares.OrderBy(p=>p.Documento.DiasPrestamo).FirstOrDefault());
             this.estado = estado;
             this.trabajador = trabajador;
             this.identi = identi;

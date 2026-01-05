@@ -12,12 +12,14 @@ namespace Persistencia
         private string dni_trabajador;
         private DateTime fecha_prestamo;
         private string estado;
-        public PrestamoDato(string dni, string id_Prestamo, DateTime fecha_prestamo, string estado, string dni_trabajador) : base(id_Prestamo)
+        private DateTime fecha_Devuelta;
+        public PrestamoDato(string dni, string id_Prestamo, DateTime fecha_prestamo, DateTime fecha_Devuelta,string estado, string dni_trabajador) : base(id_Prestamo)
         {
             this.dni_Usuario = dni;
             this.fecha_prestamo = fecha_prestamo;
             this.estado = estado;
             this.dni_trabajador = dni_trabajador;
+            this.fecha_Devuelta = fecha_Devuelta;
         }
         public string Dni_usuario
         {
@@ -43,6 +45,11 @@ namespace Persistencia
             set
             { estado = value; }
         }
-        
+        public DateTime Fecha_Devuelta
+        {
+            get { return fecha_Devuelta; }
+            set { fecha_Devuelta = value; }
+        }
+
     }
 }

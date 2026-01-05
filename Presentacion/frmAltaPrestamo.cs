@@ -136,12 +136,11 @@ namespace Presentacion
                         rb.Text = "Prestado"; // Texto corto para que quepa
                         rb.Checked = true;
                         rb.Enabled = false;
-                        rb.AutoSize = true; // Importante para que se vea el texto entero
+                        rb.AutoSize = true; 
                                            
                         rb.Location = new System.Drawing.Point(192, _posicionY);
                         grpEjemplares.Controls.Add(rb);
 
-                        // Bajamos el puntero
                         _posicionY += 30;
                     }
                     else

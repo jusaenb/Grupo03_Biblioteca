@@ -75,15 +75,13 @@ namespace Persistencia
         // POST: Devuelve un PrestamoDato conteniendo los IDs de usuario y trabajador, fecha y estado del préstamo.
         public static PrestamoDato PrestamoAPrestamoDato(Prestamo p)
         {
-            // Nota: Asumimos que Prestamo tiene un ID único generado (p.ej. un string o GUID)
 
             string idPrestamo = p.Identi;
             string dniTrabajador = (p.Trabajador != null) ? p.Trabajador.Dni : "";
 
-            // PrestamoDato(string dni, string id_Prestamo, DateTime fecha, string estado, int id_trabajador)
-            // Asumimos 0 o null para id_trabajador si no se tiene el dato a mano en el objeto Prestamo
+            
 
-            return new PrestamoDato(p.Usuario.Dni, idPrestamo, p.FechaPrestamo, p.Estado, dniTrabajador);
+            return new PrestamoDato(p.Usuario.Dni, idPrestamo, p.FechaPrestamo,p.FechaDevolucion, p.Estado, dniTrabajador);
         }
 
         // PRE:  El objeto pd no debe ser nulo. Los IDs de usuario y trabajador deben existir en la BD.
@@ -95,11 +93,10 @@ namespace Persistencia
             List<Ejemplar> ejemplares = PersistenciaPrestamo.READEjemplaresDePrestamo(pd.Id);
             Personal trabajador = PersistenciaPersonal.READ(pd.Dni_trabajador);
 
-            // Constructor MD.Prestamo(Usuario, Ejemplar, DateTime, string)
+            
             Prestamo p = new Prestamo(usuario, ejemplares, pd.Fecha_prestamo, pd.Estado, trabajador, pd.Id);
 
-            // Si el dato tiene fecha devolución (calculada en MD), se setea.
-            // Si MD.Prestamo calcula la fecha devolución en el constructor, ya está listo.
+            
             return p;
         }
 
@@ -122,7 +119,7 @@ namespace Persistencia
         //       Devuelve null si no se encuentra en ninguna tabla específica.
         public static Personal PersonalDatoAPersonal(PersonalDato pd)
         {
-            // Verificamos el tipo exacto en las tablas específicas si es necesario
+           
             if (BD.TablaPersonalSala.Contains(pd.Id))
             {
                 return new PersonalSala(pd.Id, pd.Nombre);
