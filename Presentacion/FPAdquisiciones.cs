@@ -204,20 +204,23 @@ namespace Presentacion
             var o= _ln.ListadoDocumentos();
 
             frmListadoDocumentos frm = new frmListadoDocumentos(o,this._ln);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
             
         }
         private void RecorridoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var lista= _ln.ListadoDocumentos();
             FrmRecorridoDocus frm = new FrmRecorridoDocus(lista);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
         private void ListadoEjemplares_Click(object sender, EventArgs e)
         {
             var o = _ln.ListadoEjemplares();
             FrmListadoEjemplares frm = new FrmListadoEjemplares(o);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
         private void BusquedaEjemplarToolStripMenuItem_Click(object sender, EventArgs e)
         {

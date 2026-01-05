@@ -92,7 +92,7 @@ namespace Presentacion
 
         protected void busquedaUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Usamos el formulario de búsqueda específico que creaste
+            
             frmBusquedaUsuario frm = new frmBusquedaUsuario(_ln);
             frm.MdiParent = this;
             frm.Show();

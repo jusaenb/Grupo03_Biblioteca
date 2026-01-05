@@ -9,14 +9,10 @@ namespace Presentacion
     {
         private ILNPersonalSala _lnSala;
 
-        // Constructor privado para el diseñador
-        // PRE: Ninguna
-        // POST: Inicializa los componentes visuales del formulario.
+        
         private frmPersonalSala() { InitializeComponent(); }
 
-        // Pasamos la lógica al constructor padre (base) para que inicialice los menús comunes
-        // PRE: El parámetro 'ln' no debe ser nulo.
-        // POST: Se inicializa el formulario, se asigna la lógica de negocio y se suscriben los eventos de los menús específicos.
+       
         public frmPersonalSala(ILNPersonalSala ln) : base(ln)
         {
             InitializeComponent();
@@ -30,8 +26,7 @@ namespace Presentacion
             this.búsquedaToolStripMenuItem.Click += new EventHandler(this.Busqueda_Click);
         }
 
-        // PRE: El usuario ha seleccionado la opción de menú "Alta Préstamo".
-        // POST: Se abre el formulario modal para gestionar el alta de un nuevo préstamo.
+       
         private void AltaPrestamo_Click(object sender, EventArgs e)
         {
             // Abrimos el formulario de alta de préstamo
@@ -39,8 +34,7 @@ namespace Presentacion
             frm.ShowDialog();
         }
 
-        // PRE: El usuario ha seleccionado la opción de menú "Devolución".
-        // POST: Solicita el ID del préstamo. Si es válido y existe, se realiza la devolución completa (liberación y borrado) y se notifica el éxito. En caso de error, muestra el mensaje correspondiente.
+       
         private void Devolucion_Click(object sender, EventArgs e)
         {
             frmSolicitarDato frm = new frmSolicitarDato("Introduzca el código del prestamo a devolver:");
@@ -69,22 +63,22 @@ namespace Presentacion
             }
         }
 
-        // PRE: El usuario ha seleccionado la opción de menú "Listado Ejemplares".
-        // POST: Abre el formulario de listados mostrando los ejemplares disponibles.
+       
         private void ListadoEjemplar_Click(object sender, EventArgs e)
         {
             var o= _lnSala.ListadoEjemplaresDisponibles();
             FrmListadoEjemplares frm = new FrmListadoEjemplares(o);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
 
-        // PRE: El usuario ha seleccionado la opción de menú "Listado Préstamos".
-        // POST: Abre el formulario de listados mostrando los préstamos activos.
+        
         private void Listado_Prestamo_Click(object sender, EventArgs e)
         {
             var o = _lnSala.ListadoPrestamosActivos();
             FrmListadoPrestamo frm = new FrmListadoPrestamo(o);
-            frm.ShowDialog();
+            frm.MdiParent = this;
+            frm.Show();
         }
         private void Busqueda_Click(object obj, EventArgs e)
         {

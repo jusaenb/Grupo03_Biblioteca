@@ -20,6 +20,7 @@ namespace Presentacion
         }
         public void CargarDatos()
         {
+            //Modo dar de baja
             if(_ln.ExisteUsuario(_dni))
             {
                 this.Text="Dar de baja Usuario";
@@ -42,6 +43,7 @@ namespace Presentacion
                     }
                 };
             }
+            //Modo dar de alta
             else
             {
                 this.Text="Dar de alta Usuario";
