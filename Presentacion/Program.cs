@@ -13,6 +13,7 @@ namespace Presentacion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //No establezco el uso de contraseña para que sea mas sencillo meterse para probarlo para que resulte más sencillo el probarlo
 
             try
             {
