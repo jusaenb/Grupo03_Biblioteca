@@ -56,7 +56,7 @@ namespace LN
                 throw new InvalidOperationException("No se encontró préstamo activo para este ejemplar.");
             }
 
-            string idPrestamo = prestamo.GetHashCode().ToString();
+            string idPrestamo = prestamo.Identi;
             string idEjemplar = codigoEjemplar.ToString();
 
             PersistenciaPrestamo.MARCAR_DEVUELTO(idPrestamo, idEjemplar);
