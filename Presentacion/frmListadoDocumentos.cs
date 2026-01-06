@@ -53,7 +53,7 @@ namespace Presentacion
                     dataGridView2.AutoGenerateColumns = true;
                     dataGridView2.ReadOnly = true;
                     dataGridView2.DataSource = bind;
-                    dataGridView2.Visible = true;
+                    
                 }
 
             }
